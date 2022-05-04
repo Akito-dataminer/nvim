@@ -1,5 +1,25 @@
+-- Enable some language servers with the additional completion capabilities offered by nvim-cmp
+local lspconfig = require('lspconfig')
+
+-- join_pathsの参照元 : https://github.com/neovim/nvim-lspconfig/blob/master/test/minimal_init.lua
+local function join_paths(...)
+  local path_sep = on_windows and '\\' or '/'
+  local result = table.concat({ ... }, path_sep)
+  return result
+end
+
+-- get_lspconfig関数の参考元 : https://github.com/williamboman/nvim-lsp-installer/blob/main/scripts/autogen_metadata.lua
+local function official_config( lsp )
+  local config_root = "lspconfig.server_configurations."
+  local config = require( config_root .. lsp )
+  return config
+end
+
+-- 使いたいLSPサーバの名前をキーにして、cmdなどを列挙する
+local lsp_settings = {}
+
 ---- LSP Key Mappings
-local my_custom_on_attach = function(client, bufnr)
+local my_on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
   local opts = { noremap=true, silent=true }
@@ -13,7 +33,7 @@ local my_custom_on_attach = function(client, bufnr)
   buf_set_keymap("n", "<space>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
   buf_set_keymap("n", "<space>td", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
   buf_set_keymap("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  buf_set_keymap("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
+  buf_set_keymap("n", "<space>co", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
   buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
   buf_set_keymap("n", "<space>d", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
   buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
@@ -26,30 +46,49 @@ end
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 my_capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
--- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local lspconfig = require('lspconfig')
--- 使いたいLSPサーバの名前をserversに追加する
-local servers = { 'clangd' }
+-- C/C++
+lsp_settings["clangd"] = {
+  cmd = {
+    join_paths( "C:", "msys64", "mingw64", "bin", "clangd" ),
+    -- "C:/msys64/mingw64/bin/clangd",
+    -- "--compile-commands-dir=${workspaceFolder}",
+    "--background-index",
+    -- "--clang-tidy",
+    "--all-scopes-completion",
+    "--cross-file-rename",
+    "--completion-style=detailed",
+    "--header-insertion=never",
+    "--header-insertion-decorators",
+    "-j=8",
+    "--offset-encoding=utf-8",
+    "--log=verbose"
+  },
+}
+
+-- Lua
+lsp_settings["sumneko_lua"] = {
+  cmd = {
+    join_paths( vim.fn.stdpath("data"), "lsp_servers", "sumneko_lua", "extension", "server", "bin", "lua-language-server" )
+  }
+}
 
 -- LSPサーバーの設定
-for _, lsp in ipairs(servers) do
+for lsp, settings in pairs( lsp_settings ) do
+  -- cmdがnilでなければ(iff. ユーザ設定がされていれば)、そちらを適用し、
+  -- cmdがnilなら(iff. ユーザが独自設定をしていなければ)、デフォルト設定を適用する
+  local config = official_config(lsp)
+  local cmd
+  -- 現状ではcmd以外の設定をするつもりはないので、とりあえずこの実装にしておく。
+  -- ただ、他にも設定したいことが出てきたらこの実装を変更する必要がある。
+  if settings.cmd then
+    cmd = settings.cmd
+  else
+    cmd = config.default_config.cmd
+  end
+
   lspconfig[lsp].setup {
-    root_dir = lspconfig.util.root_pattern('build'),
-    on_attach = my_custom_on_attach,
+    on_attach = my_on_attach,
     capabilities = my_capabilities,
-    cmd = {
-      "C:/msys64/mingw64/bin/clangd",
-      -- "--compile-commands-dir=${workspaceFolder}",
-      "--background-index",
-      -- "--clang-tidy",
-      "--all-scopes-completion",
-      "--cross-file-rename",
-      "--completion-style=detailed",
-      "--header-insertion=never",
-      "--header-insertion-decorators",
-      "-j=8",
-      "--offset-encoding=utf-8",
-      "--log=verbose"
-    },
+    cmd = cmd,
   }
 end

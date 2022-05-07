@@ -24,13 +24,20 @@ opt.listchars="eol:$,tab:>>,trail:-,nbsp:%" -- 不可視文字の表示方法を
 
 ---- statusline settings ----
 opt.laststatus = 2 -- 常にステータスラインを表示する
-line = '%<'-- 行が長すぎるときに切り詰める位置
-line = line .. '%m' -- %m 修正フラグ
-line = line .. "%{'['.(&fenc!=''?&fenc:&enc).':'.&ff.']'}"  -- fencとffを表示
-line = line .. "%{expand('%:~:.')}" -- カレントディレクトリ以降のファイル名を表示
-line = line .. "%{fugitive#statusline()}"  -- Gitのブランチ名を表示
-line = line .. '%=' -- 左寄せ項目と右寄せ項目の区切り
-line = line .. '%1l-' -- 何行目にカーソルがあるか
-line = line .. '%c'    -- 何列目にカーソルがあるか
+local line = ''
+local line_components = {
+  '%<',   -- 行が長すぎるときに切り詰める位置
+  '%m',   -- %m 修正フラグ
+  "%{'['.(&fenc!=''?&fenc:&enc).':'.&ff.']'}",  -- fencとffを表示
+  "%{expand('%:~:.')}", -- カレントディレクトリ以降のファイル名を表示
+  "%{fugitive#statusline()}",  -- Gitのブランチ名を表示
+  '%=', -- 左寄せ項目と右寄せ項目の区切り
+  '%1l-', -- 何行目にカーソルがあるか
+  '%c',  -- 何列目にカーソルがあるか
+}
+
+for _, value in ipairs( line_components ) do
+  line = line .. value
+end
 
 opt.statusline = line -- ステータスラインを設定

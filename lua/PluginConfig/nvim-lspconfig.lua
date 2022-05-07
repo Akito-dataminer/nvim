@@ -77,14 +77,9 @@ for lsp, settings in pairs( lsp_settings ) do
   -- cmdがnilでなければ(iff. ユーザ設定がされていれば)、そちらを適用し、
   -- cmdがnilなら(iff. ユーザが独自設定をしていなければ)、デフォルト設定を適用する
   local config = official_config(lsp)
-  local cmd
-  -- 現状ではcmd以外の設定をするつもりはないので、とりあえずこの実装にしておく。
+  -- 現状ではcmd以外の設定をするつもりはないので、とりあえずこの実装にしておく(以下のcmdの文)。
   -- ただ、他にも設定したいことが出てきたらこの実装を変更する必要がある。
-  if settings.cmd then
-    cmd = settings.cmd
-  else
-    cmd = config.default_config.cmd
-  end
+  local cmd = settings.cmd or config.default_config.cmd
 
   lspconfig[lsp].setup {
     on_attach = my_on_attach,

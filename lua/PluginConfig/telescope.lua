@@ -1,9 +1,27 @@
 local actions = require("telescope.actions")
+local action_state = require("telescope.actions.state")
 local telescope = require("telescope")
 local pickers = require("telescope.pickers")
 
-local action_state = require("telescope.actions.state")
 local custom_actions = {}
+M = {}
+
+local function run_selection(prompt_bufnr, map)
+  actions.select_default:replace(function()
+    actions.close(prompt_bufnr)
+    local selection = action_state.get_selected_entry()
+    vim.cmd([[!git log ]]..selection[1])
+  end)
+  return true
+end
+
+M.git_log = function()
+  -- example for running a command on a file
+  local opts = {
+    attach_mappings = run_selection
+  }
+  require('telescope.builtin').find_files(opts)
+end
 
 function custom_actions._multiopen( prompt_bufnr, open_cmd )
   local picker = action_state.get_current_picker( prompt_bufnr )
@@ -14,7 +32,7 @@ function custom_actions._multiopen( prompt_bufnr, open_cmd )
   -- そのため、同じ「ファイルオープン」という処理であっても、
   -- 選択しているのか/いないのか(選択モード/非選択モード)で処理を分ける必要があるっぽい。
   --
-  -- もしかしたら、is_multi_selected関数を使った方がいいかも
+  -- もしかしたら、is_multi_selected関数を使った方がいいかも...?
   --
   -- この状態でnum_selectionsのif文を外すと、無選択のときはファイルが開かれない。
   if num_selections >= 1 then
@@ -34,34 +52,43 @@ function custom_actions.open_to_buffer( prompt_bufnr )
   custom_actions._multiopen( prompt_bufnr, "edit" )
 end
 
-local actions = require( "telescope.actions" )
+-- local actions = require( "telescope.actions" )
 require("telescope").setup{
   defaults = {
     mappings = {
       i = {
-        ["<c-[>"] = actions.close,
+        -- ["<c-[>"] = actions.close,
         ["<CR>"] = custom_actions.open_to_buffer,
       },
       n = {
         ["<CR>"] = custom_actions.open_to_buffer,
       },
     },
-  }
+  },
 }
+
+vim.api.nvim_set_keymap("n", "[telescope]", "<Nop>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "[telescope]", "<Nop>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", ",", "[telescope]", {})
+vim.api.nvim_set_keymap("v", ",", "[telescope]", {})
 
 local opts = { noremap=true, silent=true }
 local keymap_telescope_func = {
-  [",f"] = "require'telescope.builtin'.find_files()",
-  -- [",g"] = "require'telescope.builtin'.git_files()",
-  [",t"] = "require'telescope.builtin'.grep_string()",
-  [",l"] = "require'telescope.builtin'.live_grep({grep_open_files=true})",
-  [",ch"] = "require'telescope.builtin'.command_history{}",
-  [",b"] = "require'telescope.builtin'.buffers{show_all_buffers = true}",
-  [",h"] = "require'telescope.builtin'.help_tags()",
-  [",s"] = "require'telescope.builtin'.lsp_document_symbols()",
-  [",r"] = "require'telescope.builtin'.lsp_references()",
-  [",d"] = "require'telescope.builtin'.diagnostics()",
-  [",o"] = "require'telescope.builtin'.oldfiles()",
+  ["[telescope]f"] = "require'telescope.builtin'.find_files()",
+  ["[telescope]tr"] = "require'telescope.builtin'.grep_string()",
+  ["[telescope]ll"] = "require'telescope.builtin'.live_grep()",
+  ["[telescope]lf"] = "require'telescope.builtin'.live_grep({grep_open_files=true})",
+  ["[telescope]ch"] = "require'telescope.builtin'.command_history{}",
+  ["[telescope]b"] = "require'telescope.builtin'.buffers{show_all_buffers = true}",
+  ["[telescope]ts"] = "require'telescope.builtin'.treesitter()",
+  ["[telescope]cb"] = "require'telescope.builtin'.current_buffer_fuzzy_find()",
+  ["[telescope]h"] = "require'telescope.builtin'.help_tags()",
+  ["[telescope]s"] = "require'telescope.builtin'.lsp_document_symbols()",
+  ["[telescope]r"] = "require'telescope.builtin'.lsp_references()",
+  ["[telescope]d"] = "require'telescope.builtin'.diagnostics()",
+  ["[telescope]o"] = "require'telescope.builtin'.oldfiles()",
+  ["[telescope]gl"] = "M.git_log()",
+  -- ["[telescope]g"] = "require'telescope.builtin'.git_files()",
   -- ["<Leader>st"] = "require'telescope.builtin'.git_status()",
   -- ["<Leader>bc"] = "require'telescope.builtin'.git_bcommits()",
   -- ["<Leader>c"] = "require'telescope.builtin'.git_commits()",

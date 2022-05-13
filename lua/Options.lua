@@ -18,13 +18,21 @@ opt.wildmenu = true -- コマンドラインモードで<Tab>キーによる補�
 opt.smarttab = true
 opt.showcmd = true
 opt.ruler = true -- カーソルが置かれている行を表示する
+opt.title = true
 
 opt.list = true        -- Show some invisible characters
-opt.listchars="eol:$,tab:>>,trail:-,nbsp:%" -- 不可視文字の表示方法を決定する
+opt.listchars = "eol:$,tab:>>,trail:-,nbsp:%" -- 不可視文字の表示方法を決定する
+
+opt.grepprg = 'rg'
+
+---- title settings ----
+-- プロジェクトのルートディレクトリまでを表示したい
+-- local project = require('project_nvim.project')
+-- opt.titlestring = project.find_lsp_root()
+opt.titlestring = "%{expand('%:p:h')}"
 
 ---- statusline settings ----
 opt.laststatus = 2 -- 常にステータスラインを表示する
-local line = ''
 local line_components = {
   '%<',   -- 行が長すぎるときに切り詰める位置
   '%m',   -- %m 修正フラグ
@@ -36,6 +44,7 @@ local line_components = {
   '%c',  -- 何列目にカーソルがあるか
 }
 
+local line = ''
 for _, value in ipairs( line_components ) do
   line = line .. value
 end

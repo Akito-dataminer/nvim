@@ -1,12 +1,25 @@
 ---- HELPERS ----
+local api = vim.api
+local fn = vim.fn
 local opt = vim.opt  -- to set options
+local cmd = vim.cmd  -- to execute Vim commands e.g. cmd('pwd')
 
 ---- Body ----
+local my_shell = 'cmd'
 opt.encoding = 'utf-8'
-
+opt.fileencodings = 'utf-8'
+opt.shell = my_shell
+if my_shell == 'powershell' then
+  opt.shellcmdflag = '-Command'
+  opt.shellxquote = ''
+  opt.shellpipe = '2>&1 | Out-File -Encoding default'
+  opt.shellredir = '2>&1 | Out-File -Encoding default'
+end
+cmd("set cpoptions+=+")
+-- opt.clipboard='unnamed' -- ヤンクした内容が、"*レジスタにも自動で格納されるようにする?
 -- opt.ambiwidth='double' -- 全角文字の表示に2文字分を使うようにする
 -- opt.syntax = true -- 構文ごとに文字色を変化させる
-opt.swapfile = false  -- スワップファイルを使わないようにする
+-- opt.swapfile = false  -- NOT use swapfile
 opt.ignorecase = false -- 大文字と小文字を区別する
 opt.expandtab = true   -- Use spaces instead of tabs
 opt.scrolloff = 4      -- Lines of context
@@ -26,10 +39,11 @@ opt.listchars = "eol:$,tab:>>,trail:-,nbsp:%" -- 不可視文字の表示方法�
 opt.grepprg = 'rg'
 
 ---- title settings ----
--- プロジェクトのルートディレクトリまでを表示したい
--- local project = require('project_nvim.project')
--- opt.titlestring = project.find_lsp_root()
-opt.titlestring = "%{expand('%:p:h')}"
+-- cmd('autocmd BufEnter * let &titlestring = getcwd()') -- display the current directory in title bar
+-- api.nvim_create_autocmd( { "BufEnter" }, {
+--   pattern = {"*"},
+--   command = "let &titlestring = getcwd()",
+-- })
 
 ---- statusline settings ----
 opt.laststatus = 2 -- 常にステータスラインを表示する

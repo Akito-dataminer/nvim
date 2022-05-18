@@ -40,10 +40,10 @@ opt.grepprg = 'rg'
 
 ---- title settings ----
 -- cmd('autocmd BufEnter * let &titlestring = getcwd()') -- display the current directory in title bar
--- api.nvim_create_autocmd( { "BufEnter" }, {
---   pattern = {"*"},
---   command = "let &titlestring = getcwd()",
--- })
+api.nvim_create_autocmd( { "BufEnter" }, {
+  pattern = {"*"},
+  command = "let &titlestring = getcwd()",
+})
 
 ---- statusline settings ----
 opt.laststatus = 2 -- 常にステータスラインを表示する

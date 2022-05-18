@@ -182,7 +182,7 @@ _G.packer_plugins = {
     url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
-    after = { "cmp-cmdline", "cmp-nvim-lsp", "cmp-nvim-lsp-signature-help", "cmp_luasnip", "cmp-nvim-lua", "cmp-path", "cmp-buffer", "cmp-nvim-lsp-document-symbol" },
+    after = { "cmp-nvim-lsp-document-symbol", "cmp-nvim-lsp-signature-help", "cmp-nvim-lua", "cmp-path", "cmp-nvim-lsp", "cmp_luasnip", "cmp-buffer", "cmp-cmdline" },
     config = { "\27LJ\2\n5\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\26PluginConfig/nvim-cmp\frequire\0" },
     load_after = {
       ["nvim-autopairs"] = true
@@ -210,10 +210,15 @@ _G.packer_plugins = {
   ["nvim-treesitter"] = {
     config = { "\27LJ\2\n<\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0!PluginConfig/nvim-treesitter\frequire\0" },
     loaded = false,
-    needs_bufread = true,
+    needs_bufread = false,
     only_cond = false,
     path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\nvim-treesitter",
     url = "https://github.com/nvim-treesitter/nvim-treesitter"
+  },
+  ["open-browser.vim"] = {
+    loaded = true,
+    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\open-browser.vim",
+    url = "https://github.com/tyru/open-browser.vim"
   },
   ["packer.nvim"] = {
     loaded = false,
@@ -225,6 +230,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
+  },
+  previm = {
+    loaded = true,
+    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\previm",
+    url = "https://github.com/previm/previm"
   },
   ["project.nvim"] = {
     loaded = true,
@@ -244,6 +254,11 @@ _G.packer_plugins = {
     path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\vim-fugitive",
     url = "https://github.com/tpope/vim-fugitive"
   },
+  ["vim-markdown"] = {
+    loaded = true,
+    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\vim-markdown",
+    url = "https://github.com/preservim/vim-markdown"
+  },
   ["vim-surround"] = {
     loaded = true,
     path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\vim-surround",
@@ -252,19 +267,19 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: hop.nvim
-time([[Config for hop.nvim]], true)
-try_loadstring("\27LJ\2\nU\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\tkeys\28etovxqpdygfblzhckisuran\nsetup\bhop\frequire\0", "config", "hop.nvim")
-time([[Config for hop.nvim]], false)
 -- Config for: LuaSnip
 time([[Config for LuaSnip]], true)
 try_loadstring("\27LJ\2\n4\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\25PluginConfig/LuaSnip\frequire\0", "config", "LuaSnip")
 time([[Config for LuaSnip]], false)
+-- Config for: hop.nvim
+time([[Config for hop.nvim]], true)
+try_loadstring("\27LJ\2\nU\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\tkeys\28etovxqpdygfblzhckisuran\nsetup\bhop\frequire\0", "config", "hop.nvim")
+time([[Config for hop.nvim]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
-vim.cmd [[au VimEnter * ++once lua require("packer.load")({'nvim-treesitter', 'nvim-autopairs', 'telescope.nvim'}, { event = "VimEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au VimEnter * ++once lua require("packer.load")({'nvim-treesitter', 'telescope.nvim', 'nvim-autopairs'}, { event = "VimEnter *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end

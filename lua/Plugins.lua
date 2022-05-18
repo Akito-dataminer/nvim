@@ -111,6 +111,19 @@ require('packer').startup(function()
     end
   }
 
+  -- for markdown
+  use {
+    'preservim/vim-markdown'
+  }
+
+  use {
+    'previm/previm'
+  }
+
+  use {
+    'tyru/open-browser.vim'
+  }
+
   if packer_bootstrap then
     require("packer").sync()
   end

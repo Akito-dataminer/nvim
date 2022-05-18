@@ -146,7 +146,19 @@ cmp.setup.cmdline(":", {
       c = cmp.mapping.abort(),
     },
   },
-  sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
+  sources = cmp.config.sources(
+    { { name = "path" } }
+    , { { name = "cmdline" } }
+  ),
+  enabled = function()
+    -- disable completion when I call external command
+    local current_cmd = fn.getcmdline()
+    if string.match( current_cmd, ".*%!" ) == nil then
+      return true
+    else
+      return false
+    end
+  end,
 })
 
 -- autopairs

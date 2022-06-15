@@ -72,6 +72,13 @@ lsp_settings["sumneko_lua"] = {
   }
 }
 
+-- cmake
+lsp_settings["cmake"] = {
+  cmd = {
+    join_paths( "C:", "msys64", "mingw64", "bin", "cmake-language-server" )
+  }
+}
+
 -- LSPサーバーの設定
 for lsp, settings in pairs( lsp_settings ) do
   -- cmdがnilでなければ(iff. ユーザ設定がされていれば)、そちらを適用し、

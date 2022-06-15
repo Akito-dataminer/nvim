@@ -64,6 +64,7 @@ require("telescope").setup{
         ["<CR>"] = custom_actions.open_to_buffer,
       },
     },
+    path_display = { "truncate" },
   },
 }
 
@@ -77,8 +78,8 @@ local keymap_telescope_func = {
   ["[telescope]f"] = "require'telescope.builtin'.find_files()",
   ["[telescope]tr"] = "require'telescope.builtin'.grep_string()",
   ["[telescope]ll"] = "require'telescope.builtin'.live_grep()",
-  ["[telescope]lf"] = "require'telescope.builtin'.live_grep({grep_open_files=true})",
-  ["[telescope]ch"] = "require'telescope.builtin'.command_history{}",
+  ["[telescope]%"] = "require'telescope.builtin'.live_grep({grep_open_files=true})",
+  ["[telescope]:"] = "require'telescope.builtin'.command_history{}",
   ["[telescope]b"] = "require'telescope.builtin'.buffers{show_all_buffers = true}",
   ["[telescope]ts"] = "require'telescope.builtin'.treesitter()",
   ["[telescope]cb"] = "require'telescope.builtin'.current_buffer_fuzzy_find()",

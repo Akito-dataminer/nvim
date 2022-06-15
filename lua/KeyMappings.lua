@@ -32,6 +32,7 @@ for k, v in pairs({
   [']b'] = ':bn<CR>',
   ['*'] = ':%s/\\v',
   ['<Space>b'] = ':%!xxd<CR>',
+  ['<Space><CR>'] = ':.!bash<CR>',
   -- hop
   ['<Space><Space>w'] = ':HopWord<CR>',
   ['<Space><Space>l'] = ':HopLine<CR>',

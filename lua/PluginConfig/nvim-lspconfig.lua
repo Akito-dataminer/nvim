@@ -48,49 +48,64 @@ my_capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- C/C++
 lsp_settings["clangd"] = {
-  cmd = {
-    join_paths( "C:", "msys64", "mingw64", "bin", "clangd" ),
-    -- "C:/msys64/mingw64/bin/clangd",
-    -- "--compile-commands-dir=${workspaceFolder}",
-    "--background-index",
-    -- "--clang-tidy",
-    "--all-scopes-completion",
-    "--cross-file-rename",
-    "--completion-style=detailed",
-    "--header-insertion=never",
-    "--header-insertion-decorators",
-    "-j=8",
-    "--offset-encoding=utf-8",
-    "--log=verbose"
-  },
+  settings = {
+    cmd = {
+      join_paths( "C:", "msys64", "mingw64", "bin", "clangd" ),
+      -- "C:/msys64/mingw64/bin/clangd",
+      -- "--compile-commands-dir=${workspaceFolder}",
+      "--background-index",
+      -- "--clang-tidy",
+      "--all-scopes-completion",
+      "--cross-file-rename",
+      "--completion-style=detailed",
+      "--header-insertion=never",
+      "--header-insertion-decorators",
+      "-j=8",
+      "--offset-encoding=utf-8",
+      "--log=verbose"
+    },
+  }
 }
 
 -- Lua
 lsp_settings["sumneko_lua"] = {
-  cmd = {
-    join_paths( vim.fn.stdpath("data"), "lsp_servers", "sumneko_lua", "extension", "server", "bin", "lua-language-server" )
+  settings = {
+    cmd = {
+      join_paths( vim.fn.stdpath("data"), "lsp_servers", "sumneko_lua", "extension", "server", "bin", "lua-language-server" )
+    }
   }
 }
 
 -- cmake
 lsp_settings["cmake"] = {
-  cmd = {
-    join_paths( "C:", "msys64", "mingw64", "bin", "cmake-language-server" )
-  }
+  settings = {
+    cmd = {
+      join_paths( "C:", "msys64", "mingw64", "bin", "cmake-language-server" ),
+    },
+    root_pattern = { ".git", "compile_commands.json", "build" },
+  },
+  buildDirectory = "build",
 }
 
 -- LSPサーバーの設定
-for lsp, settings in pairs( lsp_settings ) do
+for lsp, my_settings in pairs( lsp_settings ) do
   -- cmdがnilでなければ(iff. ユーザ設定がされていれば)、そちらを適用し、
   -- cmdがnilなら(iff. ユーザが独自設定をしていなければ)、デフォルト設定を適用する
   local config = official_config(lsp)
   -- 現状ではcmd以外の設定をするつもりはないので、とりあえずこの実装にしておく(以下のcmdの文)。
   -- ただ、他にも設定したいことが出てきたらこの実装を変更する必要がある。
-  local cmd = settings.cmd or config.default_config.cmd
+  -- local cmd = my_settings.cmd or config.default_config.cmd
+  local buildDirectory = my_settings.cmd or config.default_config.buildDirectory
+  -- local root_pattern = my_settings.root_pattern or config.default_config.root_pattern
+  local settings = my_settings.settings or config.default_config.settings
 
   lspconfig[lsp].setup {
     on_attach = my_on_attach,
     capabilities = my_capabilities,
-    cmd = cmd,
+    buildDirectory = buildDirectory,
+    root_dir = function(fname)
+      return lspconfig.util.find_git_ancestor(fname)
+    end;
+    settings = settings,
   }
 end

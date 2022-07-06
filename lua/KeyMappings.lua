@@ -47,7 +47,7 @@ for k, v in pairs({
   ['<Space>gl'] = ':G log',
   ['<Space>a'] = ':G add',
   ['<Space>gs'] = ':G',
-  ['<Space>gm'] = ':G merge --squash',
+  ['<Space>gm'] = ':G merge',
   ['<Space>gi'] = ':G commit -m',
 }) do
   map('n', k, v)

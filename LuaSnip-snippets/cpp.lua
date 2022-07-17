@@ -41,6 +41,20 @@ ls.add_snippets("cpp", {
   s("move-assignment-operator", {
     i(1, {"CLASS_NAME"}), t({" & operator = ( "}), f(copy, 1), t({" && rhs )"}), i(0),
   }),
+  s("namespace", {
+    t("namespace "), i(1, {"NAME"}), t(" {"),
+    t("", ""),
+    i(2),
+    t("", ""),
+    t({"", "}; // "}), f(copy, 1),
+  }),
+  s("nsp", {
+    t("namespace "), i(1, {"NAME"}), t(" {"),
+    t("", ""),
+    i(2),
+    t("", ""),
+    t({"", "}; // "}), f(copy, 1),
+  }),
 }, {
     key = "cpp",
   })

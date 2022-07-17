@@ -53,17 +53,18 @@ lsp_settings["clangd"] = {
       join_paths( "C:", "msys64", "mingw64", "bin", "clangd" ),
       -- "C:/msys64/mingw64/bin/clangd",
       -- "--compile-commands-dir=${workspaceFolder}",
-      "--background-index",
+      -- "--background-index",
       -- "--clang-tidy",
-      "--all-scopes-completion",
-      "--cross-file-rename",
-      "--completion-style=detailed",
-      "--header-insertion=never",
-      "--header-insertion-decorators",
-      "-j=8",
-      "--offset-encoding=utf-8",
-      "--log=verbose"
+      -- "--all-scopes-completion",
+      -- "--cross-file-rename",
+      -- "--completion-style=detailed",
+      -- "--header-insertion=never",
+      -- "--header-insertion-decorators",
+      -- "-j=8",
+      -- "--offset-encoding=utf-8",
+      -- "--log=verbose"
     },
+    root_pattern = { ".git", "build" },
   }
 }
 
@@ -82,8 +83,8 @@ lsp_settings["cmake"] = {
     cmd = {
       join_paths( "C:", "msys64", "mingw64", "bin", "cmake-language-server" ),
     },
-    root_pattern = { ".git", "compile_commands.json", "build" },
   },
+  root_dir = lspconfig.util.root_pattern('.git', 'build'),
   buildDirectory = "build",
 }
 
@@ -92,20 +93,13 @@ for lsp, my_settings in pairs( lsp_settings ) do
   -- cmdがnilでなければ(iff. ユーザ設定がされていれば)、そちらを適用し、
   -- cmdがnilなら(iff. ユーザが独自設定をしていなければ)、デフォルト設定を適用する
   local config = official_config(lsp)
-  -- 現状ではcmd以外の設定をするつもりはないので、とりあえずこの実装にしておく(以下のcmdの文)。
-  -- ただ、他にも設定したいことが出てきたらこの実装を変更する必要がある。
-  -- local cmd = my_settings.cmd or config.default_config.cmd
-  local buildDirectory = my_settings.cmd or config.default_config.buildDirectory
-  -- local root_pattern = my_settings.root_pattern or config.default_config.root_pattern
-  local settings = my_settings.settings or config.default_config.settings
+  local buildDirectory = 
 
   lspconfig[lsp].setup {
     on_attach = my_on_attach,
     capabilities = my_capabilities,
-    buildDirectory = buildDirectory,
-    root_dir = function(fname)
-      return lspconfig.util.find_git_ancestor(fname)
-    end;
-    settings = settings,
+    buildDirectory = my_settings.buildDirectory or config.default_config.buildDirectory,
+    root_dir = my_settings.root_dir,
+    settings = my_settings.settings or config.default_config.settings,
   }
 end

@@ -46,7 +46,12 @@ require('packer').startup(function()
     end,
   }
 
-  use { "williamboman/mason.nvim" }
+  use { 
+    "williamboman/mason.nvim",
+    config = function()
+      require("PluginConfig/mason")
+    end
+  }
 
   -- tree-sitter interface to simplificate
   use {

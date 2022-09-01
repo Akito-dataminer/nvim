@@ -46,7 +46,7 @@ require('packer').startup(function()
     end,
   }
 
-  use { "williamboman/nvim-lsp-installer" }
+  use { "williamboman/mason.nvim" }
 
   -- tree-sitter interface to simplificate
   use {

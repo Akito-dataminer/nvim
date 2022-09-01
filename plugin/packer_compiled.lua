@@ -71,8 +71,11 @@ time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   LuaSnip = {
     after = { "nvim-cmp" },
+    config = { "\27LJ\2\n4\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\25PluginConfig/LuaSnip\frequire\0" },
     loaded = true,
-    only_config = true
+    only_config = true,
+    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\LuaSnip",
+    url = "https://github.com/L3MON4D3/LuaSnip"
   },
   ["cmp-buffer"] = {
     after_files = { "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\cmp-buffer\\after\\plugin\\cmp_buffer.lua" },
@@ -167,6 +170,11 @@ _G.packer_plugins = {
     path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\iceberg.vim",
     url = "https://github.com/cocopon/iceberg.vim"
   },
+  mason = {
+    loaded = true,
+    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\mason",
+    url = "https://github.com/williamboman/mason"
+  },
   nerdcommenter = {
     loaded = true,
     path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nerdcommenter",
@@ -182,7 +190,7 @@ _G.packer_plugins = {
     url = "https://github.com/windwp/nvim-autopairs"
   },
   ["nvim-cmp"] = {
-    after = { "cmp-nvim-lsp-document-symbol", "cmp-nvim-lsp-signature-help", "cmp-path", "cmp-nvim-lsp", "cmp_luasnip", "cmp-buffer", "cmp-nvim-lua", "cmp-cmdline" },
+    after = { "cmp-nvim-lsp-signature-help", "cmp-nvim-lua", "cmp-path", "cmp_luasnip", "cmp-buffer", "cmp-nvim-lsp", "cmp-cmdline", "cmp-nvim-lsp-document-symbol" },
     config = { "\27LJ\2\n5\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\26PluginConfig/nvim-cmp\frequire\0" },
     load_after = {
       ["nvim-autopairs"] = true
@@ -191,11 +199,6 @@ _G.packer_plugins = {
     needs_bufread = false,
     path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
-  },
-  ["nvim-lsp-installer"] = {
-    loaded = true,
-    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nvim-lsp-installer",
-    url = "https://github.com/williamboman/nvim-lsp-installer"
   },
   ["nvim-lspconfig"] = {
     config = { "\27LJ\2\n;\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0 PluginConfig/nvim-lspconfig\frequire\0" },

@@ -44,7 +44,7 @@ end
 
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-my_capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+local my_capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 -- C/C++
 lsp_settings["clangd"] = {
@@ -93,7 +93,6 @@ for lsp, my_settings in pairs( lsp_settings ) do
   -- cmdがnilでなければ(iff. ユーザ設定がされていれば)、そちらを適用し、
   -- cmdがnilなら(iff. ユーザが独自設定をしていなければ)、デフォルト設定を適用する
   local config = official_config(lsp)
-  local buildDirectory = 
 
   lspconfig[lsp].setup {
     on_attach = my_on_attach,

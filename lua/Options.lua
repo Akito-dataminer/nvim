@@ -34,7 +34,7 @@ opt.ruler = true -- カーソルが置かれている行を表示する
 opt.title = true
 
 opt.list = true        -- Show some invisible characters
-opt.listchars = "eol:$,tab:>>,trail:-,nbsp:%" -- 不可視文字の表示方法を決定する
+opt.listchars = {tab = '>>', trail = '*', nbsp = '+'}
 
 opt.grepprg = 'rg'
 

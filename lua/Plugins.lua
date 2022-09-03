@@ -44,7 +44,7 @@ clonePlugin( iceberg_path, "https://github.com/cocopon/iceberg.vim.git" )
 -- ddc.vimの設定ファイルが置かれているパスを構成する
 -- get the directory which has init.lua
 local config_directory = fn.stdpath( "config" )
-local ddc_config_path = join_paths( config_directory, "vim", "ddc_config.vim" )
+local ddc_config_path = join_paths( config_directory, "vim", "ddc.vim" )
 -- print( ddc_config_path )
 
 local use = require('packer').use

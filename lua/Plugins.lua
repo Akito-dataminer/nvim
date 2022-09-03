@@ -1,6 +1,5 @@
 local fn = vim.fn
 local cmd = vim.cmd
-local api = vim.api
 
 -- 与えられたパスにファイルがあるかどうかを確かめる
 local function isInstalled( path )
@@ -41,12 +40,6 @@ cmd[[packadd packer.nvim]]
 local iceberg_path = join_paths( opt_path, "iceberg.vim" )
 clonePlugin( iceberg_path, "https://github.com/cocopon/iceberg.vim.git" )
 
--- ddc.vimの設定ファイルが置かれているパスを構成する
--- get the directory which has init.lua
-local config_directory = fn.stdpath( "config" )
-local ddc_config_path = join_paths( config_directory, "vim", "ddc.vim" )
--- print( ddc_config_path )
-
 local use = require('packer').use
 
 require('packer').startup(function()
@@ -86,18 +79,16 @@ require('packer').startup(function()
   -- Completion
   use {
     "Shougo/ddc.vim",
-    opt = true,
+    requires = { "vim-denops/denops.vim" },
+    -- opt = true,
     config = function()
-      -- そのパスをVimScriptとして実行する
-      local exe_str = "source " .. ddc_config_path
-      cmd( exe_str )
+      require("PluginConfig/ddc")
     end,
   }
 
-  use {
-    "Shougo/ddc-around",
-    after = { "ddc.vim" },
-  }
+  use { "Shougo/ddc-around", after = { "ddc.vim" }, }
+  use { "Shougo/ddc-matcher_head", after = { "ddc.vim" }, }
+  use { "Shougo/ddc-sorter_rank", after = { "ddc.vim" }, }
 
   -- Snippet
   use {

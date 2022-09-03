@@ -2,6 +2,8 @@
 local lspconfig = require('lspconfig')
 
 -- join_pathsの参照元 : https://github.com/neovim/nvim-lspconfig/blob/master/test/minimal_init.lua
+local on_windows = vim.loop.os_uname().version:match 'Windows'
+
 local function join_paths(...)
   local path_sep = on_windows and '\\' or '/'
   local result = table.concat({ ... }, path_sep)
@@ -42,10 +44,6 @@ local my_on_attach = function(client, bufnr)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 end
 
--- Add additional capabilities supported by nvim-cmp
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-local my_capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
-
 -- C/C++
 lsp_settings["clangd"] = {
   settings = {
@@ -70,11 +68,11 @@ lsp_settings["clangd"] = {
 
 -- Lua
 lsp_settings["sumneko_lua"] = {
-  settings = {
-    cmd = {
-      join_paths( vim.fn.stdpath("data"), "lsp_servers", "sumneko_lua", "extension", "server", "bin", "lua-language-server" )
-    }
-  }
+--   settings = {
+--     cmd = {
+--       join_paths( vim.fn.stdpath("data"), "mason", "packages", "lua-language-server", "extension", "server", "bin", "lua-language-server" )
+--     }
+--   }
 }
 
 -- cmake

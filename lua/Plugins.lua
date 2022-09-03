@@ -1,14 +1,51 @@
--- 新しいPCに買い替えたときなど、まだPackerが入っていないときでも、
--- このluaファイル群だけで作業を完結できるようにするためのスクリプト。
-local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/opt/packer.nvim"
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-	vim.api.nvim_command("silent !git clone https://github.com/wbthomason/packer.nvim " .. install_path)
+local fn = vim.fn
+local cmd = vim.cmd
+local api = vim.api
+
+-- 与えられたパスにファイルがあるかどうかを確かめる
+local function isInstalled( path )
+  return fn.empty( fn.glob( path ) )
 end
 
--- This file can be loaded by calling `lua require('plugins')` from your init.vim
+-- 第一引数のパスにファイルが無ければ、
+-- 第二引数で指定した場所からファイルをgit cloneする
+local function clonePlugin( path, url )
+  if isInstalled( path ) > 0 then
+    packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', url, path})
+  end
+end
+
+-- join_pathsの参照元 : https://github.com/neovim/nvim-lspconfig/blob/master/test/minimal_init.lua
+local on_windows = vim.loop.os_uname().version:match 'Windows'
+
+local function join_paths(...)
+  local path_sep = on_windows and '\\' or '/'
+  local result = table.concat({ ... }, path_sep)
+  return result
+end
+
+local data_path = fn.stdpath( "data" )
+local packer_path = join_paths( data_path, "site", "pack", "packer" )
+local start_path = join_paths( packer_path, "start" )
+local opt_path = join_paths( packer_path, "opt" )
+local installed_packer_path = join_paths( opt_path, "packer.nvim" )
+
+-- まだPackerがダウンロードされていなければ
+-- githubからダウンロードする
+clonePlugin( installed_packer_path, "https://github.com/wbthomason/packer.nvim" )
 
 -- Only required if you have packer configured as `opt`
--- vim.cmd[[packadd packer.nvim]]
+cmd[[packadd packer.nvim]]
+
+-- icebergがダウンロードされていなければダウンロードする
+local iceberg_path = join_paths( opt_path, "iceberg.vim" )
+clonePlugin( iceberg_path, "https://github.com/cocopon/iceberg.vim.git" )
+
+-- ddc.vimの設定ファイルが置かれているパスを構成する
+-- get the directory which has init.lua
+local config_directory = fn.stdpath( "config" )
+local ddc_config_path = join_paths( config_directory, "vim", "ddc_config.vim" )
+-- print( ddc_config_path )
 
 local use = require('packer').use
 
@@ -16,37 +53,61 @@ require('packer').startup(function()
   -- Packer can manage itself
   use { 'wbthomason/packer.nvim', opt = true }
 
-  -- 補完プラグイン
-  use {
-    "hrsh7th/nvim-cmp", -- LSPによる補完プラグイン
-    requires = {
-      { "L3MON4D3/LuaSnip", opt = true, event = "VimEnter" },
-      { "windwp/nvim-autopairs", opt = true, event = "VimEnter" },
-    },
-    after = { "LuaSnip", "nvim-autopairs" },
-    config = function()
-      require("PluginConfig/nvim-cmp")
-    end,
-  }
-  use({ "hrsh7th/cmp-nvim-lsp", after = "nvim-cmp" })
-  use({ "hrsh7th/cmp-nvim-lsp-signature-help", after = "nvim-cmp" })
-  use({ "hrsh7th/cmp-nvim-lsp-document-symbol", after = "nvim-cmp" })
-  use({ "hrsh7th/cmp-buffer", after = "nvim-cmp" })
-  use({ "hrsh7th/cmp-path", after = "nvim-cmp" })
-  use({ "hrsh7th/cmp-nvim-lua", after = "nvim-cmp" })
-  use({ "hrsh7th/cmp-cmdline", after = "nvim-cmp" })
-  use({ "saadparwaiz1/cmp_luasnip", after = "nvim-cmp" })
-
   -- 公式のビルトインLSP設定集
   use {
-    "neovim/nvim-lspconfig",
-    after = "cmp-nvim-lsp",
+    'neovim/nvim-lspconfig',
     config = function()
       require("PluginConfig/nvim-lspconfig")
+    end
+  }
+
+  -- color scheme
+  local colorscheme = "iceberg.vim"
+  use {
+    'cocopon/iceberg.vim',
+    opt = true,
+    run = cmd[[colorscheme iceberg]]
+    -- config = function()
+    --   local ok, _ = pcall( require( colorscheme ), 'iceberg is not downloaded' )
+
+    --   if ok then
+    --     cmd[[colorscheme iceberg]] -- iceberg.vimを読み込んだ後にcolorschemeをicebergに変える
+    --   else
+    --     -- icebergがダウンロードされていなければダウンロードする
+    --     local iceberg_path = join_paths( opt_path, "iceberg.vim" )
+    --     clonePlugin( iceberg_path, "https://github.com/cocopon/iceberg.vim.git" )
+    --   end
+    -- end
+  }
+
+  -- deno
+  use { "vim-denops/denops.vim", }
+
+  -- Completion
+  use {
+    "Shougo/ddc.vim",
+    opt = true,
+    config = function()
+      -- そのパスをVimScriptとして実行する
+      local exe_str = "source " .. ddc_config_path
+      cmd( exe_str )
     end,
   }
 
-  use { 
+  use {
+    "Shougo/ddc-around",
+    after = { "ddc.vim" },
+  }
+
+  -- Snippet
+  use {
+    "L3MON4D3/LuaSnip",
+    config = function()
+      require("PluginConfig/LuaSnip")
+    end,
+  }
+
+  use {
     "williamboman/mason.nvim",
     config = function()
       require("PluginConfig/mason")
@@ -56,6 +117,7 @@ require('packer').startup(function()
   -- tree-sitter interface to simplificate
   use {
     "nvim-treesitter/nvim-treesitter",
+    after = { colorscheme },
     run = ':TSUpdate',
     event = "VimEnter",
     config = function()
@@ -71,16 +133,9 @@ require('packer').startup(function()
       'nvim-lua/plenary.nvim',
     },
     event = "VimEnter",
+    after = { colorscheme },
     config = function()
       require("PluginConfig/telescope")
-    end,
-  }
-
-  -- スニペット
-  use {
-    "L3MON4D3/LuaSnip",
-    config = function()
-      require("PluginConfig/LuaSnip")
     end,
   }
 
@@ -99,17 +154,10 @@ require('packer').startup(function()
 
   use 'preservim/nerdcommenter' -- コメントアウトのサポート
 
-  -- color scheme
-  use {
-    'cocopon/iceberg.vim',
-    opt = true,
-    run = vim.cmd 'colorscheme iceberg' -- iceberg.vimを読み込んだ後にcolorschemeをicebergに変える
-  }
-
   -- easymotion for nvim
   use {
     'phaazon/hop.nvim',
-    branch = 'v1', -- optional but strongly recommended
+    branch = 'v2', -- optional but strongly recommended
     config = function()
       -- you can configure Hop the way you like here; see :h hop-config
       require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }

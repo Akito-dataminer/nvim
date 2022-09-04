@@ -1,14 +1,6 @@
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
 local lspconfig = require('lspconfig')
-
--- join_pathsの参照元 : https://github.com/neovim/nvim-lspconfig/blob/master/test/minimal_init.lua
-local on_windows = vim.loop.os_uname().version:match 'Windows'
-
-local function join_paths(...)
-  local path_sep = on_windows and '\\' or '/'
-  local result = table.concat({ ... }, path_sep)
-  return result
-end
+local util = require( 'utils' )
 
 -- get_lspconfig関数の参考元 : https://github.com/williamboman/nvim-lsp-installer/blob/main/scripts/autogen_metadata.lua
 local function official_config( lsp )
@@ -48,7 +40,7 @@ end
 lsp_settings["clangd"] = {
   settings = {
     cmd = {
-      join_paths( "C:", "msys64", "mingw64", "bin", "clangd" ),
+      util.join_paths( "C:", "msys64", "mingw64", "bin", "clangd" ),
       -- "C:/msys64/mingw64/bin/clangd",
       -- "--compile-commands-dir=${workspaceFolder}",
       -- "--background-index",
@@ -70,7 +62,7 @@ lsp_settings["clangd"] = {
 lsp_settings["sumneko_lua"] = {
 --   settings = {
 --     cmd = {
---       join_paths( vim.fn.stdpath("data"), "mason", "packages", "lua-language-server", "extension", "server", "bin", "lua-language-server" )
+--       util.join_paths( vim.fn.stdpath("data"), "mason", "packages", "lua-language-server", "extension", "server", "bin", "lua-language-server" )
 --     }
 --   }
 }
@@ -79,7 +71,7 @@ lsp_settings["sumneko_lua"] = {
 lsp_settings["cmake"] = {
   settings = {
     cmd = {
-      join_paths( "C:", "msys64", "mingw64", "bin", "cmake-language-server" ),
+      util.join_paths( "C:", "msys64", "mingw64", "bin", "cmake-language-server" ),
     },
   },
   root_dir = lspconfig.util.root_pattern('.git', 'build'),

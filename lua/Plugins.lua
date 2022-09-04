@@ -14,20 +14,13 @@ local function clonePlugin( path, url )
   end
 end
 
--- join_pathsの参照元 : https://github.com/neovim/nvim-lspconfig/blob/master/test/minimal_init.lua
-local on_windows = vim.loop.os_uname().version:match 'Windows'
-
-local function join_paths(...)
-  local path_sep = on_windows and '\\' or '/'
-  local result = table.concat({ ... }, path_sep)
-  return result
-end
+local util = require( "utils" )
 
 local data_path = fn.stdpath( "data" )
-local packer_path = join_paths( data_path, "site", "pack", "packer" )
-local start_path = join_paths( packer_path, "start" )
-local opt_path = join_paths( packer_path, "opt" )
-local installed_packer_path = join_paths( opt_path, "packer.nvim" )
+local packer_path = util.join_paths( data_path, "site", "pack", "packer" )
+local start_path = util.join_paths( packer_path, "start" )
+local opt_path = util.join_paths( packer_path, "opt" )
+local installed_packer_path = util.join_paths( opt_path, "packer.nvim" )
 
 -- まだPackerがダウンロードされていなければ
 -- githubからダウンロードする
@@ -37,7 +30,7 @@ clonePlugin( installed_packer_path, "https://github.com/wbthomason/packer.nvim" 
 cmd[[packadd packer.nvim]]
 
 -- icebergがダウンロードされていなければダウンロードする
-local iceberg_path = join_paths( opt_path, "iceberg.vim" )
+local iceberg_path = util.join_paths( opt_path, "iceberg.vim" )
 clonePlugin( iceberg_path, "https://github.com/cocopon/iceberg.vim.git" )
 
 local use = require('packer').use
@@ -67,7 +60,7 @@ require('packer').startup(function()
     --     cmd[[colorscheme iceberg]] -- iceberg.vimを読み込んだ後にcolorschemeをicebergに変える
     --   else
     --     -- icebergがダウンロードされていなければダウンロードする
-    --     local iceberg_path = join_paths( opt_path, "iceberg.vim" )
+    --     local iceberg_path = util.join_paths( opt_path, "iceberg.vim" )
     --     clonePlugin( iceberg_path, "https://github.com/cocopon/iceberg.vim.git" )
     --   end
     -- end
@@ -89,6 +82,7 @@ require('packer').startup(function()
   use { "Shougo/ddc-around", after = { "ddc.vim" }, }
   use { "Shougo/ddc-matcher_head", after = { "ddc.vim" }, }
   use { "Shougo/ddc-sorter_rank", after = { "ddc.vim" }, }
+  use { "Shougo/ddc-nvim-lsp", after = { "ddc.vim" }, }
 
   -- Snippet
   use {

@@ -89,14 +89,17 @@ require('packer').startup(function()
   use { "Shougo/ddc-converter_remove_overlap", after = { "ddc.vim" }, }
   use { "Shougo/ddc-line", after = { "ddc.vim" }, }
   use { "LumaKernel/ddc-file", after = { "ddc.vim" }, }
+  use { "vim-skk/skkeleton", after = { "ddc.vim" }, config = function() require("PluginConfig/skkeleton") end }
+  -- use { "hrsh7th/vim-vsnip", after = { "ddc.vim" }, }
+
 
   -- Snippet
-  use {
-    "L3MON4D3/LuaSnip",
-    config = function()
-      require("PluginConfig/LuaSnip")
-    end,
-  }
+  -- use {
+  --   "L3MON4D3/LuaSnip",
+  --   config = function()
+  --     require("PluginConfig/LuaSnip")
+  --   end,
+  -- }
 
   use {
     "williamboman/mason.nvim",

@@ -1,5 +1,4 @@
 ---- HELPERS ----
-local cmd = vim.cmd  -- to execute Vim commands e.g. cmd('pwd')
 local api = vim.api
 
 local function map( mode, lhs, rhs, opts )
@@ -53,16 +52,25 @@ for k, v in pairs({
   map('n', k, v)
 end
 
+---- Insert Mode ----
+for k, v in pairs({
+  -- skkeleton
+  ['<C-,>'] = '<Plug>(skkeleton-toggle)',
+  ['<C-/>'] = '<Plug>(skkeleton-disable)',
+}) do
+  map('i', k, v)
+end
+
 ---- Terminal Mode ----
 -- map('t', '<C-[>', '<C-\\><C-n>')
 
 ---- Neovim built-in LSP settings ----
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
-vim.api.nvim_set_keymap('n', '<space>d', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
+api.nvim_set_keymap('n', '<space>d', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 
 ---- vim-vsnip
 -- local opts = { expr = true, noremap = true }

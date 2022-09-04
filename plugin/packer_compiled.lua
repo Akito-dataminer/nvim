@@ -71,12 +71,6 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
-  LuaSnip = {
-    config = { "\27LJ\2\n4\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\25PluginConfig/LuaSnip\frequire\0" },
-    loaded = true,
-    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\LuaSnip",
-    url = "https://github.com/L3MON4D3/LuaSnip"
-  },
   ["ddc-around"] = {
     load_after = {},
     loaded = true,
@@ -84,12 +78,54 @@ _G.packer_plugins = {
     path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\ddc-around",
     url = "https://github.com/Shougo/ddc-around"
   },
+  ["ddc-cmdline"] = {
+    load_after = {},
+    loaded = true,
+    needs_bufread = false,
+    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\ddc-cmdline",
+    url = "https://github.com/Shougo/ddc-cmdline"
+  },
+  ["ddc-cmdline-history"] = {
+    load_after = {},
+    loaded = true,
+    needs_bufread = false,
+    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\ddc-cmdline-history",
+    url = "https://github.com/Shougo/ddc-cmdline-history"
+  },
+  ["ddc-converter_remove_overlap"] = {
+    load_after = {},
+    loaded = true,
+    needs_bufread = false,
+    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\ddc-converter_remove_overlap",
+    url = "https://github.com/Shougo/ddc-converter_remove_overlap"
+  },
+  ["ddc-file"] = {
+    load_after = {},
+    loaded = true,
+    needs_bufread = false,
+    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\ddc-file",
+    url = "https://github.com/LumaKernel/ddc-file"
+  },
+  ["ddc-line"] = {
+    load_after = {},
+    loaded = true,
+    needs_bufread = false,
+    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\ddc-line",
+    url = "https://github.com/Shougo/ddc-line"
+  },
   ["ddc-matcher_head"] = {
     load_after = {},
     loaded = true,
     needs_bufread = false,
     path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\ddc-matcher_head",
     url = "https://github.com/Shougo/ddc-matcher_head"
+  },
+  ["ddc-nvim-lsp"] = {
+    load_after = {},
+    loaded = true,
+    needs_bufread = false,
+    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\ddc-nvim-lsp",
+    url = "https://github.com/Shougo/ddc-nvim-lsp"
   },
   ["ddc-sorter_rank"] = {
     load_after = {},
@@ -99,7 +135,7 @@ _G.packer_plugins = {
     url = "https://github.com/Shougo/ddc-sorter_rank"
   },
   ["ddc.vim"] = {
-    after = { "ddc-matcher_head", "ddc-around", "ddc-sorter_rank" },
+    after = { "ddc-around", "ddc-cmdline-history", "ddc-converter_remove_overlap", "pum.vim", "ddc-file", "ddc-line", "ddc-cmdline", "ddc-matcher_head", "ddc-nvim-lsp", "ddc-sorter_rank" },
     config = { "\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21PluginConfig/ddc\frequire\0" },
     loaded = true,
     only_config = true,
@@ -186,6 +222,19 @@ _G.packer_plugins = {
     path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\project.nvim",
     url = "https://github.com/ahmedkhalf/project.nvim"
   },
+  ["pum.vim"] = {
+    load_after = {},
+    loaded = true,
+    needs_bufread = false,
+    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\pum.vim",
+    url = "https://github.com/Shougo/pum.vim"
+  },
+  skkeleton = {
+    config = { "\27LJ\2\n6\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\27PluginConfig/skkeleton\frequire\0" },
+    loaded = true,
+    path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\skkeleton",
+    url = "https://github.com/vim-skk/skkeleton"
+  },
   ["telescope.nvim"] = {
     config = { "\27LJ\2\n6\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\27PluginConfig/telescope\frequire\0" },
     load_after = {
@@ -215,31 +264,38 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Config for: mason.nvim
-time([[Config for mason.nvim]], true)
-try_loadstring("\27LJ\2\n2\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\23PluginConfig/mason\frequire\0", "config", "mason.nvim")
-time([[Config for mason.nvim]], false)
--- Config for: LuaSnip
-time([[Config for LuaSnip]], true)
-try_loadstring("\27LJ\2\n4\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\25PluginConfig/LuaSnip\frequire\0", "config", "LuaSnip")
-time([[Config for LuaSnip]], false)
 -- Config for: ddc.vim
 time([[Config for ddc.vim]], true)
 try_loadstring("\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21PluginConfig/ddc\frequire\0", "config", "ddc.vim")
 time([[Config for ddc.vim]], false)
--- Config for: nvim-lspconfig
-time([[Config for nvim-lspconfig]], true)
-try_loadstring("\27LJ\2\n;\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0 PluginConfig/nvim-lspconfig\frequire\0", "config", "nvim-lspconfig")
-time([[Config for nvim-lspconfig]], false)
+-- Config for: skkeleton
+time([[Config for skkeleton]], true)
+try_loadstring("\27LJ\2\n6\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\27PluginConfig/skkeleton\frequire\0", "config", "skkeleton")
+time([[Config for skkeleton]], false)
+-- Config for: mason.nvim
+time([[Config for mason.nvim]], true)
+try_loadstring("\27LJ\2\n2\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\23PluginConfig/mason\frequire\0", "config", "mason.nvim")
+time([[Config for mason.nvim]], false)
 -- Config for: hop.nvim
 time([[Config for hop.nvim]], true)
 try_loadstring("\27LJ\2\nU\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\tkeys\28etovxqpdygfblzhckisuran\nsetup\bhop\frequire\0", "config", "hop.nvim")
 time([[Config for hop.nvim]], false)
+-- Config for: nvim-lspconfig
+time([[Config for nvim-lspconfig]], true)
+try_loadstring("\27LJ\2\n;\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0 PluginConfig/nvim-lspconfig\frequire\0", "config", "nvim-lspconfig")
+time([[Config for nvim-lspconfig]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
-vim.cmd [[ packadd ddc-around ]]
+vim.cmd [[ packadd ddc-file ]]
+vim.cmd [[ packadd pum.vim ]]
+vim.cmd [[ packadd ddc-converter_remove_overlap ]]
 vim.cmd [[ packadd ddc-sorter_rank ]]
+vim.cmd [[ packadd ddc-cmdline-history ]]
+vim.cmd [[ packadd ddc-nvim-lsp ]]
+vim.cmd [[ packadd ddc-cmdline ]]
 vim.cmd [[ packadd ddc-matcher_head ]]
+vim.cmd [[ packadd ddc-line ]]
+vim.cmd [[ packadd ddc-around ]]
 time([[Sequenced loading]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]

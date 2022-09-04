@@ -67,7 +67,7 @@ require('packer').startup(function()
   -- Completion
   use {
     "Shougo/ddc.vim",
-    requires = { "vim-denops/denops.vim", "vim-skk/skkeleton.vim" },
+    requires = { "vim-denops/denops.vim", "vim-skk/skkeleton" },
     config = function()
       require("PluginConfig/ddc")
     end,
@@ -83,7 +83,7 @@ require('packer').startup(function()
   use { "Shougo/ddc-converter_remove_overlap", after = { "ddc.vim" }, }
   use { "Shougo/ddc-line", after = { "ddc.vim" }, }
   use { "LumaKernel/ddc-file", after = { "ddc.vim" }, }
-  use { "vim-skk/skkeleton.vim",
+  use { "vim-skk/skkeleton",
     requires = { "vim-denops/denops.vim", event = {'InsertEnter'} },
     config = function()
       require("PluginConfig/skkeleton")

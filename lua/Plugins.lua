@@ -83,6 +83,12 @@ require('packer').startup(function()
   use { "Shougo/ddc-matcher_head", after = { "ddc.vim" }, }
   use { "Shougo/ddc-sorter_rank", after = { "ddc.vim" }, }
   use { "Shougo/ddc-nvim-lsp", after = { "ddc.vim" }, }
+  use { "Shougo/pum.vim", after = { "ddc.vim" }, }
+  use { "Shougo/ddc-cmdline", after = { "ddc.vim" }, }
+  use { "Shougo/ddc-cmdline-history", after = { "ddc.vim" }, }
+  use { "Shougo/ddc-converter_remove_overlap", after = { "ddc.vim" }, }
+  use { "Shougo/ddc-line", after = { "ddc.vim" }, }
+  use { "LumaKernel/ddc-file", after = { "ddc.vim" }, }
 
   -- Snippet
   use {

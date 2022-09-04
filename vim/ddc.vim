@@ -1,4 +1,4 @@
-" This configuration script is based on
+" This configuration script is inspired by
 " ddc help and
 " https://github.com/Shougo/shougo-s-github/blob/master/vim/rc/ddc.toml
 "
@@ -33,8 +33,15 @@ call ddc#custom#patch_global('sourceOptions', {
       \   'forceCompletionPattern': '\S/\S*',
       \ },
       \ 'nvim-lsp': {
-      \   'mark': 'lsp',
+      \   'mark': 'LSP',
       \   'forceCompletionPattern': '\.\w*|:\w*|->\w*'
+      \ },
+      \ 'skkeleton': {
+      \   'mark': 'SKK',
+      \   'matchers': ['skkeleton'],
+      \   'sorters': [],
+      \   'minAutoCompleteLength': 2,
+      \   'isVolatile': v:true,
       \ },
       \ })
 
@@ -103,4 +110,24 @@ function! CommandlinePost() abort
   else
     call ddc#custom#set_buffer({})
   endif
+endfunction
+
+runtime skkeleton
+
+let g:skkeleton#debug = v:true
+call skkeleton#register_kanatable('rom', {
+      \ 'jj': 'escape',
+      \ '~': ['〜', ''],
+      \ "z\<Space>": ["\u3000", ''],
+      \ })
+autocmd User skkeleton-enable-pre call s:skkeleton_pre()
+function! s:skkeleton_pre() abort
+  " Overwrite sources
+  let s:prev_buffer_config = ddc#custom#get_buffer()
+  call ddc#custom#patch_buffer('sources', ['skkeleton'])
+endfunction
+autocmd User skkeleton-disable-pre call s:skkeleton_post()
+function! s:skkeleton_post() abort
+  " Restore sources
+  call ddc#custom#set_buffer(s:prev_buffer_config)
 endfunction

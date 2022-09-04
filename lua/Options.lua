@@ -3,6 +3,7 @@ local api = vim.api
 local fn = vim.fn
 local opt = vim.opt  -- to set options
 local cmd = vim.cmd  -- to execute Vim commands e.g. cmd('pwd')
+local vg = vim.g
 
 ---- Body ----
 local my_shell = 'cmd'
@@ -32,6 +33,10 @@ opt.smarttab = true
 opt.showcmd = true
 opt.ruler = true -- カーソルが置かれている行を表示する
 opt.title = true
+opt.termguicolors = true
+opt.pumblend = 17
+vg.loaded_netrw = false -- disable netrw
+vg.loaded_netrwPlugin = false -- disable netrw plugins
 
 opt.list = true        -- Show some invisible characters
 opt.listchars = {tab = '>>', trail = '*', nbsp = '+'}

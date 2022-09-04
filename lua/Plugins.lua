@@ -1,20 +1,15 @@
 local fn = vim.fn
 local cmd = vim.cmd
 
--- 与えられたパスにファイルがあるかどうかを確かめる
-local function isInstalled( path )
-  return fn.empty( fn.glob( path ) )
-end
+local util = require( "utils" )
 
 -- 第一引数のパスにファイルが無ければ、
 -- 第二引数で指定した場所からファイルをgit cloneする
 local function clonePlugin( path, url )
-  if isInstalled( path ) > 0 then
+  if util.isInstalled( path ) > 0 then
     packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', url, path})
   end
 end
-
-local util = require( "utils" )
 
 local data_path = fn.stdpath( "data" )
 local packer_path = util.join_paths( data_path, "site", "pack", "packer" )
@@ -72,8 +67,7 @@ require('packer').startup(function()
   -- Completion
   use {
     "Shougo/ddc.vim",
-    requires = { "vim-denops/denops.vim" },
-    -- opt = true,
+    requires = { "vim-denops/denops.vim", "vim-skk/skkeleton.vim" },
     config = function()
       require("PluginConfig/ddc")
     end,
@@ -89,7 +83,12 @@ require('packer').startup(function()
   use { "Shougo/ddc-converter_remove_overlap", after = { "ddc.vim" }, }
   use { "Shougo/ddc-line", after = { "ddc.vim" }, }
   use { "LumaKernel/ddc-file", after = { "ddc.vim" }, }
-  use { "vim-skk/skkeleton", after = { "ddc.vim" }, config = function() require("PluginConfig/skkeleton") end }
+  use { "vim-skk/skkeleton.vim",
+    requires = { "vim-denops/denops.vim", event = {'InsertEnter'} },
+    config = function()
+      require("PluginConfig/skkeleton")
+    end
+  }
   -- use { "hrsh7th/vim-vsnip", after = { "ddc.vim" }, }
 
 

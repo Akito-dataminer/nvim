@@ -78,6 +78,9 @@ lsp_settings["cmake"] = {
   buildDirectory = "build",
 }
 
+local my_capabilities = vim.lsp.protocol.make_client_capabilities()
+my_capabilities.textDocument.completion.completionItem.snippetSupport = true
+
 -- LSPサーバーの設定
 for lsp, my_settings in pairs( lsp_settings ) do
   -- cmdがnilでなければ(iff. ユーザ設定がされていれば)、そちらを適用し、

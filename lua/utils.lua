@@ -14,7 +14,8 @@ end
 -- 与えられたパスにファイルがあるかどうかを確かめる
 -- check if the file exists at the given path
 util.isInstalled = function( path )
-  return fn.empty( fn.glob( path ) )
+  -- empty(...) == 1 means there isn't the path.
+  return fn.empty( fn.glob( path ) ) == 0 and 1 or 0
 end
 
 return util

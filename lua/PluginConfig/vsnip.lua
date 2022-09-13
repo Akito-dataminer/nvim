@@ -25,12 +25,18 @@ end
 local vsnip_dir = utils.join_paths( data_path, ".vsnip" )
 vg.vsnip_snippet_dir = vsnip_dir
 
-cmd([[
-let g:vsnip_filetypes = {}
-let g:vsnip_filetypes.cppreact = ['cpp']
-let g:vsnip_filetypes.javascriptreact = ['javascript']
-let g:vsnip_filetypes.typescriptreact = ['typescript']
-]])
+vg.vsnip_filetypes = {
+  cppreact = 'cpp',
+  javascriptreact = 'javascript',
+  typescriptreact = 'typescript',
+}
+
+-- cmd([[
+-- let g:vsnip_filetypes = {}
+-- let g:vsnip_filetypes.cppreact = ['cpp']
+-- let g:vsnip_filetypes.javascriptreact = ['javascript']
+-- let g:vsnip_filetypes.typescriptreact = ['typescript']
+-- ]])
 
 -- Key Mappings
 -- imap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'

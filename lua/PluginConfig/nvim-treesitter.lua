@@ -8,15 +8,15 @@ require'nvim-treesitter.configs'.setup {
   indent = {
     enable = true
   },
-  pairs = {
-    enable = false,
-    disable = {},
-    highlight_pair_events = { "CursorMoved" }, -- when to highlight the pairs, use {} to deactivate highlighting
-    highlight_self = true,
-    goto_right_end = false, -- whether to go to the end of the right partner or the beginning
-    fallback_cmd_normal = "call matchit#Match_wrapper('',1,'n')", -- What command to issue when we can't find a pair (e.g. "normal! %")
-    keymaps = { goto_partner = "'%" },
-  },
+  -- pairs = {
+  --   enable = false,
+  --   disable = {},
+  --   highlight_pair_events = { "CursorMoved" }, -- when to highlight the pairs, use {} to deactivate highlighting
+  --   highlight_self = true,
+  --   goto_right_end = false, -- whether to go to the end of the right partner or the beginning
+  --   fallback_cmd_normal = "call matchit#Match_wrapper('',1,'n')", -- What command to issue when we can't find a pair (e.g. "normal! %")
+  --   keymaps = { goto_partner = "'%" },
+  -- },
 }
 
 vim.opt.foldmethod = "expr"

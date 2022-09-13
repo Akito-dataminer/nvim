@@ -22,7 +22,7 @@ for _, path in ipairs( candidate_directory_list ) do
 end
 
 -- configure the snippet directory
-local vsnip_dir = utils.join_paths( fn.stdpath( "data" ), ".vsnip" )
+local vsnip_dir = utils.join_paths( data_path, ".vsnip" )
 vg.vsnip_snippet_dir = vsnip_dir
 
 cmd([[

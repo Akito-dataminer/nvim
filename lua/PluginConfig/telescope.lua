@@ -1,3 +1,5 @@
+local api = vim.api
+
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local telescope = require("telescope")
@@ -28,7 +30,7 @@ function custom_actions._multiopen( prompt_bufnr, open_cmd )
   local num_selections = #picker:get_multi_selection()
   -- telescopeのbuiltin pickerでは、どうやら複数選択時の処理と無選択時の処理が分かれているらしい。
   -- 選択モードと無選択モードの2つがあると考えたらわかりやすいかも...?
-  -- (情報源 : telescopeのlua/telescope/pickers/multi.luaのソースを読んだ)
+  -- (情報源 : telescopeのlua/telescope/pickers/multi.luaのソース)
   -- そのため、同じ「ファイルオープン」という処理であっても、
   -- 選択しているのか/いないのか(選択モード/非選択モード)で処理を分ける必要があるっぽい。
   --
@@ -57,7 +59,6 @@ require("telescope").setup{
   defaults = {
     mappings = {
       i = {
-        -- ["<c-[>"] = actions.close,
         ["<CR>"] = custom_actions.open_to_buffer,
       },
       n = {
@@ -68,10 +69,10 @@ require("telescope").setup{
   },
 }
 
-vim.api.nvim_set_keymap("n", "[telescope]", "<Nop>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("v", "[telescope]", "<Nop>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", ",", "[telescope]", {})
-vim.api.nvim_set_keymap("v", ",", "[telescope]", {})
+api.nvim_set_keymap("n", "[telescope]", "<Nop>", { noremap = true, silent = true })
+api.nvim_set_keymap("v", "[telescope]", "<Nop>", { noremap = true, silent = true })
+api.nvim_set_keymap("n", ",", "[telescope]", {})
+api.nvim_set_keymap("v", ",", "[telescope]", {})
 
 local opts = { noremap=true, silent=true }
 local keymap_telescope_func = {
@@ -94,6 +95,7 @@ local keymap_telescope_func = {
   -- ["<Leader>bc"] = "require'telescope.builtin'.git_bcommits()",
   -- ["<Leader>c"] = "require'telescope.builtin'.git_commits()",
 }
+
 for k, v in pairs(keymap_telescope_func) do
   vim.api.nvim_set_keymap('n', k, string.format("<cmd> lua %s<CR>", v), opts)
 end

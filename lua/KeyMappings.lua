@@ -55,8 +55,8 @@ end
 ---- Insert Mode ----
 for k, v in pairs({
   -- skkeleton
-  ['<C-,>'] = '<Plug>(skkeleton-toggle)',
-  ['<C-/>'] = '<Plug>(skkeleton-disable)',
+  ['<C-l>'] = '<Plug>(skkeleton-enable)',
+  -- ['<C-/>'] = '<Plug>(skkeleton-disable)',
 }) do
   map('i', k, v)
 end

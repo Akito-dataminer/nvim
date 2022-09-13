@@ -71,12 +71,3 @@ api.nvim_set_keymap('n', '<space>d', '<cmd>lua vim.diagnostic.open_float()<CR>',
 api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-
----- vim-vsnip
--- local opts = { expr = true, noremap = true }
--- for k, v in paires({
---   ['<Tab>'] = 'v:lua.smart_tab()',
--- }) do
---   map('i', k, v, opts)
--- end
-

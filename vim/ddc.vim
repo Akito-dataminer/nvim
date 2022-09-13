@@ -5,7 +5,7 @@
 " Thank you for sharing very nice plugins and scripts!!
 
 " Customize global settings
-call ddc#custom#patch_global('sources', ['nvim-lsp', 'file','around'])
+call ddc#custom#patch_global('sources', ['vsnip', 'nvim-lsp', 'file', 'around'])
 
 call ddc#custom#patch_global('sourceOptions', {
       \ '_': {
@@ -34,7 +34,11 @@ call ddc#custom#patch_global('sourceOptions', {
       \ },
       \ 'nvim-lsp': {
       \   'mark': 'LSP',
-      \   'forceCompletionPattern': '\.\w*|:\w*|->\w*'
+      \   'forceCompletionPattern': '\.\w*|:\w*|->\w*',
+      \ },
+      \ 'vsnip': {
+      \   'mark': 'SNIP',
+      \   'dup': v:true,
       \ },
       \ 'skkeleton': {
       \   'mark': 'SKK',
@@ -67,13 +71,16 @@ cnoremap <expr> <C-n>
       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
       \ exists('b:ddc_cmdline_completion') ?
       \ ddc#manual_complete() : nr2char(&wildcharm)
-cnoremap <C-p> <Cmd>call pum#map#insert_relative(-1)<CR>
+cnoremap <C-p>   <Cmd>call pum#map#insert_relative(-1)<CR>
 cnoremap <C-c>   <Cmd>call pum#map#cancel()<CR>
 cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
 
 " Use ddc.
 call ddc#enable()
 
+autocmd User PumCompleteDone call vsnip_integ#on_complete_done(g:pum#completed_item)
+
+" For command line completion
 nnoremap :       <Cmd>call CommandlinePre( ':' )<CR>:
 nnoremap /       <Cmd>call CommandlinePre( '/' )<CR>/
 nnoremap ?       <Cmd>call CommandlinePre( '/' )<CR>?
@@ -112,8 +119,7 @@ function! CommandlinePost() abort
   endif
 endfunction
 
-runtime skkeleton
-
+" For skkeleton
 let g:skkeleton#debug = v:true
 call skkeleton#register_kanatable('rom', {
       \ 'jj': 'escape',

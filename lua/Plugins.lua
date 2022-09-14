@@ -24,10 +24,6 @@ clonePlugin( installed_packer_path, "https://github.com/wbthomason/packer.nvim" 
 -- Only required if you have packer configured as `opt`
 cmd[[packadd packer.nvim]]
 
--- icebergがダウンロードされていなければダウンロードする
-local iceberg_path = util.join_paths( opt_path, "iceberg.vim" )
-clonePlugin( iceberg_path, "https://github.com/cocopon/iceberg.vim.git" )
-
 local use = require('packer').use
 
 require('packer').startup(function()
@@ -43,22 +39,11 @@ require('packer').startup(function()
   }
 
   -- color scheme
-  local colorscheme = "iceberg.vim"
+  -- local colorscheme = "iceberg.vim"
   use {
     'cocopon/iceberg.vim',
     opt = true,
-    run = cmd[[colorscheme iceberg]]
-    -- config = function()
-    --   local ok, _ = pcall( require( colorscheme ), 'iceberg is not downloaded' )
-
-    --   if ok then
-    --     cmd[[colorscheme iceberg]] -- iceberg.vimを読み込んだ後にcolorschemeをicebergに変える
-    --   else
-    --     -- icebergがダウンロードされていなければダウンロードする
-    --     local iceberg_path = util.join_paths( opt_path, "iceberg.vim" )
-    --     clonePlugin( iceberg_path, "https://github.com/cocopon/iceberg.vim.git" )
-    --   end
-    -- end
+    run = require("PluginConfig/colorscheme")
   }
 
   -- deno
@@ -69,7 +54,7 @@ require('packer').startup(function()
   -- Completion
   use {
     "Shougo/ddc.vim",
-    requires = { "vim-denops/denops.vim", "Shougo/pum.vim", "vim-skk/skkeleton" },
+    requires = { "Shougo/pum.vim", "vim-skk/skkeleton" },
     config = function()
       require("PluginConfig/ddc")
     end,
@@ -93,14 +78,14 @@ require('packer').startup(function()
   use { "Matts966/skk-vconv.vim", after = { "ddc.vim", "skkeleton" }, }
 
   -- Snippet
+  use { "hrsh7th/vim-vsnip-integ", }
   use {
     "hrsh7th/vim-vsnip",
-    -- requires = { "vim-vsnip-integ" },
+    requires = { "vim-vsnip-integ" },
     config = function()
       require( "PluginConfig/vsnip" )
     end,
   }
-  use { "hrsh7th/vim-vsnip-integ", requires = { "hrsh7th/vim-vsnip" } }
   -- use {
   --   "L3MON4D3/LuaSnip",
   --   config = function()

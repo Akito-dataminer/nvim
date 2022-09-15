@@ -11,8 +11,18 @@ local function official_config( lsp )
   return config
 end
 
--- 使いたいLSPサーバの名前をキーにして、cmdなどを列挙する
-local lsp_settings = {}
+-- Reference highlight
+vim.cmd [[
+set updatetime=200
+highlight LspReferenceText  ctermfg=1 ctermbg=8 guifg=#c6c8d1 guibg=#104040
+highlight LspReferenceRead  ctermfg=1 ctermbg=8 guifg=#c6c8d1 guibg=#104040
+highlight LspReferenceWrite ctermfg=1 ctermbg=8 guifg=#c6c8d1 guibg=#104040
+augroup lsp_document_highlight
+  autocmd!
+  autocmd CursorHold,CursorHoldI * lua vim.lsp.buf.document_highlight()
+  autocmd CursorMoved,CursorMovedI * lua vim.lsp.buf.clear_references()
+augroup END
+]]
 
 ---- LSP Key Mappings
 api.nvim_set_keymap("n", "[lsp]", "<Nop>", { noremap = true, silent = true })
@@ -43,6 +53,9 @@ local my_on_attach = function(client, bufnr)
   buf_set_keymap("n", "[lsp]q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
   -- buf_set_keymap("n", "[lsp]f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 end
+
+-- 使いたいLSPサーバの名前をキーにして、cmdなどを列挙する
+local lsp_settings = {}
 
 -- /C++
 lsp_settings["clangd"] = {

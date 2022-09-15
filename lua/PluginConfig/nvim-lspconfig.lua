@@ -1,28 +1,38 @@
 local api = vim.api
+local lsp = vim.lsp
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
 local lspconfig = require('lspconfig')
 local util = require( 'utils' )
 
 -- get_lspconfig関数の参考元 : https://github.com/williamboman/nvim-lsp-installer/blob/main/scripts/autogen_metadata.lua
-local function official_config( lsp )
+local function official_config( lsp_kind )
   local config_root = "lspconfig.server_configurations."
-  local config = require( config_root .. lsp )
+  local config = require( config_root .. lsp_kind )
   return config
 end
 
 -- Reference highlight
-vim.cmd [[
-set updatetime=200
-highlight LspReferenceText  ctermfg=1 ctermbg=8 guifg=#c6c8d1 guibg=#104040
-highlight LspReferenceRead  ctermfg=1 ctermbg=8 guifg=#c6c8d1 guibg=#104040
-highlight LspReferenceWrite ctermfg=1 ctermbg=8 guifg=#c6c8d1 guibg=#104040
-augroup lsp_document_highlight
-  autocmd!
-  autocmd CursorHold,CursorHoldI * lua vim.lsp.buf.document_highlight()
-  autocmd CursorMoved,CursorMovedI * lua vim.lsp.buf.clear_references()
-augroup END
-]]
+local highlight_color = {
+  fg = '#c6c8d1',
+  bg = '#104040',
+}
+
+local hl_target_extension = { "*.c", "*.h", "*.cpp", "*.hpp", "*.lua" }
+
+api.nvim_set_hl( 0, "LspReferenceText", highlight_color )
+api.nvim_set_hl( 0, "LspReferenceRead", highlight_color )
+api.nvim_set_hl( 0, "LspReferenceWrite", highlight_color )
+
+api.nvim_create_autocmd( { "CursorHold", "CursorHoldI" }, {
+  pattern = hl_target_extension,
+  callback = lsp.buf.document_highlight,
+})
+
+api.nvim_create_autocmd( { "CursorMoved", "CursorMovedI" }, {
+  pattern = hl_target_extension,
+  callback = lsp.buf.clear_references,
+})
 
 ---- LSP Key Mappings
 api.nvim_set_keymap("n", "[lsp]", "<Nop>", { noremap = true, silent = true })
@@ -99,16 +109,16 @@ lsp_settings["cmake"] = {
   buildDirectory = "build",
 }
 
-local my_capabilities = vim.lsp.protocol.make_client_capabilities()
+local my_capabilities = lsp.protocol.make_client_capabilities()
 my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- LSPサーバーの設定
-for lsp, my_settings in pairs( lsp_settings ) do
+for lsp_kind, my_settings in pairs( lsp_settings ) do
   -- cmdがnilでなければ(iff. ユーザ設定がされていれば)、そちらを適用し、
   -- cmdがnilなら(iff. ユーザが独自設定をしていなければ)、デフォルト設定を適用する
-  local config = official_config(lsp)
+  local config = official_config(lsp_kind)
 
-  lspconfig[lsp].setup {
+  lspconfig[lsp_kind].setup {
     on_attach = my_on_attach,
     capabilities = my_capabilities,
     buildDirectory = my_settings.buildDirectory or config.default_config.buildDirectory,

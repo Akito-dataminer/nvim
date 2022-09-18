@@ -35,6 +35,7 @@ opt.ruler = true -- カーソルが置かれている行を表示する
 opt.title = true
 opt.termguicolors = true
 opt.pumblend = 17
+opt.updatetime = 200 -- time to highlight
 vg.loaded_netrw = false -- disable netrw
 vg.loaded_netrwPlugin = false -- disable netrw plugins
 

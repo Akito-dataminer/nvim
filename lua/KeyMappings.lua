@@ -32,11 +32,6 @@ for k, v in pairs({
   ['*'] = ':%s/\\v',
   ['<Space>b'] = ':%!xxd<CR>',
   ['<Space><CR>'] = ':.!bash<CR>',
-  -- hop
-  ['<Space><Space>w'] = ':HopWord<CR>',
-  ['<Space><Space>l'] = ':HopLine<CR>',
-  ['<Space><Space>r'] = ':HopChar1<CR>',
-  ['<Space><Space>h'] = ':HopChar2<CR>',
   -- Telescope
   ['<C-p>'] = ':Telescope projects<CR>',
   -- vim-fugitive

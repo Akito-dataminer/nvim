@@ -138,7 +138,7 @@ _G.packer_plugins = {
     url = "https://github.com/Shougo/ddc-sorter_rank"
   },
   ["ddc.vim"] = {
-    after = { "ddc-matcher_head", "ddc-around", "ddc-nvim-lsp", "ddc-cmdline", "ddc-cmdline-history", "ddc-converter_remove_overlap", "ddc-sorter_rank", "ddc-file", "skk-vconv.vim", "ddc-line" },
+    after = { "ddc-converter_remove_overlap", "ddc-file", "ddc-line", "ddc-cmdline", "ddc-matcher_head", "ddc-nvim-lsp", "ddc-sorter_rank", "skk-vconv.vim", "ddc-around", "ddc-cmdline-history" },
     config = { "\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21PluginConfig/ddc\frequire\0" },
     loaded = true,
     only_config = true,
@@ -151,13 +151,12 @@ _G.packer_plugins = {
     url = "https://github.com/vim-denops/denops.vim"
   },
   ["hop.nvim"] = {
-    config = { "\27LJ\2\nU\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\tkeys\28etovxqpdygfblzhckisuran\nsetup\bhop\frequire\0" },
+    config = { "\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21PluginConfig/hop\frequire\0" },
     loaded = true,
     path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\hop.nvim",
     url = "https://github.com/phaazon/hop.nvim"
   },
   ["iceberg.vim"] = {
-    after = { "nvim-treesitter", "telescope.nvim" },
     loaded = false,
     needs_bufread = false,
     path = "C:\\Users\\akito\\AppData\\Local\\nvim-data\\site\\pack\\packer\\opt\\iceberg.vim",
@@ -190,9 +189,6 @@ _G.packer_plugins = {
   },
   ["nvim-treesitter"] = {
     config = { "\27LJ\2\n<\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0!PluginConfig/nvim-treesitter\frequire\0" },
-    load_after = {
-      ["iceberg.vim"] = true
-    },
     loaded = false,
     needs_bufread = false,
     only_cond = false,
@@ -247,9 +243,6 @@ _G.packer_plugins = {
   },
   ["telescope.nvim"] = {
     config = { "\27LJ\2\n6\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\27PluginConfig/telescope\frequire\0" },
-    load_after = {
-      ["iceberg.vim"] = true
-    },
     loaded = false,
     needs_bufread = true,
     only_cond = false,
@@ -289,44 +282,44 @@ time([[Defining packer_plugins]], false)
 time([[Config for mason.nvim]], true)
 try_loadstring("\27LJ\2\n2\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\23PluginConfig/mason\frequire\0", "config", "mason.nvim")
 time([[Config for mason.nvim]], false)
--- Config for: skkeleton
-time([[Config for skkeleton]], true)
-try_loadstring("\27LJ\2\n6\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\27PluginConfig/skkeleton\frequire\0", "config", "skkeleton")
-time([[Config for skkeleton]], false)
--- Config for: vim-vsnip
-time([[Config for vim-vsnip]], true)
-try_loadstring("\27LJ\2\n2\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\23PluginConfig/vsnip\frequire\0", "config", "vim-vsnip")
-time([[Config for vim-vsnip]], false)
+-- Config for: hop.nvim
+time([[Config for hop.nvim]], true)
+try_loadstring("\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21PluginConfig/hop\frequire\0", "config", "hop.nvim")
+time([[Config for hop.nvim]], false)
 -- Config for: nvim-lspconfig
 time([[Config for nvim-lspconfig]], true)
 try_loadstring("\27LJ\2\n;\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0 PluginConfig/nvim-lspconfig\frequire\0", "config", "nvim-lspconfig")
 time([[Config for nvim-lspconfig]], false)
--- Config for: hop.nvim
-time([[Config for hop.nvim]], true)
-try_loadstring("\27LJ\2\nU\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\tkeys\28etovxqpdygfblzhckisuran\nsetup\bhop\frequire\0", "config", "hop.nvim")
-time([[Config for hop.nvim]], false)
+-- Config for: vim-vsnip
+time([[Config for vim-vsnip]], true)
+try_loadstring("\27LJ\2\n2\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\23PluginConfig/vsnip\frequire\0", "config", "vim-vsnip")
+time([[Config for vim-vsnip]], false)
+-- Config for: skkeleton
+time([[Config for skkeleton]], true)
+try_loadstring("\27LJ\2\n6\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\27PluginConfig/skkeleton\frequire\0", "config", "skkeleton")
+time([[Config for skkeleton]], false)
 -- Config for: ddc.vim
 time([[Config for ddc.vim]], true)
 try_loadstring("\27LJ\2\n0\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\21PluginConfig/ddc\frequire\0", "config", "ddc.vim")
 time([[Config for ddc.vim]], false)
 -- Load plugins in order defined by `after`
 time([[Sequenced loading]], true)
-vim.cmd [[ packadd ddc-cmdline ]]
-vim.cmd [[ packadd ddc-line ]]
-vim.cmd [[ packadd ddc-file ]]
 vim.cmd [[ packadd ddc-cmdline-history ]]
+vim.cmd [[ packadd ddc-nvim-lsp ]]
+vim.cmd [[ packadd ddc-cmdline ]]
+vim.cmd [[ packadd ddc-matcher_head ]]
+vim.cmd [[ packadd ddc-line ]]
+vim.cmd [[ packadd ddc-around ]]
+vim.cmd [[ packadd ddc-file ]]
 vim.cmd [[ packadd ddc-converter_remove_overlap ]]
 vim.cmd [[ packadd ddc-sorter_rank ]]
-vim.cmd [[ packadd ddc-nvim-lsp ]]
-vim.cmd [[ packadd ddc-around ]]
-vim.cmd [[ packadd ddc-matcher_head ]]
 vim.cmd [[ packadd skk-vconv.vim ]]
 time([[Sequenced loading]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
-vim.cmd [[au VimEnter * ++once lua require("packer.load")({'nvim-treesitter', 'telescope.nvim', 'nvim-autopairs'}, { event = "VimEnter *" }, _G.packer_plugins)]]
+vim.cmd [[au VimEnter * ++once lua require("packer.load")({'nvim-autopairs', 'telescope.nvim', 'nvim-treesitter'}, { event = "VimEnter *" }, _G.packer_plugins)]]
 time([[Defining lazy-load event autocommands]], false)
 vim.cmd("augroup END")
 

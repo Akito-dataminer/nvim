@@ -20,6 +20,7 @@ for k, v in pairs({
   ['[hop]l'] = hop.hint_lines,
   ['[hop]k'] = function() hop.hint_lines( { direction = hint.HintDirection.BEFORE_CURSOR } ) end,
   ['[hop]j'] = function() hop.hint_lines( { direction = hint.HintDirection.AFTER_CURSOR } ) end,
+  ['[hop]/'] = hop.hint_patterns,
   ['[hop]r'] = hop.hint_char1,
   ['[hop]h'] = hop.hint_char2,
   ['f'] = function() hop.hint_char1( { direction = hint.HintDirection.AFTER_CURSOR, current_line_only = true } ) end,

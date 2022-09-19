@@ -122,10 +122,14 @@ endfunction
 " For skkeleton
 let g:skkeleton#debug = v:true
 call skkeleton#register_kanatable('rom', {
+      \ "xn": ['ん'],
       \ 'jj': 'escape',
       \ '~': ['〜', ''],
       \ "z\<Space>": ["\u3000", ''],
-      \ })
+      \ }, {})
+call skkeleton#register_keymap('henkan', "\<BS>", 'henkanBackward')
+call skkeleton#register_keymap('henkan', "x", '')
+
 autocmd User skkeleton-enable-pre call s:skkeleton_pre()
 function! s:skkeleton_pre() abort
   " Overwrite sources

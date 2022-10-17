@@ -1,5 +1,7 @@
 local api = vim.api
 local lsp = vim.lsp
+local fn = vim.fn
+local keymap = vim.keymap
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
 local lspconfig = require('lspconfig')
@@ -35,94 +37,113 @@ api.nvim_create_autocmd( { "CursorMoved", "CursorMovedI" }, {
 })
 
 ---- LSP Key Mappings
-api.nvim_set_keymap("n", "[lsp]", "<Nop>", { noremap = true, silent = true })
-api.nvim_set_keymap("v", "[lsp]", "<Nop>", { noremap = true, silent = true })
-api.nvim_set_keymap("n", "<space>", "[lsp]", {})
-api.nvim_set_keymap("v", "<space>", "[lsp]", {})
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+local opts = { noremap=true, silent=true }
+keymap.set('n', 'ge', vim.diagnostic.open_float, opts)
+keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+keymap.set('n', 'gq', vim.diagnostic.setloclist, opts)
 
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
 local my_on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) api.nvim_buf_set_keymap(bufnr, ...) end
-
-  local opts = { noremap=true, silent=true }
-  buf_set_keymap("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-  buf_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  buf_set_keymap("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  buf_set_keymap("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-  buf_set_keymap("n", "gn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  buf_set_keymap("n", "[lsp]h", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  buf_set_keymap("n", "[lsp]wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", opts)
-  buf_set_keymap("n", "[lsp]wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", opts)
-  buf_set_keymap("n", "[lsp]wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", opts)
-  buf_set_keymap("n", "[lsp]td", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-  buf_set_keymap("n", "[lsp]rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  buf_set_keymap("n", "[lsp]co", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-  buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-  buf_set_keymap("n", "[lsp]d", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
-  buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
-  buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
-  buf_set_keymap("n", "[lsp]q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
-  -- buf_set_keymap("n", "[lsp]f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  keymap.set('n', 'gD', lsp.buf.declaration, bufopts)
+  keymap.set('n', 'gd', lsp.buf.definition, bufopts)
+  keymap.set('n', 'K', lsp.buf.hover, bufopts)
+  keymap.set('n', 'gi', lsp.buf.implementation, bufopts)
+  keymap.set('n', 'gh', lsp.buf.signature_help, bufopts)
+  keymap.set('n', '<space>wa', lsp.buf.add_workspace_folder, bufopts)
+  keymap.set('n', '<space>wr', lsp.buf.remove_workspace_folder, bufopts)
+  keymap.set('n', '<space>wl', function()
+    print(vim.inspect(lsp.buf.list_workspace_folders()))
+  end, bufopts)
+  keymap.set('n', '<space>D', lsp.buf.type_definition, bufopts)
+  keymap.set('n', 'gn', lsp.buf.rename, bufopts)
+  keymap.set('n', '<space>ca', lsp.buf.code_action, bufopts)
+  keymap.set('n', 'gr', lsp.buf.references, bufopts)
+  keymap.set('n', '<space>f', function() lsp.buf.format { async = true } end, bufopts)
 end
 
 -- 使いたいLSPサーバの名前をキーにして、cmdなどを列挙する
 local lsp_settings = {}
+local mason_package_root = util.join_paths( fn.stdpath('data'), 'mason', 'packages' )
 
 -- /C++
 lsp_settings["clangd"] = {
-  settings = {
-    cmd = {
-      util.join_paths( "C:", "msys64", "mingw64", "bin", "clangd" ),
-      -- "C:/msys64/mingw64/bin/clangd",
-      -- "--compile-commands-dir=${workspaceFolder}",
-      -- "--background-index",
-      -- "--clang-tidy",
-      -- "--all-scopes-completion",
-      -- "--cross-file-rename",
-      -- "--completion-style=detailed",
-      -- "--header-insertion=never",
-      -- "--header-insertion-decorators",
-      -- "-j=8",
-      -- "--offset-encoding=utf-8",
-      -- "--log=verbose"
-    },
-    root_pattern = { ".git", "build" },
-  }
+  cmd = {
+    "clangd.exe",
+    -- "--compile-commands-dir=${workspaceFolder}",
+    -- "--background-index",
+    -- "--clang-tidy",
+    "--all-scopes-completion",
+    -- "--cross-file-rename",
+    -- "--completion-style=detailed",
+    "--header-insertion=never",
+    -- "--header-insertion-decorators",
+    -- "-j=8",
+    "--offset-encoding=utf-8",
+    "--log=verbose"
+  },
+  settings = {},
+  -- root_pattern = { ".git", "build" },
 }
 
 -- Lua
+local lua_lsp_root = util.join_paths( mason_package_root, 'lua-language-server', 'extension', 'server' )
+
 lsp_settings["sumneko_lua"] = {
---   settings = {
---     cmd = {
---       util.join_paths( vim.fn.stdpath("data"), "mason", "packages", "lua-language-server", "extension", "server", "bin", "lua-language-server" )
---     }
---   }
+  cmd = {
+    util.join_paths( lua_lsp_root, 'bin', 'lua-language-server.exe' ),
+    '-E',
+    util.join_paths( lua_lsp_root, 'main.lua' ),
+  },
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = api.nvim_get_runtime_file("", true),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
 }
 
 -- cmake
 lsp_settings["cmake"] = {
-  settings = {
-    cmd = {
-      util.join_paths( "C:", "msys64", "mingw64", "bin", "cmake-language-server" ),
-    },
-  },
+  cmd = {},
+  settings = {},
   root_dir = lspconfig.util.root_pattern('.git', 'build'),
-  buildDirectory = "build",
 }
 
 local my_capabilities = lsp.protocol.make_client_capabilities()
 my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- LSPサーバーの設定
-for lsp_kind, my_settings in pairs( lsp_settings ) do
+for lsp_kind, my_config in pairs( lsp_settings ) do
   -- cmdがnilでなければ(iff. ユーザ設定がされていれば)、そちらを適用し、
   -- cmdがnilなら(iff. ユーザが独自設定をしていなければ)、デフォルト設定を適用する
-  local config = official_config(lsp_kind)
+  local config = official_config( lsp_kind )
 
   lspconfig[lsp_kind].setup {
+    config = config,
+    cmd = my_config.cmd or official_config( lsp_kind ).default_config.cmd,
+    root_dir = my_config.root_dir or official_config( lsp_kind ).docs.root_dir,
+    settings = my_config.settings or official_config( lsp_kind ).default_config.settings,
     on_attach = my_on_attach,
     capabilities = my_capabilities,
-    buildDirectory = my_settings.buildDirectory or config.default_config.buildDirectory,
-    root_dir = my_settings.root_dir,
-    settings = my_settings.settings or config.default_config.settings,
   }
 end

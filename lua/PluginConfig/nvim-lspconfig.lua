@@ -129,6 +129,9 @@ lsp_settings["cmake"] = {
   root_dir = lspconfig.util.root_pattern('.git', 'build'),
 }
 
+-- python
+lsp_settings["pyright"] = {}
+
 local my_capabilities = lsp.protocol.make_client_capabilities()
 my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 

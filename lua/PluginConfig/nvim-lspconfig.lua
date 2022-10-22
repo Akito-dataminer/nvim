@@ -14,28 +14,6 @@ local function official_config( lsp_kind )
   return config
 end
 
--- Reference highlight
-local highlight_color = {
-  fg = '#c6c8d1',
-  bg = '#104040',
-}
-
-local hl_target_extension = { "*.c", "*.h", "*.cpp", "*.hpp", "*.lua" }
-
-api.nvim_set_hl( 0, "LspReferenceText", highlight_color )
-api.nvim_set_hl( 0, "LspReferenceRead", highlight_color )
-api.nvim_set_hl( 0, "LspReferenceWrite", highlight_color )
-
-api.nvim_create_autocmd( { "CursorHold", "CursorHoldI" }, {
-  pattern = hl_target_extension,
-  callback = lsp.buf.document_highlight,
-})
-
-api.nvim_create_autocmd( { "CursorMoved", "CursorMovedI" }, {
-  pattern = hl_target_extension,
-  callback = lsp.buf.clear_references,
-})
-
 ---- LSP Key Mappings
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
@@ -43,6 +21,16 @@ keymap.set('n', 'ge', vim.diagnostic.open_float, opts)
 keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
 keymap.set('n', 'gq', vim.diagnostic.setloclist, opts)
+
+-- Reference highlight
+local highlight_color = {
+  fg = '#c6c8d1',
+  bg = '#104040',
+}
+
+api.nvim_set_hl( 0, "LspReferenceText", highlight_color )
+api.nvim_set_hl( 0, "LspReferenceRead", highlight_color )
+api.nvim_set_hl( 0, "LspReferenceWrite", highlight_color )
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -65,6 +53,27 @@ local my_on_attach = function(client, bufnr)
   keymap.set('n', '<space>ca', lsp.buf.code_action, bufopts)
   keymap.set('n', 'gr', lsp.buf.references, bufopts)
   keymap.set('n', '<space>f', function() lsp.buf.format { async = true } end, bufopts)
+
+  -- Find the clients capabilities
+  local doc_light = client.server_capabilities.documentHighlightProvider
+
+  -- Only highlight if compatible with the language
+  if doc_light then
+    api.nvim_create_augroup( "LspHighlight", { clear = true, } )
+    api.nvim_clear_autocmds { buffer = bufnr, group = "LspHighlight" }
+
+    api.nvim_create_autocmd( { "CursorHold", "CursorHoldI" }, {
+      callback = lsp.buf.document_highlight,
+      group = "LspHighlight",
+      buffer = bufnr,
+    })
+
+    api.nvim_create_autocmd( { "CursorMoved" }, {
+      callback = lsp.buf.clear_references,
+      group = "LspHighlight",
+      buffer = bufnr,
+    })
+  end
 end
 
 -- 使いたいLSPサーバの名前をキーにして、cmdなどを列挙する
@@ -131,6 +140,9 @@ lsp_settings["cmake"] = {
 
 -- python
 lsp_settings["pyright"] = {}
+
+-- bash
+lsp_settings["bashls"] = {}
 
 local my_capabilities = lsp.protocol.make_client_capabilities()
 my_capabilities.textDocument.completion.completionItem.snippetSupport = true

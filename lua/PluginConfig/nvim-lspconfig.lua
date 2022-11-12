@@ -68,7 +68,7 @@ local my_on_attach = function(client, bufnr)
       buffer = bufnr,
     })
 
-    api.nvim_create_autocmd( { "CursorMoved" }, {
+    api.nvim_create_autocmd( { "CursorMoved", "CursorMovedI" }, {
       callback = lsp.buf.clear_references,
       group = "LspHighlight",
       buffer = bufnr,

@@ -132,11 +132,7 @@ lsp_settings["sumneko_lua"] = {
 }
 
 -- cmake
-lsp_settings["cmake"] = {
-  cmd = {},
-  settings = {},
-  root_dir = lspconfig.util.root_pattern('.git', 'build'),
-}
+lsp_settings["cmake"] = {}
 
 -- python
 lsp_settings["pyright"] = {}

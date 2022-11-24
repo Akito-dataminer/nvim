@@ -1,6 +1,6 @@
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all"
-  ensure_installed = { "c", "cpp", "lua" },
+  ensure_installed = { "c", "cpp", "lua", "vim", "cmake" },
   highlight = {
     enable = true,
     disable = {},

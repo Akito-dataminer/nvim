@@ -39,7 +39,7 @@ require('packer').startup(function()
   }
 
   -- color scheme
-  -- local colorscheme = "iceberg.vim"
+  local colorscheme = "iceberg.vim"
   use {
     'cocopon/iceberg.vim',
     opt = true,
@@ -50,11 +50,12 @@ require('packer').startup(function()
   use { "vim-denops/denops.vim", }
 
   use { "Shougo/pum.vim", }
+  use { "Shougo/ddc-ui-native" }
 
   -- Completion
   use {
     "Shougo/ddc.vim",
-    requires = { "Shougo/pum.vim", "vim-skk/skkeleton" },
+    requires = { "Shougo/ddc-ui-native", "Shougo/pum.vim", "vim-skk/skkeleton" },
     config = function()
       require("PluginConfig/ddc")
     end,
@@ -103,7 +104,7 @@ require('packer').startup(function()
   -- tree-sitter interface to simplificate
   use {
     "nvim-treesitter/nvim-treesitter",
-    after = { colorscheme },
+    -- after = { colorscheme },
     run = ':TSUpdate',
     event = "VimEnter",
     config = function()

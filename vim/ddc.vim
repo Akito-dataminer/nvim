@@ -5,8 +5,6 @@
 " Thank you for sharing very nice plugins and scripts!!
 
 " Customize global settings
-call ddc#custom#patch_global('ui', 'pum')
-
 call ddc#custom#patch_global('sources', ['vsnip', 'nvim-lsp', 'file', 'around'])
 
 call ddc#custom#patch_global('sourceOptions', {
@@ -55,7 +53,7 @@ call ddc#custom#patch_global('sourceOptions', {
 call ddc#custom#patch_global('autoCompleteEvents', [
       \ 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineEnter', 'CmdlineChanged'
       \ ])
-call ddc#custom#patch_global('completionMenu', 'pum.vim')
+call ddc#custom#patch_global('ui', 'pum')
 
 " Mappings
 " <C-n>: into completionMenu or select next item.

@@ -5,7 +5,7 @@
 " Thank you for sharing very nice plugins and scripts!!
 
 " Customize global settings
-call ddc#custom#patch_global('ui', 'native')
+call ddc#custom#patch_global('ui', 'pum')
 
 call ddc#custom#patch_global('sources', ['vsnip', 'nvim-lsp', 'file', 'around'])
 

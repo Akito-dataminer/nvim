@@ -54,7 +54,7 @@ api.nvim_create_autocmd( { "BufEnter" }, {
 })
 
 ---- statusline settings ----
-opt.laststatus = 2 -- 常にステータスラインを表示する
+opt.laststatus = 3 -- always display a single statusline at the bottom of the screen.
 local line_components = {
   '%<',   -- 行が長すぎるときに切り詰める位置
   '%m',   -- %m 修正フラグ

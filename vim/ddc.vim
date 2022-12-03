@@ -61,7 +61,7 @@ call ddc#custom#patch_global('ui', 'pum')
 inoremap <silent><expr> <C-n>
       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
       \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-      \ '<C-n>' : ddc#manual_complete()
+      \ '<C-n>' : ddc#map#manual_complete()
 inoremap <C-p> <Cmd>call pum#map#insert_relative(-1)<CR>
 inoremap <C-e> <Cmd>call pum#map#cancel()<CR>
 inoremap <C-y> <Cmd>call pum#map#confirm()<CR>
@@ -70,7 +70,7 @@ inoremap <C-y> <Cmd>call pum#map#confirm()<CR>
 cnoremap <expr> <C-n>
       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
       \ exists('b:ddc_cmdline_completion') ?
-      \ ddc#manual_complete() : nr2char(&wildcharm)
+      \ ddc#map#manual_complete() : nr2char(&wildcharm)
 cnoremap <C-p>   <Cmd>call pum#map#insert_relative(-1)<CR>
 cnoremap <C-c>   <Cmd>call pum#map#cancel()<CR>
 cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>

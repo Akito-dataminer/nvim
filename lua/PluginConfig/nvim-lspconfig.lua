@@ -96,6 +96,7 @@ lsp_settings["clangd"] = {
     "--offset-encoding=utf-8",
     "--log=verbose"
   },
+  filetype = { "cpp", "cppm", "hpp" },
   settings = {},
   -- root_pattern = { ".git", "build" },
 }
@@ -145,12 +146,10 @@ my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- LSPサーバーの設定
 for lsp_kind, my_config in pairs( lsp_settings ) do
-  -- cmdがnilでなければ(iff. ユーザ設定がされていれば)、そちらを適用し、
-  -- cmdがnilなら(iff. ユーザが独自設定をしていなければ)、デフォルト設定を適用する
-  local config = official_config( lsp_kind )
-
+  -- my_configがnilでなければ(iff. ユーザ設定がされていれば)、そちらを適用し、
+  -- my_configがnilなら(iff. ユーザが独自設定をしていなければ)、デフォルト設定を適用する
   lspconfig[lsp_kind].setup {
-    config = config,
+    config = official_config( lsp_kind ).default_config,
     cmd = my_config.cmd or official_config( lsp_kind ).default_config.cmd,
     root_dir = my_config.root_dir or official_config( lsp_kind ).docs.root_dir,
     settings = my_config.settings or official_config( lsp_kind ).default_config.settings,

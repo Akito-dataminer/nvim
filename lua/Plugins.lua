@@ -50,8 +50,8 @@ require('packer').startup(function()
   use { "vim-denops/denops.vim", }
 
   use { "Shougo/pum.vim", }
-  use { "Shougo/ddc-ui-pum", }
-  -- use { "Shougo/ddc-ui-native" }
+  use { "Shougo/ddc-ui-native", opt = true }
+  use { "Shougo/ddc-ui-pum", opt = true }
 
   -- Completion
   use {

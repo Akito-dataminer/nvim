@@ -50,10 +50,10 @@ call ddc#custom#patch_global('sourceOptions', {
       \ })
 
 " Use pum.vim
+call ddc#custom#patch_global('ui', 'pum')
 call ddc#custom#patch_global('autoCompleteEvents', [
       \ 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineEnter', 'CmdlineChanged'
       \ ])
-call ddc#custom#patch_global('ui', 'pum')
 
 " Mappings
 " <C-n>: into completionMenu or select next item.

@@ -97,7 +97,7 @@ lsp_settings["clangd"] = {
     "--log=verbose"
   },
   filetype = { "cpp", "cppm", "hpp" },
-  settings = {},
+  -- settings = {},
   -- root_pattern = { ".git", "build" },
 }
 

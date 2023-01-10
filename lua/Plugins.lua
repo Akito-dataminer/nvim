@@ -50,13 +50,13 @@ require('packer').startup(function()
   use { "vim-denops/denops.vim", }
 
   use { "Shougo/pum.vim", }
-  use { "Shougo/ddc-ui-native", opt = true }
-  use { "Shougo/ddc-ui-pum", opt = true }
+  use { "Shougo/ddc-ui-native", }
+  use { "Shougo/ddc-ui-pum", }
 
   -- Completion
   use {
     "Shougo/ddc.vim",
-    requires = { "Shougo/ddc-ui-native", "Shougo/pum.vim", "vim-skk/skkeleton" },
+    requires = { "Shougo/pum.vim", "vim-skk/skkeleton" },
     config = function()
       require("PluginConfig/ddc")
     end,

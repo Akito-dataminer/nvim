@@ -7,6 +7,16 @@
 " Customize global settings
 call ddc#custom#patch_global('sources', ['vsnip', 'nvim-lsp', 'file', 'around'])
 
+call ddc#custom#patch_global('cmdlineSources', {
+      \ ':': ['cmdline-history', 'cmdline', 'around'],
+      \ '@': ['cmdline-history', 'input', 'file', 'around'],
+      \ '>': ['cmdline-history', 'input', 'file', 'around'],
+      \ '/': ['around', 'line'],
+      \ '?': ['around', 'line'],
+      \ '-': ['around', 'line'],
+      \ '=': ['input'],
+      \ })
+
 call ddc#custom#patch_global('sourceOptions', {
       \ '_': {
       \   'ignoreCase': v:true,
@@ -50,10 +60,10 @@ call ddc#custom#patch_global('sourceOptions', {
       \ })
 
 " Use pum.vim
+call ddc#custom#patch_global('ui', 'pum')
 call ddc#custom#patch_global('autoCompleteEvents', [
       \ 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineEnter', 'CmdlineChanged'
       \ ])
-call ddc#custom#patch_global('ui', 'pum')
 
 " Mappings
 " <C-n>: into completionMenu or select next item.

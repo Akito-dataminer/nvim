@@ -60,24 +60,25 @@ call ddc#custom#patch_global('sourceOptions', {
       \ })
 
 " Use pum.vim
-call ddc#custom#patch_global('ui', 'pum')
 call ddc#custom#patch_global('autoCompleteEvents', [
-      \ 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineEnter', 'CmdlineChanged'
+      \ 'InsertEnter', 'TextChangedI', 'TextChangedP', 'CmdlineEnter', 'CmdlineChanged', 'TextChangedT',
       \ ])
+call ddc#custom#patch_global('ui', 'pum')
 
 " Mappings
 " <C-n>: into completionMenu or select next item.
 " <C-p>: completion back
+inoremap <C-n> <Cmd>call pum#map#select_relative(+1)<CR>
+inoremap <C-p> <Cmd>call pum#map#select_relative(-1)<CR>
 inoremap <silent><expr> <C-n>
       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
-      \ (col('.') <= 1 <Bar><Bar> getline('.')[col('.') - 2] =~# '\s') ?
-      \ '<C-n>' : ddc#map#manual_complete()
+      \ '<Cmd>call ddc#map#manual_complete()<CR>'
 inoremap <C-p> <Cmd>call pum#map#insert_relative(-1)<CR>
 inoremap <C-e> <Cmd>call pum#map#cancel()<CR>
 inoremap <C-y> <Cmd>call pum#map#confirm()<CR>
 
 " For command line mode completion
-cnoremap <expr> <C-n>
+cnoremap <silent><expr> <C-n>
       \ pum#visible() ? '<Cmd>call pum#map#insert_relative(+1)<CR>' :
       \ exists('b:ddc_cmdline_completion') ?
       \ ddc#map#manual_complete() : nr2char(&wildcharm)

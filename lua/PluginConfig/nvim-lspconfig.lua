@@ -14,6 +14,9 @@ local function official_config( lsp_kind )
   return config
 end
 
+-- LSP log setting
+vim.lsp.set_log_level( "off" )
+
 ---- LSP Key Mappings
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }

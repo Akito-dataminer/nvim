@@ -32,6 +32,7 @@ for k, v in pairs({
   ['*'] = ':%s/\\v',
   ['<Space>b'] = ':%!xxd<CR>',
   ['<Space><CR>'] = ':.!bash<CR>',
+  ['P'] = '"*p',
   -- Telescope
   ['<C-p>'] = ':Telescope projects<CR>',
   -- vim-fugitive

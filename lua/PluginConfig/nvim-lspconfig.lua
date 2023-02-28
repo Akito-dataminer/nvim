@@ -105,14 +105,14 @@ lsp_settings["clangd"] = {
 }
 
 -- Lua
-local lua_lsp_root = util.join_paths( mason_package_root, 'lua-language-server', 'extension', 'server' )
-
-lsp_settings["sumneko_lua"] = {
+local lua_lsp_root = util.join_paths( mason_package_root, 'lua-language-server' )
+lsp_settings["lua_ls"] = {
   cmd = {
     util.join_paths( lua_lsp_root, 'bin', 'lua-language-server.exe' ),
     '-E',
     util.join_paths( lua_lsp_root, 'main.lua' ),
   },
+  filetypes = { 'lua' },
   settings = {
     Lua = {
       runtime = {

@@ -13,7 +13,7 @@ end
 
 local data_path = fn.stdpath( "data" )
 local packer_path = util.join_paths( data_path, "site", "pack", "packer" )
-local start_path = util.join_paths( packer_path, "start" )
+-- local start_path = util.join_paths( packer_path, "start" )
 local opt_path = util.join_paths( packer_path, "opt" )
 local installed_packer_path = util.join_paths( opt_path, "packer.nvim" )
 
@@ -162,4 +162,3 @@ require('packer').startup(function()
     require("packer").sync()
   end
 end)
-

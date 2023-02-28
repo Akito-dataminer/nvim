@@ -88,12 +88,6 @@ require('packer').startup(function()
       require( "PluginConfig/vsnip" )
     end,
   }
-  -- use {
-  --   "L3MON4D3/LuaSnip",
-  --   config = function()
-  --     require("PluginConfig/LuaSnip")
-  --   end,
-  -- }
 
   use {
     "williamboman/mason.nvim",

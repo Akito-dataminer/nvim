@@ -6,7 +6,15 @@ local cmd = vim.cmd  -- to execute Vim commands e.g. cmd('pwd')
 local vg = vim.g
 
 ---- Body ----
-local my_shell = 'cmd'
+function used_shell()
+  if fn.has('unix') then
+    return 'bash'
+  elseif fn.has('win32') then
+    return 'cmd'
+  end
+end
+
+local my_shell = used_shell()
 opt.encoding = 'utf-8'
 opt.fileencodings = 'utf-8'
 opt.shell = my_shell
@@ -28,7 +36,7 @@ opt.shiftround = true  -- Round indent
 opt.shiftwidth = 2     -- Size of an indent
 opt.tabstop = 2        -- Number of spaces tabs count for
 opt.autoindent = true
-opt.wildmenu = false -- コマンドラインモードで<Tab>キーによる補完を有効にする
+opt.wildmenu = false -- コマンドラインモードで<Tab>キーによる補完を有効にするか
 opt.smarttab = true
 opt.showcmd = true
 opt.ruler = true -- カーソルが置かれている行を表示する

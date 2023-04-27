@@ -29,10 +29,10 @@ cmd([[
 require'Options'
 
 ---- Loading Plugins ----
+require'Plugins'
+
 cmd [[packadd packer.nvim]]
 cmd 'autocmd BufWritePost Plugins.lua PackerCompile' -- Auto compile when there are changes in plugins.lua
-
-require'Plugins'
 
 ---- nerdcommenter settings ----
 g.NERDSpaceDelims = 1

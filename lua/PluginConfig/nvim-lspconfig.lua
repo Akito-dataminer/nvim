@@ -81,11 +81,26 @@ end
 
 -- 使いたいLSPサーバの名前をキーにして、cmdなどを列挙する
 local lsp_settings = {}
-local mason_package_root = util.join_paths( fn.stdpath('data'), 'mason', 'packages' )
+local mason_package_root
+
+if fn.has( 'unix' ) then
+  mason_package_root = util.join_paths( fn.stdpath('data'), 'mason', 'bin' )
+elseif fn.has( 'win32' ) then
+  mason_package_root = util.join_paths( fn.stdpath('data'), 'mason', 'packages' )
+end
 
 -- /C++
-lsp_settings["clangd"] = {
-  cmd = {
+local clangd_cmd
+if fn.has( 'unix' ) then
+  clangd_cmd = {
+    "clangd",
+    "--all-scopes-completion",
+    "--header-insertion=never",
+    "--offset-encoding=utf-8",
+    "--log=verbose"
+  }
+elseif fn.has('win32') then
+  clangd_cmd = {
     "clangd.exe",
     -- "--compile-commands-dir=${workspaceFolder}",
     -- "--background-index",
@@ -98,20 +113,35 @@ lsp_settings["clangd"] = {
     -- "-j=8",
     "--offset-encoding=utf-8",
     "--log=verbose"
-  },
+  }
+end
+
+lsp_settings["clangd"] = {
+  cmd = clangd_cmd,
   filetype = { "cpp", "cppm", "hpp" },
   -- settings = {},
   -- root_pattern = { ".git", "build" },
 }
 
 -- Lua
-local lua_lsp_root = util.join_paths( mason_package_root, 'lua-language-server' )
-lsp_settings["lua_ls"] = {
-  cmd = {
+local lua_cmd
+if fn.has( 'unix' ) then
+  lua_cmd = {
+    util.join_paths( mason_package_root, 'lua-language-server' ),
+    '-E',
+    util.join_paths( mason_package_root, 'main.lua' ),
+  }
+elseif fn.has( 'win32' ) then
+  local lua_lsp_root = util.join_paths( mason_package_root, 'lua-language-server' )
+  lua_cmd = {
     util.join_paths( lua_lsp_root, 'bin', 'lua-language-server.exe' ),
     '-E',
     util.join_paths( lua_lsp_root, 'main.lua' ),
-  },
+  }
+end
+
+lsp_settings["lua_ls"] = {
+  cmd = lua_cmd,
   filetypes = { 'lua' },
   settings = {
     Lua = {

@@ -170,6 +170,9 @@ lsp_settings["pyright"] = {}
 -- bash
 lsp_settings["bashls"] = {}
 
+-- javascript/typescript
+lsp_settings["tsserver"]={}
+
 local my_capabilities = lsp.protocol.make_client_capabilities()
 my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 

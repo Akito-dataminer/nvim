@@ -89,8 +89,6 @@ cnoremap <C-y>   <Cmd>call pum#map#confirm()<CR>
 " Use ddc.
 call ddc#enable()
 
-autocmd User PumCompleteDone call vsnip_integ#on_complete_done(g:pum#completed_item)
-
 " For command line completion
 nnoremap :       <Cmd>call CommandlinePre( ':' )<CR>:
 nnoremap /       <Cmd>call CommandlinePre( '/' )<CR>/

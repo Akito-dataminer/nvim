@@ -71,6 +71,7 @@ require('packer').startup(function()
   use { "Shougo/ddc-converter_remove_overlap", after = { "ddc.vim" }, }
   use { "Shougo/ddc-line", after = { "ddc.vim" }, }
   use { "LumaKernel/ddc-file", after = { "ddc.vim" }, }
+  use { "uga-rosa/ddc-source-vsnip", after = { "ddc.vim" }, }
   use { "vim-skk/skkeleton",
     requires = { "vim-denops/denops.vim", event = {'InsertEnter'} },
     config = function()
@@ -80,10 +81,9 @@ require('packer').startup(function()
   use { "Matts966/skk-vconv.vim", after = { "ddc.vim", "skkeleton" }, }
 
   -- Snippet
-  use { "hrsh7th/vim-vsnip-integ", }
   use {
     "hrsh7th/vim-vsnip",
-    requires = { "vim-vsnip-integ" },
+    requires = { "ddc-source-vsnip" },
     config = function()
       require( "PluginConfig/vsnip" )
     end,

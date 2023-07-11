@@ -134,6 +134,16 @@ require('packer').startup(function()
     end,
   })
 
+  -- タグの自動補完
+  use({
+    'windwp/nvim-ts-autotag',
+    requires = { 'nvim-treesitter' },
+    event = "InsertEnter",
+    config = function()
+      require("nvim-ts-autotag").setup { enable = true }
+    end,
+  })
+
   use 'preservim/nerdcommenter' -- コメントアウトのサポート
 
   -- like easymotion for nvim

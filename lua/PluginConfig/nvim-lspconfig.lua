@@ -126,11 +126,7 @@ lsp_settings["clangd"] = {
 -- Lua
 local lua_cmd
 if fn.has( 'unix' ) then
-  lua_cmd = {
-    util.join_paths( mason_package_root, 'lua-language-server' ),
-    '-E',
-    util.join_paths( mason_package_root, 'main.lua' ),
-  }
+  lua_cmd = { 'lua-language-server', }
 elseif fn.has( 'win32' ) then
   local lua_lsp_root = util.join_paths( mason_package_root, 'lua-language-server' )
   lua_cmd = {

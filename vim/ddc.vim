@@ -44,7 +44,8 @@ call ddc#custom#patch_global('sourceOptions', {
       \ },
       \ 'nvim-lsp': {
       \   'mark': 'LSP',
-      \   'forceCompletionPattern': '\.\w*|:\w*|->\w*',
+      \   'forceCompletionPattern': '\\.\\w*|::\\w*|->\\w*',
+      \   'sorters': ['sorter_lsp-kind']
       \ },
       \ 'vsnip': {
       \   'mark': 'SNIP',
@@ -57,6 +58,15 @@ call ddc#custom#patch_global('sourceOptions', {
       \   'minAutoCompleteLength': 2,
       \   'isVolatile': v:true,
       \ },
+      \ })
+
+" Register snippet engine (vim-vsnip)
+call ddc#custom#patch_global('sourceParams', #{
+      \   nvim-lsp: #{
+      \     snippetEngine: denops#callback#register({ body -> vsnip#anonymous(body) }),
+      \     enableResolveItem: v:true,
+      \     confirmBehavior: 'replace',
+      \   }
       \ })
 
 " Use pum.vim

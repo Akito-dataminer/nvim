@@ -6,19 +6,18 @@ local cmd = vim.cmd  -- to execute Vim commands e.g. cmd('pwd')
 local vg = vim.g
 
 ---- Body ----
-function used_shell()
-  if fn.has('unix') then
-    return 'bash'
-  elseif fn.has('win32') then
-    return 'cmd'
+local function used_shell()
+  local my_shell = 'bash'
+  if fn.has( 'win32' ) then
+    my_shell = 'cmd'
   end
+  return my_shell
 end
 
-local my_shell = used_shell()
 opt.encoding = 'utf-8'
 opt.fileencodings = 'utf-8'
-opt.shell = my_shell
-if my_shell == 'powershell' then
+opt.shell = used_shell()
+if opt.shell == 'powershell' then
   opt.shellcmdflag = '-Command'
   opt.shellxquote = ''
   opt.shellpipe = '2>&1 | Out-File -Encoding default'

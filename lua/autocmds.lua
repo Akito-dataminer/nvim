@@ -27,3 +27,12 @@ api.nvim_create_autocmd('BufWritePre', {
     end
   end,
 })
+
+-- Vimの画面サイズが変更されたとき、
+-- 各ウィンドウの大きさを同じくらいに変更しなおす
+api.nvim_create_autocmd('VimResized', {
+  group = api.nvim_create_augroup('resize_splits', {}),
+  callback = function()
+    cmd('wincmd =')
+  end,
+})

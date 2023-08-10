@@ -15,6 +15,9 @@ require'nvim-treesitter.configs'.setup {
   indent = {
     enable = true
   },
+  -- autotag = {
+  --   enable = true,
+  -- }
   -- pairs = {
   --   enable = false,
   --   disable = {},

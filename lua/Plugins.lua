@@ -99,6 +99,7 @@ require('packer').startup(function()
   -- tree-sitter interface to simplificate
   use {
     "nvim-treesitter/nvim-treesitter",
+    requires = { 'autotag' },
     -- after = { colorscheme },
     run = ':TSUpdate',
     event = "VimEnter",
@@ -137,11 +138,7 @@ require('packer').startup(function()
   -- タグの自動補完
   use({
     'windwp/nvim-ts-autotag',
-    requires = { 'nvim-treesitter' },
-    event = "InsertEnter",
-    config = function()
-      require("nvim-ts-autotag").setup { enable = true }
-    end,
+    opt = true,
   })
 
   use 'preservim/nerdcommenter' -- コメントアウトのサポート

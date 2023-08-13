@@ -1,7 +1,6 @@
 local api = vim.api
 local cmd = vim.cmd
 local fn = vim.fn
-local opt = vim.opt
 
 -- quickfixが変更されたとき、自動でquickfixを開く
 api.nvim_create_autocmd('QuickFixCmdPost', {
@@ -18,12 +17,9 @@ api.nvim_create_autocmd('BufWritePre', {
   group = api.nvim_create_augroup('auto_mkdir', {}),
   callback = function(info_table)
     local target_dir = fn.fnamemodify(info_table.file, ':p:h')
-    if not fn.isdirectory(target_dir) then
-      local input_string = fn.input(target_dir .. ' does not exist. Create? [y/N]')
-      if input_string == 'y' or 'yes' then
-        -- print( 'There isn\'t the directory' )
-        fn.mkdir(fn.iconv(target_dir, opt.encoding, opt.termencoding), 'p')
-      end
+    if fn.isdirectory(target_dir) == 0 then
+      print(target_dir .. '/ is created')
+      fn.mkdir(target_dir, 'p')
     end
   end,
 })

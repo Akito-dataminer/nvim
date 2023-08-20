@@ -83,7 +83,7 @@ end
 local lsp_settings = {}
 local mason_package_root
 
-if fn.has( 'unix' ) then
+if fn.has( 'unix' ) == 1 then
   mason_package_root = util.join_paths( fn.stdpath('data'), 'mason', 'bin' )
 elseif fn.has( 'win32' ) then
   mason_package_root = util.join_paths( fn.stdpath('data'), 'mason', 'packages' )
@@ -91,7 +91,7 @@ end
 
 -- /C++
 local clangd_cmd
-if fn.has( 'unix' ) then
+if fn.has( 'unix' ) == 1 then
   clangd_cmd = {
     "clangd",
     "--all-scopes-completion",
@@ -99,7 +99,7 @@ if fn.has( 'unix' ) then
     "--offset-encoding=utf-8",
     "--log=verbose"
   }
-elseif fn.has('win32') then
+elseif fn.has('win32') == 1 then
   clangd_cmd = {
     "clangd.exe",
     -- "--compile-commands-dir=${workspaceFolder}",
@@ -125,9 +125,9 @@ lsp_settings["clangd"] = {
 
 -- Lua
 local lua_cmd
-if fn.has( 'unix' ) then
+if fn.has( 'unix' ) == 1 then
   lua_cmd = { 'lua-language-server', }
-elseif fn.has( 'win32' ) then
+elseif fn.has( 'win32' ) == 1 then
   local lua_lsp_root = util.join_paths( mason_package_root, 'lua-language-server' )
   lua_cmd = {
     util.join_paths( lua_lsp_root, 'bin', 'lua-language-server.exe' ),

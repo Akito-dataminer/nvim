@@ -8,7 +8,7 @@ local vg = vim.g
 ---- Body ----
 local function used_shell()
   local my_shell = 'bash'
-  if fn.has( 'win32' ) then
+  if fn.has( 'win32' ) == 1 then
     my_shell = 'cmd'
   end
   return my_shell

@@ -62,16 +62,24 @@ require('packer').startup(function()
     end,
   }
 
-  use { "Shougo/ddc-around", after = { "ddc.vim" }, }
-  use { "Shougo/ddc-matcher_head", after = { "ddc.vim" }, }
-  use { "Shougo/ddc-sorter_rank", after = { "ddc.vim" }, }
-  use { "Shougo/ddc-nvim-lsp", after = { "ddc.vim" }, }
-  use { "Shougo/ddc-cmdline", after = { "ddc.vim" }, }
-  use { "Shougo/ddc-cmdline-history", after = { "ddc.vim" }, }
-  use { "Shougo/ddc-converter_remove_overlap", after = { "ddc.vim" }, }
-  use { "Shougo/ddc-line", after = { "ddc.vim" }, }
-  use { "LumaKernel/ddc-file", after = { "ddc.vim" }, }
-  use { "uga-rosa/ddc-source-vsnip", after = { "ddc.vim" }, }
+  use { "Shougo/ddc-around", }
+  use { "Shougo/ddc-matcher_head", }
+  use { "Shougo/ddc-sorter_rank", }
+  use {
+    "Shougo/ddc-source-nvim-lsp",
+    config = function ()
+      local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
+      require("lspconfig").denols.setup({
+        capabilities = capabilities,
+      })
+    end
+  }
+  use { "Shougo/ddc-cmdline", }
+  use { "Shougo/ddc-cmdline-history", }
+  use { "Shougo/ddc-converter_remove_overlap", }
+  use { "Shougo/ddc-line", }
+  use { "LumaKernel/ddc-file", }
+  use { "uga-rosa/ddc-source-vsnip", }
   use { "vim-skk/skkeleton",
     requires = { "vim-denops/denops.vim", event = {'InsertEnter'} },
     config = function()

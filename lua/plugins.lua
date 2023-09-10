@@ -89,17 +89,16 @@ local plugin_list = {
   },
   {
     "Shougo/ddc-source-nvim-lsp",
-    event = 'InsertEnter',
     dependencies = {
       "vim-denops/denops.vim",
       "hrsh7th/vim-vsnip",
     },
-    config = function()
-      local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
-      require("lspconfig").denols.setup({
-        capabilities = capabilities,
-      })
-    end,
+    -- config = function()
+    --   local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
+    --   require("lspconfig").denols.setup({
+    --     capabilities = capabilities,
+    --   })
+    -- end,
   },
   {
     "Shougo/ddc.vim",
@@ -122,6 +121,7 @@ local plugin_list = {
       "Shougo/ddc-line",
       "LumaKernel/ddc-file",
       "uga-rosa/ddc-source-vsnip",
+      "Shougo/ddc-source-nvim-lsp",
       -- "vim-skk/skkeleton",
     },
     config = function()
@@ -164,7 +164,7 @@ local plugin_list = {
     "hrsh7th/vim-vsnip",
     event = 'InsertEnter',
     config = function()
-      require("PluginConfig/vsnip")
+      -- require("PluginConfig/vsnip")
     end,
   },
   ------------------

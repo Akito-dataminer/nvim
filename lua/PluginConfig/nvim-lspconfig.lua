@@ -167,8 +167,9 @@ lsp_settings["bashls"] = {}
 -- javascript/typescript
 lsp_settings["tsserver"] = {}
 
+-- local my_capabilities = lsp.protocol.make_client_capabilities()
+-- my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 local my_capabilities = lsp.protocol.make_client_capabilities()
-my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- LSPサーバーの設定
 for lsp_kind, my_config in pairs(lsp_settings) do

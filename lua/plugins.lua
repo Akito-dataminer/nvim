@@ -43,8 +43,8 @@ local plugin_list = {
   ----------------
   -- enclosing behaviors
   ----------------
-  { 'tpope/vim-surround' },
-  { 'windwp/nvim-ts-autotag', },
+  { 'tpope/vim-surround',      event = "InsertEnter" },
+  { 'windwp/nvim-ts-autotag',  event = "InsertEnter" },
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
@@ -69,48 +69,21 @@ local plugin_list = {
   ------------------
   -- completion
   ------------------
-  { "Shougo/pum.vim",                      event = 'InsertEnter' },
-  { "Shougo/ddc-ui-native",                event = 'InsertEnter' },
-  { "Shougo/ddc-ui-pum",                   event = 'InsertEnter' },
-  { "Shougo/ddc-around",                   event = 'InsertEnter' },
-  { "Shougo/ddc-matcher_head",             event = 'InsertEnter' },
-  { "Shougo/ddc-sorter_rank",              event = 'InsertEnter' },
-  { "Shougo/ddc-cmdline",                  event = 'InsertEnter' },
-  { "Shougo/ddc-cmdline-history",          event = 'InsertEnter' },
-  { "Shougo/ddc-converter_remove_overlap", event = 'InsertEnter' },
-  { "Shougo/ddc-line",                     event = 'InsertEnter' },
-  { "LumaKernel/ddc-file",                 event = 'InsertEnter' },
-  {
-    "Shougo/ddc.vim",
-    event = 'InsertEnter',
-    dependencies = {
-      "vim-denops/denops.vim",
-      "hrsh7th/vim-vsnip",
-      -- UIs
-      "Shougo/pum.vim",
-      "Shougo/ddc-ui-pum",
-      -- sources
-      "Shougo/ddc-ui-native",
-      "Shougo/ddc-around",
-      "Shougo/ddc-matcher_head",
-      "Shougo/ddc-sorter_rank",
-      "Shougo/ddc-cmdline",
-      "Shougo/ddc-cmdline-history",
-      "Shougo/ddc-converter_remove_overlap",
-      "Shougo/ddc-line",
-      "LumaKernel/ddc-file",
-      "uga-rosa/ddc-source-vsnip",
-      "vim-skk/skkeleton",
-    },
-    config = function()
-      require("PluginConfig/ddc/ddc")
-    end,
-  },
+  { "Shougo/pum.vim", },
+  { "Shougo/ddc-ui-native", },
+  { "Shougo/ddc-ui-pum", },
+  { "Shougo/ddc-around", },
+  { "Shougo/ddc-matcher_head", },
+  { "Shougo/ddc-sorter_rank", },
+  { "Shougo/ddc-cmdline", },
+  { "Shougo/ddc-cmdline-history", },
+  { "Shougo/ddc-converter_remove_overlap", },
+  { "Shougo/ddc-line", },
+  { "LumaKernel/ddc-file", },
   {
     "uga-rosa/ddc-source-vsnip",
-    event = 'InsertEnter',
     dependencies = {
-      "Shougo/ddc.vim",
+      "vim-denops/denops.vim",
       "hrsh7th/vim-vsnip",
     },
   },
@@ -129,14 +102,41 @@ local plugin_list = {
     end,
   },
   {
-    "vim-skk/skkeleton",
-    dependencies = { "vim-denops/denops.vim" },
-    event = { 'InsertEnter' },
+    "Shougo/ddc.vim",
+    event = 'InsertEnter',
+    dependencies = {
+      "vim-denops/denops.vim",
+      "hrsh7th/vim-vsnip",
+      -- UIs
+      "Shougo/pum.vim",
+      "Shougo/ddc-ui-pum",
+      -- sources
+      "Shougo/ddc-ui-native",
+      "Shougo/ddc-ui-pum",
+      "Shougo/ddc-around",
+      "Shougo/ddc-matcher_head",
+      "Shougo/ddc-sorter_rank",
+      "Shougo/ddc-cmdline",
+      "Shougo/ddc-cmdline-history",
+      "Shougo/ddc-converter_remove_overlap",
+      "Shougo/ddc-line",
+      "LumaKernel/ddc-file",
+      "uga-rosa/ddc-source-vsnip",
+      -- "vim-skk/skkeleton",
+    },
     config = function()
-      require("PluginConfig/skkeleton")
+      require("PluginConfig/ddc/ddc")
     end,
   },
-  { "Matts966/skk-vconv.vim", after = { "ddc.vim", "skkeleton" }, },
+  -- {
+  --   "vim-skk/skkeleton",
+  --   dependencies = { "vim-denops/denops.vim" },
+  --   event = { 'InsertEnter' },
+  --   config = function()
+  --     require("PluginConfig/skkeleton")
+  --   end,
+  -- },
+  -- { "Matts966/skk-vconv.vim", after = { "ddc.vim", "skkeleton" }, },
   ------------------
   -- lsp
   ------------------

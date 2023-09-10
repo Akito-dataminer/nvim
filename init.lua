@@ -11,7 +11,7 @@ require'autocmds'
 require'Options'
 
 ---- Loading Plugins ----
-require'Plugins'
+require'plugin_list'
 
 cmd [[packadd packer.nvim]]
 cmd 'autocmd BufWritePost Plugins.lua PackerCompile' -- Auto compile when there are changes in plugins.lua

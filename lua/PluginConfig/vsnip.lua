@@ -17,13 +17,6 @@ vg.vsnip_filetypes = {
   typescriptreact = 'typescript',
 }
 
--- cmd([[
--- let g:vsnip_filetypes = {}
--- let g:vsnip_filetypes.cppreact = ['cpp']
--- let g:vsnip_filetypes.javascriptreact = ['javascript']
--- let g:vsnip_filetypes.typescriptreact = ['typescript']
--- ]])
-
 -- Key Mappings
 -- imap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'
 -- smap <expr> <C-j> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-j>'

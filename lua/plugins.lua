@@ -65,15 +65,24 @@ local plugin_list = {
   ----------------
   -- git
   ----------------
-  { 'tpope/vim-fugitive',   event = 'VimEnter' },
+  { 'tpope/vim-fugitive',                  event = 'VimEnter' },
   ------------------
   -- completion
   ------------------
-  { "Shougo/pum.vim",       event = 'InsertEnter' },
-  { "Shougo/ddc-ui-native", event = 'InsertEnter' },
-  { "Shougo/ddc-ui-pum",    event = 'InsertEnter' },
+  { "Shougo/pum.vim",                      event = 'InsertEnter' },
+  { "Shougo/ddc-ui-native",                event = 'InsertEnter' },
+  { "Shougo/ddc-ui-pum",                   event = 'InsertEnter' },
+  { "Shougo/ddc-around",                   event = 'InsertEnter' },
+  { "Shougo/ddc-matcher_head",             event = 'InsertEnter' },
+  { "Shougo/ddc-sorter_rank",              event = 'InsertEnter' },
+  { "Shougo/ddc-cmdline",                  event = 'InsertEnter' },
+  { "Shougo/ddc-cmdline-history",          event = 'InsertEnter' },
+  { "Shougo/ddc-converter_remove_overlap", event = 'InsertEnter' },
+  { "Shougo/ddc-line",                     event = 'InsertEnter' },
+  { "LumaKernel/ddc-file",                 event = 'InsertEnter' },
   {
     "Shougo/ddc.vim",
+    event = 'InsertEnter',
     dependencies = {
       "vim-denops/denops.vim",
       "Shougo/pum.vim",
@@ -83,24 +92,24 @@ local plugin_list = {
       require("PluginConfig/ddc/ddc")
     end,
   },
-  { "Shougo/ddc-around",                   event = 'InsertEnter' },
-  { "Shougo/ddc-matcher_head",             event = 'InsertEnter' },
-  { "Shougo/ddc-sorter_rank",              event = 'InsertEnter' },
-  { "Shougo/ddc-cmdline",                  event = 'InsertEnter' },
-  { "Shougo/ddc-cmdline-history",          event = 'InsertEnter' },
-  { "Shougo/ddc-converter_remove_overlap", event = 'InsertEnter' },
-  { "Shougo/ddc-line",                     event = 'InsertEnter' },
-  { "LumaKernel/ddc-file",                 event = 'InsertEnter' },
-  { "uga-rosa/ddc-source-vsnip",           event = 'InsertEnter' },
+  {
+    "uga-rosa/ddc-source-vsnip",
+    event = 'InsertEnter',
+    dependencies = {
+      "Shougo/ddc.vim",
+      "hrsh7th/vim-vsnip",
+    },
+  },
   {
     "Shougo/ddc-source-nvim-lsp",
+    event = 'InsertEnter',
+    dependencies = { "ddc.vim", },
     config = function()
       local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
       require("lspconfig").denols.setup({
         capabilities = capabilities,
       })
     end,
-    event = 'InsertEnter'
   },
   {
     "vim-skk/skkeleton",
@@ -150,5 +159,5 @@ require("lazy").setup(plugin_list, {
   defaults = {
     lazy = true, -- should plugins be lazy-loaded?
   },
-  lockfile = util.join_paths( vim.fn.stdpath("config"), "/lazy-lock.json" ),
+  lockfile = util.join_paths(vim.fn.stdpath("config"), "/lazy-lock.json"),
 })

@@ -28,4 +28,23 @@ function util.clone_plugin(path, url, command)
   end
 end
 
+-- input : map type
+-- parameter :
+--   mode
+--   key_pattern
+--   action
+--   option
+local function add_keymap(keymap)
+  local option = keymap.option or { noremap = true, silent = true }
+  for _, m in pairs(keymap.mode) do
+    vim.keymap.set(m, keymap.key_pattern, keymap.action, option)
+  end
+end
+
+function util.add_keymaps(keymaps)
+  for _, map in pairs(keymaps) do
+    add_keymap(map)
+  end
+end
+
 return util

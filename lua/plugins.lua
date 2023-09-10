@@ -85,8 +85,22 @@ local plugin_list = {
     event = 'InsertEnter',
     dependencies = {
       "vim-denops/denops.vim",
+      "hrsh7th/vim-vsnip",
+      -- UIs
       "Shougo/pum.vim",
       "Shougo/ddc-ui-pum",
+      -- sources
+      "Shougo/ddc-ui-native",
+      "Shougo/ddc-around",
+      "Shougo/ddc-matcher_head",
+      "Shougo/ddc-sorter_rank",
+      "Shougo/ddc-cmdline",
+      "Shougo/ddc-cmdline-history",
+      "Shougo/ddc-converter_remove_overlap",
+      "Shougo/ddc-line",
+      "LumaKernel/ddc-file",
+      "uga-rosa/ddc-source-vsnip",
+      "vim-skk/skkeleton",
     },
     config = function()
       require("PluginConfig/ddc/ddc")
@@ -103,7 +117,10 @@ local plugin_list = {
   {
     "Shougo/ddc-source-nvim-lsp",
     event = 'InsertEnter',
-    dependencies = { "ddc.vim", },
+    dependencies = {
+      "vim-denops/denops.vim",
+      "hrsh7th/vim-vsnip",
+    },
     config = function()
       local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
       require("lspconfig").denols.setup({
@@ -126,6 +143,10 @@ local plugin_list = {
   {
     "neovim/nvim-lspconfig",
     event = 'BufReadPost',
+    dependencies = {
+      "williamboman/mason.nvim",
+      "Shougo/ddc-source-nvim-lsp",
+    },
     config = function()
       require("PluginConfig/nvim-lspconfig")
     end,

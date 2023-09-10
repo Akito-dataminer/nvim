@@ -13,7 +13,7 @@ require'Options'
 require'KeyMappings'
 
 ---- Loading Plugins ----
-require'plugin_list'
+require'plugins'
 
 ---- nerdcommenter settings ----
 g.NERDSpaceDelims = 1

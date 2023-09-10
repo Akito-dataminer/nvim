@@ -84,12 +84,13 @@ local plugin_list = {
     "Shougo/ddc.vim",
     event = 'InsertEnter',
     dependencies = {
+      "vim-skk/skkeleton",
       "vim-denops/denops.vim",
       "Shougo/pum.vim",
       "Shougo/ddc-ui-pum",
     },
     config = function()
-      require("PluginConfig/ddc/ddc")
+      require("PluginConfig/ddc")
     end,
   },
   {
@@ -142,7 +143,6 @@ local plugin_list = {
   {
     "hrsh7th/vim-vsnip",
     event = 'InsertEnter',
-    -- requires = { "ddc-source-vsnip" },
     config = function()
       require("PluginConfig/vsnip")
     end,

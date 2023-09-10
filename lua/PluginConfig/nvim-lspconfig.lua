@@ -93,7 +93,7 @@ end
 local clangd_cmd
 if fn.has('unix') == 1 then
   clangd_cmd = {
-    util.join_paths(mason_package_root, "clang"),
+    util.join_paths(mason_package_root, "clangd"),
     "--all-scopes-completion",
     "--header-insertion=never",
     "--offset-encoding=utf-8",

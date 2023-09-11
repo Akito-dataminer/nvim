@@ -75,6 +75,30 @@ local source_params = {
 ----------------
 -- keymaps
 ----------------
+local commandLinePost = function()
+  -- vim.keymap.del('c', '<C-n>')
+  -- vim.keymap.del('c', '<C-p>')
+  -- vim.keymap.del('c', '<C-y>')
+  -- vim.keymap.del('c', '<C-e>')
+end
+
+local commandLinePre = function()
+  print('set')
+  vim.keymap.set('c', '<C-n>', fn['pum#map#insert_relative'](1), { noremap = true, silent = true })
+  vim.keymap.set('c', '<C-p>', fn['pum#map#insert_relative'](-1), { noremap = true, silent = true })
+  vim.keymap.set('c', '<C-y>', fn['pum#map#confirm'](), { noremap = true, silent = true })
+  vim.keymap.set('c', '<C-e>', fn['pum#map#cancel'](), { noremap = true, silent = true })
+
+  api.nvim_create_autocmd('User', {
+    pattern = 'DDCCmdlineLeave',
+    callback = commandLinePost,
+    once = true,
+  })
+
+  -- Enable command line completion for next command line session
+  ddc_conf.enable_cmdline()
+end
+
 local ddc_keymaps = {
   {
     mode = { 'i', 'c' },
@@ -137,6 +161,8 @@ local ddc_keymaps = {
   },
 }
 utils.add_keymaps(ddc_keymaps)
+
+vim.keymap.set( 'n', ':', function() commandLinePre() fn.feedkeys( api.nvim_replace_termcodes( ':', true, true, true ), 'n' ) end, { noremap = true, silent = true } )
 
 ----------------
 -- apply configs

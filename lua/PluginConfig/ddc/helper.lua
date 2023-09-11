@@ -14,4 +14,8 @@ function M.enable(...)
   fn["ddc#enable"](...)
 end
 
+function M.enable_cmdline()
+  fn["ddc#enable_cmdline_completion"]()
+end
+
 return M;

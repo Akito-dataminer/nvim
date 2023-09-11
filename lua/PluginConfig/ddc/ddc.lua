@@ -29,7 +29,7 @@ local source_options = {
     dup = 'force'
   },
   ['around'] = {
-    mark = { 'A' },
+    mark = 'A',
     matchers = { 'matcher_head' },
   },
   ['cmdline'] = {

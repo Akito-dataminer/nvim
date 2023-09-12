@@ -46,14 +46,16 @@ local source_options = {
     isVolatile = true,
     forceCompletionPattern = '\\S/\\S*',
   },
-  ['nvim-lsp'] = {
-    mark = 'LSP',
-    forceCompletionPattern = '\\k*',
-    sorters = { 'sorter_lsp-kind' }
-  },
   ['vsnip'] = {
     mark = 'SNIP',
-    dup = true,
+    keywordPattern = "\\S*",
+    dup = 'keep',
+  },
+  ['nvim-lsp'] = {
+    mark = 'LSP',
+    forceCompletionPattern = '\\.\\w*|::\\w*|->\\w*',
+    sorters = { 'sorter_lsp-kind' },
+    dup = 'force',
   },
   ['skkeleton'] = {
     mark = 'SKK',

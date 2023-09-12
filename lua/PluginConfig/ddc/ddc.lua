@@ -55,7 +55,7 @@ local source_options = {
     mark = 'LSP',
     forceCompletionPattern = '\\.\\w*|::\\w*|->\\w*',
     sorters = { 'sorter_lsp-kind' },
-    dup = 'force',
+    dup = 'keep',
   },
   ['skkeleton'] = {
     mark = 'SKK',

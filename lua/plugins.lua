@@ -43,8 +43,8 @@ local plugin_list = {
   ----------------
   -- enclosing behaviors
   ----------------
-  { 'tpope/vim-surround' },
-  { 'windwp/nvim-ts-autotag', },
+  { 'tpope/vim-surround',      event = "InsertEnter" },
+  { 'windwp/nvim-ts-autotag',  event = "InsertEnter" },
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
@@ -69,64 +69,82 @@ local plugin_list = {
   ------------------
   -- completion
   ------------------
-  { "Shougo/pum.vim",                      event = 'InsertEnter' },
-  { "Shougo/ddc-ui-native",                event = 'InsertEnter' },
-  { "Shougo/ddc-ui-pum",                   event = 'InsertEnter' },
-  { "Shougo/ddc-around",                   event = 'InsertEnter' },
-  { "Shougo/ddc-matcher_head",             event = 'InsertEnter' },
-  { "Shougo/ddc-sorter_rank",              event = 'InsertEnter' },
-  { "Shougo/ddc-cmdline",                  event = 'InsertEnter' },
-  { "Shougo/ddc-cmdline-history",          event = 'InsertEnter' },
-  { "Shougo/ddc-converter_remove_overlap", event = 'InsertEnter' },
-  { "Shougo/ddc-line",                     event = 'InsertEnter' },
-  { "LumaKernel/ddc-file",                 event = 'InsertEnter' },
-  {
-    "Shougo/ddc.vim",
-    event = 'InsertEnter',
-    dependencies = {
-      "vim-skk/skkeleton",
-      "vim-denops/denops.vim",
-      "Shougo/pum.vim",
-      "Shougo/ddc-ui-pum",
-    },
-    config = function()
-      require("PluginConfig/ddc")
-    end,
-  },
+  { "Shougo/pum.vim", },
+  { "Shougo/ddc-ui-native", },
+  { "Shougo/ddc-ui-pum", },
+  { "Shougo/ddc-around", },
+  { "Shougo/ddc-matcher_head", },
+  { "Shougo/ddc-sorter_rank", },
+  { "Shougo/ddc-cmdline", },
+  { "Shougo/ddc-cmdline-history", },
+  { "Shougo/ddc-converter_remove_overlap", },
+  { "Shougo/ddc-line", },
+  { "LumaKernel/ddc-file", },
   {
     "uga-rosa/ddc-source-vsnip",
-    event = 'InsertEnter',
     dependencies = {
-      "Shougo/ddc.vim",
+      "vim-denops/denops.vim",
       "hrsh7th/vim-vsnip",
     },
   },
   {
     "Shougo/ddc-source-nvim-lsp",
-    event = 'InsertEnter',
-    dependencies = { "ddc.vim", },
-    config = function()
-      local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
-      require("lspconfig").denols.setup({
-        capabilities = capabilities,
-      })
-    end,
+    dependencies = {
+      "vim-denops/denops.vim",
+      "hrsh7th/vim-vsnip",
+    },
+    -- config = function()
+    --   local capabilities = require("ddc_nvim_lsp").make_client_capabilities()
+    --   require("lspconfig").denols.setup({
+    --     capabilities = capabilities,
+    --   })
+    -- end,
   },
   {
-    "vim-skk/skkeleton",
-    dependencies = { "vim-denops/denops.vim" },
-    event = { 'InsertEnter' },
+    "Shougo/ddc.vim",
+    event = 'VeryLazy',
+    dependencies = {
+      "vim-denops/denops.vim",
+      -- UIs
+      "Shougo/pum.vim",
+      "Shougo/ddc-ui-pum",
+      "Shougo/ddc-ui-native",
+      -- sources
+      "Shougo/ddc-around",
+      "Shougo/ddc-matcher_head",
+      "Shougo/ddc-sorter_rank",
+      "Shougo/ddc-cmdline",
+      "Shougo/ddc-cmdline-history",
+      "Shougo/ddc-converter_remove_overlap",
+      "Shougo/ddc-line",
+      "LumaKernel/ddc-file",
+      "uga-rosa/ddc-source-vsnip",
+      "Shougo/ddc-source-nvim-lsp",
+      -- "vim-skk/skkeleton",
+    },
     config = function()
-      require("PluginConfig/skkeleton")
+      require("PluginConfig/ddc/ddc")
     end,
   },
-  { "Matts966/skk-vconv.vim", after = { "ddc.vim", "skkeleton" }, },
+  -- {
+  --   "vim-skk/skkeleton",
+  --   dependencies = { "vim-denops/denops.vim" },
+  --   event = { 'InsertEnter' },
+  --   config = function()
+  --     require("PluginConfig/skkeleton")
+  --   end,
+  -- },
+  -- { "Matts966/skk-vconv.vim", after = { "ddc.vim", "skkeleton" }, },
   ------------------
   -- lsp
   ------------------
   {
     "neovim/nvim-lspconfig",
     event = 'BufReadPost',
+    dependencies = {
+      "williamboman/mason.nvim",
+      "Shougo/ddc-source-nvim-lsp",
+    },
     config = function()
       require("PluginConfig/nvim-lspconfig")
     end,

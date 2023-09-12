@@ -5,21 +5,21 @@ local keymap = vim.keymap
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
 local lspconfig = require('lspconfig')
-local util = require( 'utils' )
+local util = require('utils')
 
 -- get_lspconfig関数の参考元 : https://github.com/williamboman/nvim-lsp-installer/blob/main/scripts/autogen_metadata.lua
-local function official_config( lsp_kind )
+local function official_config(lsp_kind)
   local config_root = "lspconfig.server_configurations."
-  local config = require( config_root .. lsp_kind )
+  local config = require(config_root .. lsp_kind)
   return config
 end
 
 -- LSP log setting
-vim.lsp.set_log_level( "off" )
+vim.lsp.set_log_level("off")
 
 ---- LSP Key Mappings
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap=true, silent=true }
+local opts = { noremap = true, silent = true }
 keymap.set('n', 'ge', vim.diagnostic.open_float, opts)
 keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
 keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
@@ -31,16 +31,16 @@ local highlight_color = {
   bg = '#104040',
 }
 
-api.nvim_set_hl( 0, "LspReferenceText", highlight_color )
-api.nvim_set_hl( 0, "LspReferenceRead", highlight_color )
-api.nvim_set_hl( 0, "LspReferenceWrite", highlight_color )
+api.nvim_set_hl(0, "LspReferenceText", highlight_color)
+api.nvim_set_hl(0, "LspReferenceRead", highlight_color)
+api.nvim_set_hl(0, "LspReferenceWrite", highlight_color)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local my_on_attach = function(client, bufnr)
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  local bufopts = { noremap = true, silent = true, buffer = bufnr }
   keymap.set('n', 'gD', lsp.buf.declaration, bufopts)
   keymap.set('n', 'gd', lsp.buf.definition, bufopts)
   keymap.set('n', 'K', lsp.buf.hover, bufopts)
@@ -62,16 +62,16 @@ local my_on_attach = function(client, bufnr)
 
   -- Only highlight if compatible with the language
   if doc_light then
-    api.nvim_create_augroup( "LspHighlight", { clear = true, } )
+    api.nvim_create_augroup("LspHighlight", { clear = true, })
     api.nvim_clear_autocmds { buffer = bufnr, group = "LspHighlight" }
 
-    api.nvim_create_autocmd( { "CursorHold", "CursorHoldI" }, {
+    api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
       callback = lsp.buf.document_highlight,
       group = "LspHighlight",
       buffer = bufnr,
     })
 
-    api.nvim_create_autocmd( { "CursorMoved", "CursorMovedI" }, {
+    api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
       callback = lsp.buf.clear_references,
       group = "LspHighlight",
       buffer = bufnr,
@@ -83,17 +83,17 @@ end
 local lsp_settings = {}
 local mason_package_root
 
-if fn.has( 'unix' ) == 1 then
-  mason_package_root = util.join_paths( fn.stdpath('data'), 'mason', 'bin' )
-elseif fn.has( 'win32' ) then
-  mason_package_root = util.join_paths( fn.stdpath('data'), 'mason', 'packages' )
+if fn.has('unix') == 1 then
+  mason_package_root = util.join_paths(fn.stdpath('data'), 'mason', 'bin')
+elseif fn.has('win32') then
+  mason_package_root = util.join_paths(fn.stdpath('data'), 'mason', 'packages')
 end
 
 -- /C++
 local clangd_cmd
-if fn.has( 'unix' ) == 1 then
+if fn.has('unix') == 1 then
   clangd_cmd = {
-    "clangd",
+    util.join_paths(mason_package_root, "clangd"),
     "--all-scopes-completion",
     "--header-insertion=never",
     "--offset-encoding=utf-8",
@@ -124,20 +124,14 @@ lsp_settings["clangd"] = {
 }
 
 -- Lua
-local lua_cmd
-if fn.has( 'unix' ) == 1 then
-  lua_cmd = { 'lua-language-server', }
-elseif fn.has( 'win32' ) == 1 then
-  local lua_lsp_root = util.join_paths( mason_package_root, 'lua-language-server' )
-  lua_cmd = {
-    util.join_paths( lua_lsp_root, 'bin', 'lua-language-server.exe' ),
-    '-E',
-    util.join_paths( lua_lsp_root, 'main.lua' ),
-  }
+local lua_path = ''
+if fn.has('win32') == 1 then
+  lua_path = util.join_paths(mason_package_root, 'bin', 'lua-language-server.exe')
 end
+-- local lua_cmd = { lua_path, '-E', '' }
 
 lsp_settings["lua_ls"] = {
-  cmd = lua_cmd,
+  -- cmd = lua_cmd,
   filetypes = { 'lua' },
   settings = {
     Lua = {
@@ -147,7 +141,7 @@ lsp_settings["lua_ls"] = {
       },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
+        globals = { 'vim' },
       },
       workspace = {
         -- Make the server aware of Neovim runtime files
@@ -171,20 +165,21 @@ lsp_settings["pyright"] = {}
 lsp_settings["bashls"] = {}
 
 -- javascript/typescript
-lsp_settings["tsserver"]={}
+lsp_settings["tsserver"] = {}
 
+-- local my_capabilities = lsp.protocol.make_client_capabilities()
+-- my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 local my_capabilities = lsp.protocol.make_client_capabilities()
-my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- LSPサーバーの設定
-for lsp_kind, my_config in pairs( lsp_settings ) do
+for lsp_kind, my_config in pairs(lsp_settings) do
   -- my_configがnilでなければ(iff. ユーザ設定がされていれば)、そちらを適用し、
   -- my_configがnilなら(iff. ユーザが独自設定をしていなければ)、デフォルト設定を適用する
   lspconfig[lsp_kind].setup {
-    config = official_config( lsp_kind ).default_config,
-    cmd = my_config.cmd or official_config( lsp_kind ).default_config.cmd,
-    root_dir = my_config.root_dir or official_config( lsp_kind ).docs.root_dir,
-    settings = my_config.settings or official_config( lsp_kind ).default_config.settings,
+    config = official_config(lsp_kind).default_config,
+    cmd = my_config.cmd or official_config(lsp_kind).default_config.cmd,
+    root_dir = my_config.root_dir or official_config(lsp_kind).docs.root_dir,
+    settings = my_config.settings or official_config(lsp_kind).default_config.settings,
     on_attach = my_on_attach,
     capabilities = my_capabilities,
   }

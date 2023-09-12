@@ -164,7 +164,7 @@ local plugin_list = {
     "hrsh7th/vim-vsnip",
     event = 'InsertEnter',
     config = function()
-      -- require("PluginConfig/vsnip")
+      require("PluginConfig/vsnip")
     end,
   },
   ------------------

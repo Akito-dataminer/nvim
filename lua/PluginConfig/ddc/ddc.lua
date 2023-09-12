@@ -85,18 +85,7 @@ local ddc_keymaps = {
   {
     mode = { 'i', 'c' },
     key_pattern = '<C-n>',
-    action = function()
-      if fn['pum#visible']() == true then
-        fn['pum#map#insert_relative'](1)
-      else
-        fn['ddc#map#manual_complete']()
-        -- fn.nr2char(vim.opt.wildcharm)
-        -- if fn.exests('b:ddc_cmdline_completion') == true then
-        -- else
-        --   fn.nr2char(vim.opt.wildcharm)
-        -- end
-      end
-    end,
+    action = function() fn['pum#map#insert_relative'](1) end,
     option = { noremap = true, silent = true }
   },
   {
@@ -104,30 +93,6 @@ local ddc_keymaps = {
     key_pattern = '<C-p>',
     action = function() fn['pum#map#insert_relative'](-1) end,
     option = { noremap = true, silent = true }
-  },
-  {
-    mode = { 'i', 'c' },
-    key_pattern = '<Tab>',
-    action = function()
-      if fn['vsnip#jumpable'](1) == 1 then
-        fn['<Plug>(vsnip-jump-next)']()
-      else
-        fn['<Tab>']()
-      end
-    end,
-    option = { noremap = true, silent = true },
-  },
-  {
-    mode = { 'i', 'c' },
-    key_pattern = '<S-Tab>',
-    action = function()
-      if (fn['vsnip#jumpable'](-1) == 1) then
-        fn['<Plug>(vsnip-jump-prev)']()
-      else
-        fn['<S-Tab>']()
-      end
-    end,
-    option = { noremap = true, silent = true },
   },
   {
     mode = { 'i', 'c' },

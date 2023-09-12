@@ -71,6 +71,10 @@ local source_params = {
     confirmBehavior = 'replace',
   }
 }
+local pum_option = {
+  item_orders = { "menu", "space", "abbr", "space", "kind", },
+  scrollbar_char = "┃",
+}
 
 ----------------
 -- keymaps
@@ -178,6 +182,7 @@ ddc_conf.patch_global('cmdlineSources', cmdline_sources)
 ddc_conf.patch_global('autoCompleteEvents', auto_complete_events)
 ddc_conf.patch_global('sourceOptions', source_options)
 ddc_conf.patch_global('sourceParams', source_params)
-g.vsnip_filetypes = {}
+fn["pum#set_option"](pum_option)
 
+-- Enable ddc completion
 ddc_conf.enable()

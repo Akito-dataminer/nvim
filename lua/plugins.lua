@@ -102,16 +102,14 @@ local plugin_list = {
   },
   {
     "Shougo/ddc.vim",
-    event = 'InsertEnter',
+    event = 'VeryLazy',
     dependencies = {
       "vim-denops/denops.vim",
-      "hrsh7th/vim-vsnip",
       -- UIs
       "Shougo/pum.vim",
       "Shougo/ddc-ui-pum",
-      -- sources
       "Shougo/ddc-ui-native",
-      "Shougo/ddc-ui-pum",
+      -- sources
       "Shougo/ddc-around",
       "Shougo/ddc-matcher_head",
       "Shougo/ddc-sorter_rank",

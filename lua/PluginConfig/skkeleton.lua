@@ -1,63 +1,80 @@
+local api = vim.api
 local cmd = vim.cmd
 local fn = vim.fn
 
 local util = require('utils')
+local ddc_conf = require('PluginConfig/ddc/helper')
 
 local data_path = fn.stdpath('data')
-local dictionary_source_path = util.join_paths( data_path, 'SKK-JISYO.L' )
+local dictionary_source_path = util.join_paths(data_path, 'SKK-JISYO.L')
+local my_dictionary_path = util.join_paths(data_path, 'SKK-JISYO.MY')
 
--- exist check
-
-local my_dictionary_path = util.join_paths( data_path, 'SKK-JISYO.MY' )
-
-fn['skkeleton#config']{
+fn['skkeleton#config'] {
+  -- debug = true,
+  eggLikeNewline = true,
   globalJisyo = dictionary_source_path,
-  userJisyo = my_dictionary_path,
   markerHenkan = '<>',
   markerHenkanSelect = '>>',
-  eggLikeNewline = true,
   registerConvertResult = true,
+  userJisyo = my_dictionary_path,
 }
 
--- local prev_buffer_config
+fn['skkeleton#register_kanatable'](
+  'rom',
+  {
+    xn = { 'ん' },
+    jj = { 'escape' },
+    ['~'] = { '〜', '' },
+    ['z\\<Space>'] = { '\\u3000', '' },
+  },
+  {}
+)
 
--- function _G.skkeleton_enable_pre()
---   fn['ddc#custom#get_buffer']()
---   fn['ddc#custom#patch_buffer']{
---     completionMenu = 'native',
---     sources = {'skkeleton'},
---   }
--- end
+fn['skkeleton#register_keymap']('henkan', util.tcode('<BS>'), 'henkanBackward')
+fn['skkeleton#register_keymap']('henkan', util.tcode('x'), '')
 
--- cmd[[
--- autocmd MyAutoCmd User skkeleton-enable-pre call s:skkeleton_pre()
---   function! s:skkeleton_pre() abort
---     " Overwrite sources
---     let s:prev_buffer_config = ddc#custom#get_buffer()
---     call ddc#custom#patch_buffer('sources', ['skkeleton'])
---   endfunction
---   autocmd MyAutoCmd User skkeleton-disable-pre call s:skkeleton_post()
---   function! s:skkeleton_post() abort
---     " Restore sources
---     call ddc#custom#set_buffer(s:prev_buffer_config)
---   endfunction
--- ]]
+----------------
+-- keymap
+----------------
+local skkeleton_keymap = {
+  {
+    mode = { 'i', 'c' },
+    key_pattern = '<C-l>',
+    action = function()
+      fn.feedkeys(api.nvim_replace_termcodes('<Plug>(skkeleton-enable)', true, true, true), fn.mode())
+    end,
+    option = { noremap = true, silent = true }
+  }
+}
+util.add_keymaps(skkeleton_keymap)
 
--- cmd[[
---   augroup skkeleton_callbacks
---     autocmd!
---     autocmd User skkeleton-enable-pre call v:lua.skkeleton_enable_pre()
---     autocmd User skkeleton-disable-pre call v:lua.skkeleton_disable_pre()
---   augroup END
--- ]]
+----------------
+-- for ddc
+----------------
+local source_options = {
+  ['skkeleton'] = {
+    mark = 'SKK',
+    matchers = { 'skkeleton' },
+    sorters = {},
+    minAutoCompleteLength = 2,
+    isVolatile = true,
+  },
+}
 
+ddc_conf.patch_global('sourceOptions', source_options)
 
-
--- cmd[[
---   augroup skkeleton_karabiner_elements
---     autocmd!
---     autocmd InsertEnter,CmdlineEnter * call v:lua.set_karabiner(1)
---     autocmd InsertLeave,CmdlineLeave,FocusLost * call v:lua.set_karabiner(0)
---     autocmd FocusGained * call v:lua.set_karabiner_if_in_insert_mode()
---   augroup END
--- ]]
+----------------
+-- autocmd
+----------------
+api.nvim_create_autocmd('User', {
+  pattern = 'skkeleton-enable-pre',
+  callback = function()
+    ddc_conf.patch_global('sources', { 'skkeleton' })
+  end,
+})
+api.nvim_create_autocmd('User', {
+  pattern = 'skkeleton-disable-pre',
+  callback = function()
+    ddc_conf.patch_global('sources', { 'vsnip', 'nvim-lsp', 'file', 'around' })
+  end,
+})

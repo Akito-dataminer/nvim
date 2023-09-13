@@ -48,15 +48,6 @@ for k, v in pairs({
   map('n', k, v)
 end
 
----- Insert Mode ----
-for k, v in pairs({
-  -- skkeleton
-  ['<C-l>'] = '<Plug>(skkeleton-enable)',
-  -- ['<C-/>'] = '<Plug>(skkeleton-disable)',
-}) do
-  map('i', k, v)
-end
-
 ---- Terminal Mode ----
 -- map('t', '<C-[>', '<C-\\><C-n>')
 

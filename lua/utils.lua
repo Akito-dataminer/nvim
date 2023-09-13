@@ -12,6 +12,10 @@ util.join_paths = function(...)
   return result
 end
 
+function util.tcode( code )
+  return vim.api.nvim_replace_termcodes(code, true, true, true)
+end
+
 -- 与えられたパスにファイルがあるかどうかを確かめる
 -- check if the file exists at the given path
 util.isInstalled = function(path)

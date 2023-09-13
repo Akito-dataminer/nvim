@@ -120,7 +120,6 @@ local plugin_list = {
       "LumaKernel/ddc-file",
       "uga-rosa/ddc-source-vsnip",
       "Shougo/ddc-source-nvim-lsp",
-      -- "vim-skk/skkeleton",
     },
     config = function()
       require("PluginConfig/ddc/ddc")
@@ -128,7 +127,10 @@ local plugin_list = {
   },
   {
     "vim-skk/skkeleton",
-    dependencies = { "vim-denops/denops.vim" },
+    dependencies = {
+      "vim-denops/denops.vim",
+      "Shougo/ddc.vim",
+    },
     event = 'VeryLazy',
     config = function()
       require("PluginConfig/skkeleton")

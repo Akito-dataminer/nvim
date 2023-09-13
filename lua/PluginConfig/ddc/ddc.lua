@@ -57,13 +57,6 @@ local source_options = {
     sorters = { 'sorter_lsp-kind' },
     dup = 'keep',
   },
-  ['skkeleton'] = {
-    mark = 'SKK',
-    matchers = 'skkeleton',
-    sorters = {},
-    minAutoCompleteLength = 2,
-    isVolatile = true,
-  },
 }
 local source_params = {
   ['nvim-lsp'] = {

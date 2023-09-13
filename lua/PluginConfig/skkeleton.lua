@@ -29,8 +29,8 @@ fn['skkeleton#register_kanatable'](
   {}
 )
 
-fn['skkeleton#register_keymap']('henkan', '\\<BS>', 'henkanBackward')
-fn['skkeleton#register_keymap']('henkan', "x", '')
+fn['skkeleton#register_keymap']('henkan', util.tcode('<BS>'), 'henkanBackward')
+fn['skkeleton#register_keymap']('henkan', util.tcode('x'), '')
 
 ----------------
 -- keymap

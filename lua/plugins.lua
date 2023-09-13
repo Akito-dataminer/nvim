@@ -126,14 +126,14 @@ local plugin_list = {
       require("PluginConfig/ddc/ddc")
     end,
   },
-  -- {
-  --   "vim-skk/skkeleton",
-  --   dependencies = { "vim-denops/denops.vim" },
-  --   event = { 'InsertEnter' },
-  --   config = function()
-  --     require("PluginConfig/skkeleton")
-  --   end,
-  -- },
+  {
+    "vim-skk/skkeleton",
+    dependencies = { "vim-denops/denops.vim" },
+    event = 'VeryLazy',
+    config = function()
+      require("PluginConfig/skkeleton")
+    end,
+  },
   -- { "Matts966/skk-vconv.vim", after = { "ddc.vim", "skkeleton" }, },
   ------------------
   -- lsp

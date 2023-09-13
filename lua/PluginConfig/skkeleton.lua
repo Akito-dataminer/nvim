@@ -1,25 +1,55 @@
+local api = vim.api
 local cmd = vim.cmd
 local fn = vim.fn
 
 local util = require('utils')
 
 local data_path = fn.stdpath('data')
-local dictionary_source_path = util.join_paths( data_path, 'SKK-JISYO.L' )
+local dictionary_source_path = util.join_paths(data_path, 'SKK-JISYO.L')
 
 -- exist check
 
-local my_dictionary_path = util.join_paths( data_path, 'SKK-JISYO.MY' )
+local my_dictionary_path = util.join_paths(data_path, 'SKK-JISYO.MY')
 
-fn['skkeleton#config']{
+fn['skkeleton#config'] {
+  debug = true,
+  eggLikeNewline = true,
   globalJisyo = dictionary_source_path,
-  userJisyo = my_dictionary_path,
   markerHenkan = '<>',
   markerHenkanSelect = '>>',
-  eggLikeNewline = true,
   registerConvertResult = true,
+  userJisyo = my_dictionary_path,
 }
 
--- local prev_buffer_config
+fn['skkeleton#register_kanatable'](
+  'rom',
+  {
+    xn = { 'ん' },
+    jj = { 'escape' },
+    ['~'] = { '〜', '' },
+    ['z\\<Space>'] = { '\\u3000', '' },
+  },
+  {}
+)
+
+fn['skkeleton#register_keymap']('henkan', '\\<BS>', 'henkanBackward')
+fn['skkeleton#register_keymap']('henkan', "x", '')
+
+----------------
+-- keymap
+----------------
+local skkeleton_keymap = {
+  {
+    mode = { 'i', 'c' },
+    key_pattern = '<C-l>',
+    action = function()
+      fn.feedkeys(api.nvim_replace_termcodes('<Plug>(skkeleton-enable)', true, true, true), fn.mode())
+    end,
+    option = { noremap = true, silent = true }
+  }
+}
+
+util.add_keymaps(skkeleton_keymap)
 
 -- function _G.skkeleton_enable_pre()
 --   fn['ddc#custom#get_buffer']()

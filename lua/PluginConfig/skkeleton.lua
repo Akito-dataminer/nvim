@@ -6,9 +6,6 @@ local util = require('utils')
 
 local data_path = fn.stdpath('data')
 local dictionary_source_path = util.join_paths(data_path, 'SKK-JISYO.L')
-
--- exist check
-
 local my_dictionary_path = util.join_paths(data_path, 'SKK-JISYO.MY')
 
 fn['skkeleton#config'] {
@@ -48,7 +45,6 @@ local skkeleton_keymap = {
     option = { noremap = true, silent = true }
   }
 }
-
 util.add_keymaps(skkeleton_keymap)
 
 -- function _G.skkeleton_enable_pre()
@@ -78,16 +74,5 @@ util.add_keymaps(skkeleton_keymap)
 --     autocmd!
 --     autocmd User skkeleton-enable-pre call v:lua.skkeleton_enable_pre()
 --     autocmd User skkeleton-disable-pre call v:lua.skkeleton_disable_pre()
---   augroup END
--- ]]
-
-
-
--- cmd[[
---   augroup skkeleton_karabiner_elements
---     autocmd!
---     autocmd InsertEnter,CmdlineEnter * call v:lua.set_karabiner(1)
---     autocmd InsertLeave,CmdlineLeave,FocusLost * call v:lua.set_karabiner(0)
---     autocmd FocusGained * call v:lua.set_karabiner_if_in_insert_mode()
 --   augroup END
 -- ]]

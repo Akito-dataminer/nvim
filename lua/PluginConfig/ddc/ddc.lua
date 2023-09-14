@@ -26,16 +26,17 @@ local source_options = {
     ignoreCase = true,
     matchers = { 'matcher_head' },
     sorters = { 'sorter_rank' },
-    dup = 'force'
+    dup = 'keep'
   },
   ['around'] = {
     mark = 'A',
     matchers = { 'matcher_head' },
+    dup = 'keep'
   },
   ['cmdline'] = {
     mark = 'cmdline',
     forceCompletionPattern = '\\S/\\S*',
-    dup = 'force'
+    dup = 'keep'
   },
   ['cmdline-history'] = {
     mark = 'history',

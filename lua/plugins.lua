@@ -1,4 +1,4 @@
--- local fn = vim.fn
+local fn = vim.fn
 local cmd = vim.cmd
 
 local util = require("utils")
@@ -170,8 +170,18 @@ local plugin_list = {
   ------------------
   -- for markdown
   ------------------
-  { 'preservim/vim-markdown' },
-  { 'previm/previm' },
+  {
+    'preservim/vim-markdown',
+    event = 'VeryLazy',
+  },
+  {
+    'tyru/open-browser.vim',
+  },
+  {
+    'previm/previm',
+    dependencies = { 'tyru/open-browser.vim' },
+    lazy = false,
+  },
 }
 
 require("lazy").setup(plugin_list, {

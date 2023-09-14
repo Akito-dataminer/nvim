@@ -60,9 +60,11 @@ require("telescope").setup{
     mappings = {
       i = {
         ["<CR>"] = custom_actions.open_to_buffer,
+        ["<C-d>"] = actions.delete_buffer,
       },
       n = {
         ["<CR>"] = custom_actions.open_to_buffer,
+        ["<C-d>"] = actions.delete_buffer,
       },
     },
     path_display = { "truncate" },

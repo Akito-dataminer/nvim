@@ -1,4 +1,3 @@
-local fn = vim.fn
 local cmd = vim.cmd
 
 local util = require("utils")

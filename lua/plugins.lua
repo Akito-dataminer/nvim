@@ -42,6 +42,14 @@ local plugin_list = {
   ----------------
   -- enclosing behaviors
   ----------------
+  {
+    'echasnovski/mini.nvim',
+    event = 'VeryLazy',
+    version = false,
+    config = function ()
+      require("PluginConfig.mini-surround")
+    end
+  },
   { 'tpope/vim-surround',      event = "InsertEnter" },
   { 'windwp/nvim-ts-autotag',  event = "InsertEnter" },
   {

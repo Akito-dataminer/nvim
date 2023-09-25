@@ -170,6 +170,9 @@ lsp_settings["tsserver"] = {}
 -- html
 lsp_settings["html"] = {}
 
+-- css
+lsp_settings["cssls"] = {}
+
 -- local my_capabilities = lsp.protocol.make_client_capabilities()
 -- my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 local my_capabilities = lsp.protocol.make_client_capabilities()

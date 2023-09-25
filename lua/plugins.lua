@@ -64,7 +64,7 @@ local plugin_list = {
       require("PluginConfig.mini-surround")
     end
   },
-  { 'tpope/vim-surround',      event = "InsertEnter" },
+  -- { 'tpope/vim-surround',      event = "InsertEnter" },
   { 'windwp/nvim-ts-autotag', },
   {
     "windwp/nvim-autopairs",

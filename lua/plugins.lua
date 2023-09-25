@@ -15,6 +15,7 @@ local plugin_list = {
     "nvim-treesitter/nvim-treesitter",
     event = 'BufReadPost',
     build = ':TSUpdateSync',
+    dependencies = { 'windwp/nvim-ts-autotag' },
     config = function()
       require("PluginConfig/nvim-treesitter")
     end,
@@ -59,12 +60,12 @@ local plugin_list = {
     'echasnovski/mini.nvim',
     event = 'VeryLazy',
     version = false,
-    config = function ()
+    config = function()
       require("PluginConfig.mini-surround")
     end
   },
   { 'tpope/vim-surround',      event = "InsertEnter" },
-  { 'windwp/nvim-ts-autotag',  event = "InsertEnter" },
+  { 'windwp/nvim-ts-autotag', },
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",

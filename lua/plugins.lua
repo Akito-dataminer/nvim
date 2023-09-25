@@ -32,6 +32,19 @@ local plugin_list = {
   },
   { "ahmedkhalf/project.nvim", },
   {
+    'lambdalisue/kensaku.vim',
+    dependencies = { 'vim-denops/denops.vim' },
+  },
+  {
+    'yuki-yano/fuzzy-motion.vim',
+    dependencies = { 'vim-denops/denops.vim', 'lambdalisue/kensaku.vim' },
+    event = 'VeryLazy',
+    config = function()
+      vim.keymap.set('n', '<Space><Space>m', '<cmd>FuzzyMotion<CR>')
+      vim.g.fuzzy_motion_matchers = { 'kensaku', 'fzf' }
+    end
+  },
+  {
     'phaazon/hop.nvim',
     event = { "VimEnter" },
     branch = 'v2', -- optional but strongly recommended
@@ -42,6 +55,14 @@ local plugin_list = {
   ----------------
   -- enclosing behaviors
   ----------------
+  {
+    'echasnovski/mini.nvim',
+    event = 'VeryLazy',
+    version = false,
+    config = function ()
+      require("PluginConfig.mini-surround")
+    end
+  },
   { 'tpope/vim-surround',      event = "InsertEnter" },
   { 'windwp/nvim-ts-autotag',  event = "InsertEnter" },
   {

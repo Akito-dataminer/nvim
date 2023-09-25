@@ -167,6 +167,9 @@ lsp_settings["bashls"] = {}
 -- javascript/typescript
 lsp_settings["tsserver"] = {}
 
+-- html
+lsp_settings["html"] = {}
+
 -- local my_capabilities = lsp.protocol.make_client_capabilities()
 -- my_capabilities.textDocument.completion.completionItem.snippetSupport = true
 local my_capabilities = lsp.protocol.make_client_capabilities()

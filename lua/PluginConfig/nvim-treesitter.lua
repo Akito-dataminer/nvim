@@ -1,6 +1,6 @@
 local opt = vim.opt
 
-require'nvim-treesitter.configs'.setup {
+require 'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all"
   ensure_installed = "all",
   highlight = {
@@ -15,9 +15,9 @@ require'nvim-treesitter.configs'.setup {
   indent = {
     enable = true
   },
-  -- autotag = {
-  --   enable = true,
-  -- }
+  autotag = {
+    enable = true,
+  }
   -- pairs = {
   --   enable = false,
   --   disable = {},
@@ -31,4 +31,3 @@ require'nvim-treesitter.configs'.setup {
 
 opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"
-

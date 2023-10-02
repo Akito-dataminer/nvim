@@ -210,5 +210,5 @@ require("lazy").setup(plugin_list, {
   defaults = {
     lazy = true, -- should plugins be lazy-loaded?
   },
-  lockfile = util.join_paths(vim.fn.stdpath("config"), "/lazy-lock.json"),
+  lockfile = util.join_paths(vim.fn.stdpath("config"), "lazy-lock.json"),
 })

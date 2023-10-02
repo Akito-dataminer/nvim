@@ -178,6 +178,13 @@ local plugin_list = {
       require("PluginConfig/mason")
     end
   },
+  {
+    "mhartington/formatter.nvim",
+    event = 'BufReadPost',
+    config = function ()
+      require( 'PluginConfig.formatter' )
+    end
+  },
   ------------------
   -- Snippet
   ------------------
@@ -210,5 +217,5 @@ require("lazy").setup(plugin_list, {
   defaults = {
     lazy = true, -- should plugins be lazy-loaded?
   },
-  lockfile = util.join_paths(vim.fn.stdpath("config"), "/lazy-lock.json"),
+  lockfile = util.join_paths(vim.fn.stdpath("config"), "lazy-lock.json"),
 })

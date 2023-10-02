@@ -1,13 +1,14 @@
 require('mini.surround').setup({
+  n_lines = 100,
   -- Let the first character is 'c', from "Closure".
   -- When it is 's', I felt it was not user-friendly.
   mappings = {
     add = 'ca',            -- Add surrounding in Normal and Visual modes
     delete = 'cd',         -- Delete surrounding
-    find = 'cf',           -- Find surrounding (to the right)
-    find_left = 'cF',      -- Find surrounding (to the left)
+    find = 'c<',           -- Find surrounding (to the right)
+    find_left = 'c>',      -- Find surrounding (to the left)
     highlight = 'ch',      -- Highlight surrounding
-    replace = 'cr',        -- Replace surrounding
+    replace = 'cs',        -- Replace surrounding
     update_n_linec = 'cn', -- Update `n_lines`
     update_n_lines = '',
 

@@ -178,6 +178,13 @@ local plugin_list = {
       require("PluginConfig/mason")
     end
   },
+  {
+    "mhartington/formatter.nvim",
+    event = 'BufReadPost',
+    config = function ()
+      require( 'PluginConfig.formatter' )
+    end
+  },
   ------------------
   -- Snippet
   ------------------

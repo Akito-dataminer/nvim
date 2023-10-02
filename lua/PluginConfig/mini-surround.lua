@@ -1,4 +1,5 @@
 require('mini.surround').setup({
+  n_lines = 100,
   -- Let the first character is 'c', from "Closure".
   -- When it is 's', I felt it was not user-friendly.
   mappings = {

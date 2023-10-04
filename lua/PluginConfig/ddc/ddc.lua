@@ -134,6 +134,14 @@ vim.keymap.set('n', ':',
   { noremap = true, silent = true }
 )
 
+vim.keymap.set('n', '/',
+  function()
+    commandLinePre()
+    fn.feedkeys(api.nvim_replace_termcodes('/', true, true, true), 'n')
+  end,
+  { noremap = true, silent = true }
+)
+
 ----------------
 -- apply configs
 ----------------

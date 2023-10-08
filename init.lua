@@ -1,19 +1,19 @@
 ---- HELPERS ----
-local g = vim.g      -- a table to access global variables
+local g = vim.g -- a table to access global variables
 
 --- Map Leader to Space ----
 g.mapleader = ' '
 
-require'autocmds'
+require 'autocmds'
 
 ---- Set Neovim Options ----
-require'Options'
+require 'Options'
 
 ---- Set Neovim Keymaps ----
-require'KeyMappings'
+require 'KeyMappings'
 
 ---- Loading Plugins ----
-require'plugins'
+require 'plugins'
 
 ---- nerdcommenter settings ----
 g.NERDSpaceDelims = 1

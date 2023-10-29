@@ -32,7 +32,7 @@ for k, v in pairs({
   ['*'] = ':%s/\\v',
   ['<Space>b'] = ':%!xxd<CR>',
   ['<Space><CR>'] = ':.!bash<CR>',
-  ['P'] = '"*p',
+  ['<C-p>'] = '"*p',
   -- vim-fugitive
   ['<Space>gc'] = ':G checkout',
   ['<Space>gb'] = ':G branch',

@@ -71,6 +71,9 @@ require("telescope").setup{
   },
 }
 
+require("project_nvim").setup({})
+telescope.load_extension('projects') -- integrate to telescope
+
 api.nvim_set_keymap("n", "[telescope]", "<Nop>", { noremap = true, silent = true })
 api.nvim_set_keymap("v", "[telescope]", "<Nop>", { noremap = true, silent = true })
 api.nvim_set_keymap("n", ",", "[telescope]", {})
@@ -92,6 +95,7 @@ local keymap_telescope_func = {
   ["[telescope]d"] = "require'telescope.builtin'.diagnostics()",
   ["[telescope]o"] = "require'telescope.builtin'.oldfiles()",
   ["[telescope]gl"] = "M.git_log()",
+  ["[telescope]p"] = "require'telescope'.extensions.projects.projects{}",
   -- ["[telescope]g"] = "require'telescope.builtin'.git_files()",
   -- ["<Leader>st"] = "require'telescope.builtin'.git_status()",
   -- ["<Leader>bc"] = "require'telescope.builtin'.git_bcommits()",
@@ -101,6 +105,3 @@ local keymap_telescope_func = {
 for k, v in pairs(keymap_telescope_func) do
   vim.api.nvim_set_keymap('n', k, string.format("<cmd> lua %s<CR>", v), opts)
 end
-
-require("project_nvim").setup({})
-telescope.load_extension('projects') -- integrate to telescope

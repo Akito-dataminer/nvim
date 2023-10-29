@@ -33,8 +33,6 @@ for k, v in pairs({
   ['<Space>b'] = ':%!xxd<CR>',
   ['<Space><CR>'] = ':.!bash<CR>',
   ['P'] = '"*p',
-  -- Telescope
-  ['<C-p>'] = ':Telescope projects<CR>',
   -- vim-fugitive
   ['<Space>gc'] = ':G checkout',
   ['<Space>gb'] = ':G branch',

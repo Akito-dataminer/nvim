@@ -12,7 +12,7 @@ local function run_selection(prompt_bufnr, map)
   actions.select_default:replace(function()
     actions.close(prompt_bufnr)
     local selection = action_state.get_selected_entry()
-    vim.cmd([[!git log ]]..selection[1])
+    vim.cmd([[!git log ]] .. selection[1])
   end)
   return true
 end
@@ -25,8 +25,8 @@ M.git_log = function()
   require('telescope.builtin').find_files(opts)
 end
 
-function custom_actions._multiopen( prompt_bufnr, open_cmd )
-  local picker = action_state.get_current_picker( prompt_bufnr )
+function custom_actions._multiopen(prompt_bufnr, open_cmd)
+  local picker = action_state.get_current_picker(prompt_bufnr)
   local num_selections = #picker:get_multi_selection()
   -- telescopeのbuiltin pickerでは、どうやら複数選択時の処理と無選択時の処理が分かれているらしい。
   -- 選択モードと無選択モードの2つがあると考えたらわかりやすいかも...?
@@ -40,22 +40,22 @@ function custom_actions._multiopen( prompt_bufnr, open_cmd )
   if num_selections >= 1 then
     -- 選択エントリ中に、ディレクトリが含まれていたらどうなるのだろう?
     vim.cmd("bw!")
-    for _, entry in ipairs( picker:get_multi_selection() ) do
-      vim.cmd( string.format("%s %s", open_cmd, entry.value) )
+    for _, entry in ipairs(picker:get_multi_selection()) do
+      vim.cmd(string.format("%s %s", open_cmd, entry.value))
     end
     vim.cmd("stopinsert")
   else
     -- 無選択モードだった場合は、デフォルトの選択関数をそのまま使えばいい
-    actions.select_default( prompt_bufnr )
+    actions.select_default(prompt_bufnr)
   end
 end
 
-function custom_actions.open_to_buffer( prompt_bufnr )
-  custom_actions._multiopen( prompt_bufnr, "edit" )
+function custom_actions.open_to_buffer(prompt_bufnr)
+  custom_actions._multiopen(prompt_bufnr, "edit")
 end
 
 -- local actions = require( "telescope.actions" )
-require("telescope").setup{
+require("telescope").setup {
   defaults = {
     mappings = {
       i = {
@@ -71,12 +71,15 @@ require("telescope").setup{
   },
 }
 
+require("project_nvim").setup({})
+telescope.load_extension('projects') -- integrate to telescope
+
 api.nvim_set_keymap("n", "[telescope]", "<Nop>", { noremap = true, silent = true })
 api.nvim_set_keymap("v", "[telescope]", "<Nop>", { noremap = true, silent = true })
 api.nvim_set_keymap("n", ",", "[telescope]", {})
 api.nvim_set_keymap("v", ",", "[telescope]", {})
 
-local opts = { noremap=true, silent=true }
+local opts = { noremap = true, silent = true }
 local keymap_telescope_func = {
   ["[telescope]f"] = "require'telescope.builtin'.find_files()",
   ["[telescope]tr"] = "require'telescope.builtin'.grep_string()",
@@ -92,6 +95,7 @@ local keymap_telescope_func = {
   ["[telescope]d"] = "require'telescope.builtin'.diagnostics()",
   ["[telescope]o"] = "require'telescope.builtin'.oldfiles()",
   ["[telescope]gl"] = "M.git_log()",
+  ["[telescope]p"] = "require'telescope'.extensions.projects.projects{}",
   -- ["[telescope]g"] = "require'telescope.builtin'.git_files()",
   -- ["<Leader>st"] = "require'telescope.builtin'.git_status()",
   -- ["<Leader>bc"] = "require'telescope.builtin'.git_bcommits()",
@@ -101,6 +105,3 @@ local keymap_telescope_func = {
 for k, v in pairs(keymap_telescope_func) do
   vim.api.nvim_set_keymap('n', k, string.format("<cmd> lua %s<CR>", v), opts)
 end
-
-require("project_nvim").setup({})
-telescope.load_extension('projects') -- integrate to telescope

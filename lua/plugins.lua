@@ -167,6 +167,7 @@ local plugin_list = {
     dependencies = {
       "williamboman/mason.nvim",
       "Shougo/ddc-source-nvim-lsp",
+      "mhartington/formatter.nvim",
     },
     config = function()
       require("PluginConfig/nvim-lspconfig")
@@ -181,8 +182,8 @@ local plugin_list = {
   {
     "mhartington/formatter.nvim",
     event = 'BufReadPost',
-    config = function ()
-      require( 'PluginConfig.formatter' )
+    config = function()
+      require('PluginConfig.formatter')
     end
   },
   ------------------

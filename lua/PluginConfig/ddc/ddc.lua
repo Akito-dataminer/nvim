@@ -1,6 +1,5 @@
 local api = vim.api
 local fn = vim.fn
-local g = vim.g
 local utils = require('utils')
 local ddc_conf = require('PluginConfig/ddc/helper')
 

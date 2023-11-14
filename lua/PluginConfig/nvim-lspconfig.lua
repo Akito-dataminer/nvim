@@ -79,7 +79,6 @@ local my_on_attach = function(client, bufnr)
     }
   }
   if client.name == "tsserver" then
-    print(format_keymap["use_formatter"])
     util.add_keymaps(format_keymap["use_formatter"])
   elseif client.server_capabilities.documentFormattingProvider then
     util.add_keymaps(format_keymap["use_lsp"])

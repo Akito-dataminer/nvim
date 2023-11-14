@@ -57,7 +57,8 @@ local my_on_attach = function(client, bufnr)
   keymap.set('n', 'gr', lsp.buf.references, bufopts)
 
   if client.server_capabilities.documentFormattingProvider then
-    keymap.set('n', '<space>f', function() lsp.buf.format { async = true } end, { noremap = false, silent = true, buffer = bufnr })
+    keymap.set('n', '<space>f', function() lsp.buf.format { async = true } end,
+      { noremap = false, silent = true, buffer = bufnr })
   end
 
   -- Find the clients capabilities

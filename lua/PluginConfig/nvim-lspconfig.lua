@@ -56,9 +56,33 @@ local my_on_attach = function(client, bufnr)
   keymap.set('n', '<space>ca', lsp.buf.code_action, bufopts)
   keymap.set('n', 'gr', lsp.buf.references, bufopts)
 
-  if client.server_capabilities.documentFormattingProvider then
-    keymap.set('n', '<space>f', function() lsp.buf.format { async = true } end,
-      { noremap = false, silent = true, buffer = bufnr })
+  local format_keymap = {
+    use_formatter = {
+      {
+        mode = { 'n' },
+        key_pattern = '<space>f',
+        action = function()
+          fn.feedkeys(api.nvim_replace_termcodes(':Format<CR>', true, true, true), fn.mode())
+        end,
+        option = { noremap = true, silent = true, buffer = bufnr }
+      }
+    },
+    use_lsp = {
+      {
+        mode = { 'n' },
+        key_pattern = '<space>f',
+        action = function()
+          lsp.buf.format { async = true }
+        end,
+        option = { noremap = true, silent = true, buffer = bufnr }
+      }
+    }
+  }
+  if client.name == "tsserver" then
+    print(format_keymap["use_formatter"])
+    util.add_keymaps(format_keymap["use_formatter"])
+  elseif client.server_capabilities.documentFormattingProvider then
+    util.add_keymaps(format_keymap["use_lsp"])
   end
 
   -- Find the clients capabilities

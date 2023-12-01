@@ -33,9 +33,10 @@ local plugin_list = {
   },
   { "ahmedkhalf/project.nvim", },
   {
-    'phaazon/hop.nvim',
+    'smoka7/hop.nvim',
     event = { "VimEnter" },
-    branch = 'v2', -- optional but strongly recommended
+    version = "*",
+    opts = {},
     config = function()
       require("PluginConfig/hop")
     end

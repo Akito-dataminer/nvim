@@ -109,7 +109,7 @@ local plugin_list = {
     },
   },
   {
-    "Shougo/ddc-source-nvim-lsp",
+    "Shougo/ddc-source-lsp",
     dependencies = {
       "vim-denops/denops.vim",
       "hrsh7th/vim-vsnip",
@@ -140,7 +140,7 @@ local plugin_list = {
       "Shougo/ddc-line",
       "LumaKernel/ddc-file",
       "uga-rosa/ddc-source-vsnip",
-      "Shougo/ddc-source-nvim-lsp",
+      "Shougo/ddc-source-lsp",
     },
     config = function()
       require("PluginConfig/ddc/ddc")
@@ -166,7 +166,7 @@ local plugin_list = {
     event = 'BufReadPost',
     dependencies = {
       "williamboman/mason.nvim",
-      "Shougo/ddc-source-nvim-lsp",
+      "Shougo/ddc-source-lsp",
       "mhartington/formatter.nvim",
     },
     config = function()

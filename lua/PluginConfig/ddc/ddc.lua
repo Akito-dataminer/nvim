@@ -6,7 +6,7 @@ local ddc_conf = require('PluginConfig/ddc/helper')
 ----------------
 -- configs
 ----------------
-local ddc_sources = { 'vsnip', 'nvim-lsp', 'file', 'around' }
+local ddc_sources = { 'vsnip', 'lsp', 'file', 'around' }
 local ddc_ui = 'pum'
 local cmdline_sources = {
   [':'] = { 'cmdline-history', 'cmdline', 'around' },
@@ -51,7 +51,7 @@ local source_options = {
     keywordPattern = "\\S*",
     dup = 'keep',
   },
-  ['nvim-lsp'] = {
+  ['lsp'] = {
     mark = 'LSP',
     forceCompletionPattern = '\\.\\w*|::\\w*|->\\w*',
     sorters = { 'sorter_lsp-kind' },
@@ -59,7 +59,7 @@ local source_options = {
   },
 }
 local source_params = {
-  ['nvim-lsp'] = {
+  ['lsp'] = {
     snippetEngine = fn["denops#callback#register"](function(body) fn["vsnip#anonymous"](body) end),
     enableResolveItem = true,
     enableAdditionalTextEdit = true,

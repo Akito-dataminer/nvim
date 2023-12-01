@@ -75,6 +75,6 @@ api.nvim_create_autocmd('User', {
 api.nvim_create_autocmd('User', {
   pattern = 'skkeleton-disable-pre',
   callback = function()
-    ddc_conf.patch_global('sources', { 'vsnip', 'nvim-lsp', 'file', 'around' })
+    ddc_conf.patch_global('sources', { 'vsnip', 'lsp', 'file', 'around' })
   end,
 })

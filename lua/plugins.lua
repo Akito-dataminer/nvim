@@ -33,8 +33,26 @@ local plugin_list = {
   },
   { "ahmedkhalf/project.nvim", },
   {
+    'phaazon/hop.nvim',
+    event = { "VimEnter" },
+    branch = 'v2', -- optional but strongly recommended
+    config = function()
+      require("PluginConfig/hop")
+    end
+  },
+  -- For Japanese
+  {
     'lambdalisue/kensaku.vim',
+    event = { "VimEnter" },
     dependencies = { 'vim-denops/denops.vim' },
+  },
+  {
+    'lambdalisue/kensaku-search.vim',
+    event = { "VimEnter" },
+    dependencies = { 'vim-denops/denops.vim', 'lambdalisue/kensaku.vim' },
+    config = function()
+      vim.keymap.set('c', '<CR>', '<Plug>(kensaku-search-replace)<CR>')
+    end
   },
   {
     'yuki-yano/fuzzy-motion.vim',
@@ -43,14 +61,6 @@ local plugin_list = {
     config = function()
       vim.keymap.set('n', '<Space><Space>m', '<cmd>FuzzyMotion<CR>')
       vim.g.fuzzy_motion_matchers = { 'kensaku', 'fzf' }
-    end
-  },
-  {
-    'phaazon/hop.nvim',
-    event = { "VimEnter" },
-    branch = 'v2', -- optional but strongly recommended
-    config = function()
-      require("PluginConfig/hop")
     end
   },
   ----------------

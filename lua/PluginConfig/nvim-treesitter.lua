@@ -31,9 +31,9 @@ require 'nvim-treesitter.configs'.setup {
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "*" },
-  callback = function ()
+  callback = function()
     if pcall(vim.treesitter.start) then
-      opt.foldmethod="expr"
+      opt.foldmethod = "expr"
       opt.foldexpr = "nvim_treesitter#foldexpr()"
     end
   end

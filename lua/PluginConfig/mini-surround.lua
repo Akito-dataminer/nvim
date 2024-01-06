@@ -7,7 +7,7 @@ require('mini.surround').setup({
     delete = 'cd',         -- Delete surrounding
     find = '[c',           -- Find surrounding (to the right)
     find_left = ']c',      -- Find surrounding (to the left)
-    highlight = 'ch',      -- Highlight surrounding
+    -- highlight = 'ch',      -- Highlight surrounding
     replace = 'cs',        -- Replace surrounding
     update_n_linec = 'cn', -- Update `n_lines`
     update_n_lines = '',

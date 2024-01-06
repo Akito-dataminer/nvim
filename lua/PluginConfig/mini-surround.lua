@@ -5,8 +5,8 @@ require('mini.surround').setup({
   mappings = {
     add = 'cl',            -- Add surrounding in Normal and Visual modes
     delete = 'cd',         -- Delete surrounding
-    find = 'c<',           -- Find surrounding (to the right)
-    find_left = 'c>',      -- Find surrounding (to the left)
+    find = '[c',           -- Find surrounding (to the right)
+    find_left = ']c',      -- Find surrounding (to the left)
     highlight = 'ch',      -- Highlight surrounding
     replace = 'cs',        -- Replace surrounding
     update_n_linec = 'cn', -- Update `n_lines`

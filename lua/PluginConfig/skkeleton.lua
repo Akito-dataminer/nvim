@@ -12,11 +12,11 @@ local my_dictionary_path = util.join_paths(data_path, 'SKK-JISYO.MY')
 fn['skkeleton#config'] {
   -- debug = true,
   eggLikeNewline = true,
-  globalJisyo = dictionary_source_path,
+  globalDictionaries = {dictionary_source_path},
   markerHenkan = '<>',
   markerHenkanSelect = '>>',
   registerConvertResult = true,
-  userJisyo = my_dictionary_path,
+  userDictionary = my_dictionary_path,
 }
 
 fn['skkeleton#register_kanatable'](

@@ -98,6 +98,13 @@ local plugin_list = {
   -- git
   ----------------
   { 'tpope/vim-fugitive',                  event = 'VimEnter' },
+  {
+    'lewis6991/gitsigns.nvim',
+    event = 'VimEnter',
+    config = function ()
+      require("PluginConfig.gitsigns")
+    end
+  },
   ------------------
   -- completion
   ------------------

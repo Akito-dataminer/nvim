@@ -170,7 +170,7 @@ local plugin_list = {
       "vim-denops/denops.vim",
       "Shougo/ddc.vim",
     },
-    event = 'VeryLazy',
+    event = 'VimEnter',
     config = function()
       require("PluginConfig/skkeleton")
     end,

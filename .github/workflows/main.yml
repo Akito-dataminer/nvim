@@ -20,8 +20,7 @@ jobs:
           version: latest # NOTE: we recommend pinning to a specific version in case of formatting changes
           # CLI arguments
 
-      - run:
-        run: stylua --check . -g '*.lua'
+      - run: stylua --check . -g '*.lua'
         shell: bash -c "bash -e {0} 2> >(tee "$PR_LOG" >&2)"
 
       - name: isFailed

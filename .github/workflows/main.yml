@@ -13,14 +13,16 @@ jobs:
 
       - name: make output file
         run: echo "PR_LOG=$(mktemp)" >> $GITHUB_ENV
-        shell: bash -c "bash -e {0} 2> >(tee "$PR_LOG" >&2)"
 
       - uses: JohnnyMorganz/stylua-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest # NOTE: we recommend pinning to a specific version in case of formatting changes
           # CLI arguments
-          args: --check . -g '*.lua'
+
+      - run:
+        run: stylua --check . -g '*.lua'
+        shell: bash -c "bash -e {0} 2> >(tee "$PR_LOG" >&2)"
 
       - name: isFailed
         run: | 

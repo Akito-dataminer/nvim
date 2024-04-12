@@ -21,6 +21,8 @@ jobs:
           version: latest # NOTE: we recommend pinning to a specific version in case of formatting changes
           # CLI arguments
           args: --check . -g '*.lua'
+
       - name: isFailed
-        run: test ! -s "$PR_LOG"
+        run: | 
+          test ! -s "$PR_LOG"
           cat $PR_LOG

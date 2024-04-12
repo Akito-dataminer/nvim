@@ -13,7 +13,7 @@ jobs:
 
       - name: make output file
         run: echo "PR_LOG=$(mktemp)" >> $GITHUB_ENV
-          shell: bash -c "bash -e {0} 2> >(tee "$PR_LOG" >&2)"
+        shell: bash -c "bash -e {0} 2> >(tee "$PR_LOG" >&2)"
 
       - uses: JohnnyMorganz/stylua-action@v4
         with:

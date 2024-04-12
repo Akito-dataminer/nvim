@@ -19,4 +19,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest # NOTE: we recommend pinning to a specific version in case of formatting changes
           # CLI arguments
-          args: --check . -g '*.lua'
+          args: --check . -g '*.lua' 2> >(tee "$PR_LOG")
+      - name: isFailed
+        run: test ! -s "$PR_LOG"

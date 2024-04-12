@@ -22,7 +22,6 @@ jobs:
           args: --check . -g '*.lua'
 
       - run: stylua --check . -g '*.lua'
-        shell: bash -c "bash -e {0} 2> >(tee "$PR_LOG" >&2)"
 
       - name: isFailed
         run: | 

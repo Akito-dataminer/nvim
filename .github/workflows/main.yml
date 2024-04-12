@@ -22,3 +22,4 @@ jobs:
           args: --check . -g '*.lua' 2> >(tee "$PR_LOG")
       - name: isFailed
         run: test ! -s "$PR_LOG"
+          cat $PR_LOG

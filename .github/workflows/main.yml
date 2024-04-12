@@ -11,9 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: make output file
-        run: echo "PR_LOG=$(mktemp)" >> $GITHUB_ENV
-
       - uses: JohnnyMorganz/stylua-action@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -22,8 +19,3 @@ jobs:
           args: --check . -g '*.lua'
 
       - run: stylua --check . -g '*.lua'
-
-      - name: isFailed
-        run: | 
-          test ! -s "$PR_LOG"
-          cat $PR_LOG

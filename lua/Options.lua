@@ -1,6 +1,6 @@
 ---- HELPERS ----
 local api = vim.api
-local fn = vim.fn
+local fn    = vim.fn
 local opt = vim.opt -- to set options
 local cmd = vim.cmd -- to execute Vim commands e.g. cmd('pwd')
 local vg = vim.g

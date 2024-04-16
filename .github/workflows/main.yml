@@ -23,6 +23,7 @@ jobs:
           args: --check . -g '*.lua'
 
       - run: |
+          echo ${{steps.stylua.outputs.exit_code}}
           if [[ ${{ steps.stylua.outputs.exit_code }} != 0 ]]; then
             echo "There were formatting issues detected."
             exit 1

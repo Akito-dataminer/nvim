@@ -21,7 +21,7 @@ jobs:
           version: latest # NOTE: we recommend pinning to a specific version in case of formatting changes
           # CLI arguments
           args: --check . -g '*.lua'
-        shell: bash -e {0} > $PR_LOG 2>&1
+        run: stylua --check . -g '*.lua' > $PR_LOG 2> 1
 
       - run: |
           if [[ ${{ steps.stylua.outputs.exit_code }} != 0 ]]; then

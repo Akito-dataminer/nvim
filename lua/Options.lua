@@ -46,7 +46,7 @@ opt.updatetime = 200 -- time to highlight
 opt.mouse = "" -- disable mouse
 opt.fileformats = { "unix", "dos", "mac" }
 opt.cmdheight=0
-opt.matchpairs = "（:）,「:」,『:』,【:】,［:］,＜:＞"
+opt.matchpairs = opt.matchpairs + "（:）,「:」,『:』,【:】,［:］,＜:＞"
 vg.loaded_netrw = false -- disable netrw
 vg.loaded_netrwPlugin = false -- disable netrw plugins
 

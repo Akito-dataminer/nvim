@@ -18,4 +18,8 @@ jobs:
           # CLI arguments
           args: --check . -g '*.lua'
 
-      - run: stylua --check . -g '*.lua'
+      - run: |
+          if [[ ${{ steps.stylua.outputs.exit_code }} != 0 ]]; then
+            echo "There were formatting issues detected."
+            exit 1
+          fi

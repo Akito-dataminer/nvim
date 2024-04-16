@@ -1,6 +1,6 @@
 local opt = vim.opt
 
-require 'nvim-treesitter.configs'.setup {
+require("nvim-treesitter.configs").setup({
   -- A list of parser names, or "all"
   ensure_installed = "all",
   highlight = {
@@ -13,11 +13,11 @@ require 'nvim-treesitter.configs'.setup {
   -- Automatically install missing parsers when entering buffer
   auto_install = false,
   indent = {
-    enable = true
+    enable = true,
   },
   autotag = {
     enable = true,
-  }
+  },
   -- pairs = {
   --   enable = false,
   --   disable = {},
@@ -27,7 +27,7 @@ require 'nvim-treesitter.configs'.setup {
   --   fallback_cmd_normal = "call matchit#Match_wrapper('',1,'n')", -- What command to issue when we can't find a pair (e.g. "normal! %")
   --   keymaps = { goto_partner = "'%" },
   -- },
-}
+})
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "*" },
@@ -36,5 +36,5 @@ vim.api.nvim_create_autocmd("FileType", {
       opt.foldmethod = "expr"
       opt.foldexpr = "nvim_treesitter#foldexpr()"
     end
-  end
+  end,
 })

@@ -20,9 +20,9 @@ end
 M.git_log = function()
   -- example for running a command on a file
   local opts = {
-    attach_mappings = run_selection
+    attach_mappings = run_selection,
   }
-  require('telescope.builtin').find_files(opts)
+  require("telescope.builtin").find_files(opts)
 end
 
 function custom_actions._multiopen(prompt_bufnr, open_cmd)
@@ -55,7 +55,7 @@ function custom_actions.open_to_buffer(prompt_bufnr)
 end
 
 -- local actions = require( "telescope.actions" )
-require("telescope").setup {
+require("telescope").setup({
   defaults = {
     mappings = {
       i = {
@@ -69,10 +69,10 @@ require("telescope").setup {
     },
     path_display = { "truncate" },
   },
-}
+})
 
 require("project_nvim").setup({})
-telescope.load_extension('projects') -- integrate to telescope
+telescope.load_extension("projects") -- integrate to telescope
 
 api.nvim_set_keymap("n", "[telescope]", "<Nop>", { noremap = true, silent = true })
 api.nvim_set_keymap("v", "[telescope]", "<Nop>", { noremap = true, silent = true })
@@ -103,5 +103,5 @@ local keymap_telescope_func = {
 }
 
 for k, v in pairs(keymap_telescope_func) do
-  vim.api.nvim_set_keymap('n', k, string.format("<cmd> lua %s<CR>", v), opts)
+  vim.api.nvim_set_keymap("n", k, string.format("<cmd> lua %s<CR>", v), opts)
 end

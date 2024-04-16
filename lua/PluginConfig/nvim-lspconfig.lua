@@ -4,8 +4,8 @@ local fn = vim.fn
 local keymap = vim.keymap
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local lspconfig = require('lspconfig')
-local util = require('utils')
+local lspconfig = require("lspconfig")
+local util = require("utils")
 
 -- get_lspconfig関数の参考元 : https://github.com/williamboman/nvim-lsp-installer/blob/main/scripts/autogen_metadata.lua
 local function official_config(lsp_kind)
@@ -20,15 +20,15 @@ vim.lsp.set_log_level("off")
 ---- LSP Key Mappings
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }
-keymap.set('n', 'ge', vim.diagnostic.open_float, opts)
-keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-keymap.set('n', 'gq', vim.diagnostic.setloclist, opts)
+keymap.set("n", "ge", vim.diagnostic.open_float, opts)
+keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+keymap.set("n", "gq", vim.diagnostic.setloclist, opts)
 
 -- Reference highlight
 local highlight_color = {
-  fg = '#c6c8d1',
-  bg = '#104040',
+  fg = "#c6c8d1",
+  bg = "#104040",
 }
 
 api.nvim_set_hl(0, "LspReferenceText", highlight_color)
@@ -41,42 +41,42 @@ local my_on_attach = function(client, bufnr)
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   local bufopts = { noremap = true, silent = true, buffer = bufnr }
-  keymap.set('n', 'gD', lsp.buf.declaration, bufopts)
-  keymap.set('n', 'gd', lsp.buf.definition, bufopts)
-  keymap.set('n', 'K', lsp.buf.hover, bufopts)
-  keymap.set('n', 'gi', lsp.buf.implementation, bufopts)
-  keymap.set('n', 'gh', lsp.buf.signature_help, bufopts)
-  keymap.set('n', '<space>wa', lsp.buf.add_workspace_folder, bufopts)
-  keymap.set('n', '<space>wr', lsp.buf.remove_workspace_folder, bufopts)
-  keymap.set('n', '<space>wl', function()
+  keymap.set("n", "gD", lsp.buf.declaration, bufopts)
+  keymap.set("n", "gd", lsp.buf.definition, bufopts)
+  keymap.set("n", "K", lsp.buf.hover, bufopts)
+  keymap.set("n", "gi", lsp.buf.implementation, bufopts)
+  keymap.set("n", "gh", lsp.buf.signature_help, bufopts)
+  keymap.set("n", "<space>wa", lsp.buf.add_workspace_folder, bufopts)
+  keymap.set("n", "<space>wr", lsp.buf.remove_workspace_folder, bufopts)
+  keymap.set("n", "<space>wl", function()
     print(vim.inspect(lsp.buf.list_workspace_folders()))
   end, bufopts)
-  keymap.set('n', '<space>D', lsp.buf.type_definition, bufopts)
-  keymap.set('n', 'gn', lsp.buf.rename, bufopts)
-  keymap.set('n', '<space>ca', lsp.buf.code_action, bufopts)
-  keymap.set('n', 'gr', lsp.buf.references, bufopts)
+  keymap.set("n", "<space>D", lsp.buf.type_definition, bufopts)
+  keymap.set("n", "gn", lsp.buf.rename, bufopts)
+  keymap.set("n", "<space>ca", lsp.buf.code_action, bufopts)
+  keymap.set("n", "gr", lsp.buf.references, bufopts)
 
   local format_keymap = {
     use_formatter = {
       {
-        mode = { 'n' },
-        key_pattern = '<space>f',
+        mode = { "n" },
+        key_pattern = "<space>f",
         action = function()
-          fn.feedkeys(api.nvim_replace_termcodes(':Format<CR>', true, true, true), fn.mode())
+          fn.feedkeys(api.nvim_replace_termcodes(":Format<CR>", true, true, true), fn.mode())
         end,
-        option = { noremap = true, silent = true, buffer = bufnr }
-      }
+        option = { noremap = true, silent = true, buffer = bufnr },
+      },
     },
     use_lsp = {
       {
-        mode = { 'n' },
-        key_pattern = '<space>f',
+        mode = { "n" },
+        key_pattern = "<space>f",
         action = function()
-          lsp.buf.format { async = true }
+          lsp.buf.format({ async = true })
         end,
-        option = { noremap = true, silent = true, buffer = bufnr }
-      }
-    }
+        option = { noremap = true, silent = true, buffer = bufnr },
+      },
+    },
   }
   if client.name == "tsserver" then
     util.add_keymaps(format_keymap["use_formatter"])
@@ -89,8 +89,8 @@ local my_on_attach = function(client, bufnr)
 
   -- Only highlight if compatible with the language
   if doc_light then
-    api.nvim_create_augroup("LspHighlight", { clear = true, })
-    api.nvim_clear_autocmds { buffer = bufnr, group = "LspHighlight" }
+    api.nvim_create_augroup("LspHighlight", { clear = true })
+    api.nvim_clear_autocmds({ buffer = bufnr, group = "LspHighlight" })
 
     api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
       callback = lsp.buf.document_highlight,
@@ -110,23 +110,23 @@ end
 local lsp_settings = {}
 local mason_package_root
 
-if fn.has('unix') == 1 then
-  mason_package_root = util.join_paths(fn.stdpath('data'), 'mason', 'bin')
-elseif fn.has('win32') then
-  mason_package_root = util.join_paths(fn.stdpath('data'), 'mason', 'packages')
+if fn.has("unix") == 1 then
+  mason_package_root = util.join_paths(fn.stdpath("data"), "mason", "bin")
+elseif fn.has("win32") then
+  mason_package_root = util.join_paths(fn.stdpath("data"), "mason", "packages")
 end
 
 -- /C++
 local clangd_cmd
-if fn.has('unix') == 1 then
+if fn.has("unix") == 1 then
   clangd_cmd = {
     util.join_paths(mason_package_root, "clangd"),
     "--all-scopes-completion",
     "--header-insertion=never",
     "--offset-encoding=utf-8",
-    "--log=verbose"
+    "--log=verbose",
   }
-elseif fn.has('win32') == 1 then
+elseif fn.has("win32") == 1 then
   clangd_cmd = {
     "clangd.exe",
     -- "--compile-commands-dir=${workspaceFolder}",
@@ -139,7 +139,7 @@ elseif fn.has('win32') == 1 then
     -- "--header-insertion-decorators",
     -- "-j=8",
     "--offset-encoding=utf-8",
-    "--log=verbose"
+    "--log=verbose",
   }
 end
 
@@ -151,24 +151,24 @@ lsp_settings["clangd"] = {
 }
 
 -- Lua
-local lua_path = ''
-if fn.has('win32') == 1 then
-  lua_path = util.join_paths(mason_package_root, 'bin', 'lua-language-server.exe')
+local lua_path = ""
+if fn.has("win32") == 1 then
+  lua_path = util.join_paths(mason_package_root, "bin", "lua-language-server.exe")
 end
 -- local lua_cmd = { lua_path, '-E', '' }
 
 lsp_settings["lua_ls"] = {
   -- cmd = lua_cmd,
-  filetypes = { 'lua' },
+  filetypes = { "lua" },
   settings = {
     Lua = {
       runtime = {
         -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = 'LuaJIT',
+        version = "LuaJIT",
       },
       diagnostics = {
         -- Get the language server to recognize the `vim` global
-        globals = { 'vim' },
+        globals = { "vim" },
       },
       workspace = {
         -- Make the server aware of Neovim runtime files
@@ -208,12 +208,12 @@ local my_capabilities = lsp.protocol.make_client_capabilities()
 for lsp_kind, my_config in pairs(lsp_settings) do
   -- my_configがnilでなければ(iff. ユーザ設定がされていれば)、そちらを適用し、
   -- my_configがnilなら(iff. ユーザが独自設定をしていなければ)、デフォルト設定を適用する
-  lspconfig[lsp_kind].setup {
+  lspconfig[lsp_kind].setup({
     config = official_config(lsp_kind).default_config,
     cmd = my_config.cmd or official_config(lsp_kind).default_config.cmd,
     root_dir = my_config.root_dir or official_config(lsp_kind).docs.root_dir,
     settings = my_config.settings or official_config(lsp_kind).default_config.settings,
     on_attach = my_on_attach,
     capabilities = my_capabilities,
-  }
+  })
 end

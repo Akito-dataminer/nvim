@@ -9,13 +9,22 @@ jobs:
     runs-on: ubuntu-latest
     name: check-format
     steps:
+      - name: create log file
+        run: echo "PR_LOG=$(mktemp)" >> $GITHUB_ENV
+
       - uses: actions/checkout@v4
 
       - uses: JohnnyMorganz/stylua-action@v4
+        id: stylua
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest # NOTE: we recommend pinning to a specific version in case of formatting changes
           # CLI arguments
           args: --check . -g '*.lua'
 
-      - run: stylua --check . -g '*.lua'
+      - run: |
+          echo "${{steps.stylua.outputs.result}}"
+          if [[ ${{ steps.stylua.outputs.exit_code }} != 0 ]]; then
+            echo "There were formatting issues detected."
+            exit 1
+          fi

@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     name: check-format
     steps:
+      - name: create log file
+        run: echo "PR_LOG=$(mktemp)" >> $GITHUB_ENV
+
       - uses: actions/checkout@v4
 
       - uses: JohnnyMorganz/stylua-action@v4
@@ -18,6 +21,7 @@ jobs:
           version: latest # NOTE: we recommend pinning to a specific version in case of formatting changes
           # CLI arguments
           args: --check . -g '*.lua'
+        shell: bash -e {0} > $PR_LOG 2>&1
 
       - run: |
           if [[ ${{ steps.stylua.outputs.exit_code }} != 0 ]]; then

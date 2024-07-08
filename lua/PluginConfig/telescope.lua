@@ -60,11 +60,11 @@ require("telescope").setup({
     mappings = {
       i = {
         ["<CR>"] = custom_actions.open_to_buffer,
-        ["<C-d>"] = actions.delete_buffer,
+        ["<C-c>"] = actions.delete_buffer, -- close
       },
       n = {
         ["<CR>"] = custom_actions.open_to_buffer,
-        ["<C-d>"] = actions.delete_buffer,
+        ["<C-c>"] = actions.delete_buffer, -- close
       },
     },
     path_display = { "truncate" },
@@ -95,10 +95,11 @@ local keymap_telescope_func = {
   ["[telescope]d"] = "require'telescope.builtin'.diagnostics()",
   ["[telescope]o"] = "require'telescope.builtin'.oldfiles()",
   ["[telescope]gl"] = "M.git_log()",
+  ["[telescope]gb"] = "require'telescope'.git_branches()",
+  ["[telescope]gd"] = "require'telescope.builtin'.git_bcommits()", -- "d"iff
+  ["[telescope]gs"] = "require'telescope.builtin'.git_status()",
   ["[telescope]p"] = "require'telescope'.extensions.projects.projects{}",
   -- ["[telescope]g"] = "require'telescope.builtin'.git_files()",
-  -- ["<Leader>st"] = "require'telescope.builtin'.git_status()",
-  -- ["<Leader>bc"] = "require'telescope.builtin'.git_bcommits()",
   -- ["<Leader>c"] = "require'telescope.builtin'.git_commits()",
 }
 

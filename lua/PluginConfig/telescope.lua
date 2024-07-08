@@ -96,10 +96,10 @@ local keymap_telescope_func = {
   ["[telescope]o"] = "require'telescope.builtin'.oldfiles()",
   ["[telescope]gl"] = "M.git_log()",
   ["[telescope]gb"] = "require'telescope'.git_branches()",
+  ["[telescope]gd"] = "require'telescope.builtin'.git_bcommits()", -- "d"iff
   ["[telescope]p"] = "require'telescope'.extensions.projects.projects{}",
   -- ["[telescope]g"] = "require'telescope.builtin'.git_files()",
   -- ["<Leader>st"] = "require'telescope.builtin'.git_status()",
-  -- ["<Leader>bc"] = "require'telescope.builtin'.git_bcommits()",
   -- ["<Leader>c"] = "require'telescope.builtin'.git_commits()",
 }
 

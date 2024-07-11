@@ -95,7 +95,8 @@ local keymap_telescope_func = {
   ["[telescope]d"] = "require'telescope.builtin'.diagnostics()",
   ["[telescope]o"] = "require'telescope.builtin'.oldfiles()",
   ["[telescope]gl"] = "M.git_log()",
-  ["[telescope]gb"] = "require'telescope.builtin'.git_branches()",
+  ["[telescope]gr"] = "require'telescope.builtin'.git_branches()",
+  ["[telescope]gb"] = "require'telescope.builtin'.git_branches({show_remote_tracking_branches = false})",
   ["[telescope]gd"] = "require'telescope.builtin'.git_bcommits()", -- "d"iff
   ["[telescope]gs"] = "require'telescope.builtin'.git_status()",
   ["[telescope]p"] = "require'telescope'.extensions.projects.projects{}",

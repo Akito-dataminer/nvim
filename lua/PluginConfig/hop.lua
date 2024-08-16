@@ -32,7 +32,7 @@ for k, v in pairs({
   ["[hop]lj"] = function()
     hop.hint_lines({ direction = hint.HintDirection.AFTER_CURSOR })
   end,
-  ["[hop]/"] = hop.hint_patterns,
+  -- ["[hop]/"] = hop.hint_patterns,
   ["[hop]r"] = hop.hint_char1,
   ["[hop]h"] = hop.hint_char2,
   ["f"] = function()

@@ -9,7 +9,7 @@ local util = require("utils")
 
 -- get_lspconfig関数の参考元 : https://github.com/williamboman/nvim-lsp-installer/blob/main/scripts/autogen_metadata.lua
 local function official_config(lsp_kind)
-  local config_root = "lspconfig.server_configurations."
+  local config_root = "lspconfig.configs."
   local config = require(config_root .. lsp_kind)
   return config
 end
@@ -192,7 +192,7 @@ lsp_settings["pyright"] = {}
 lsp_settings["bashls"] = {}
 
 -- javascript/typescript
-lsp_settings["tsserver"] = {}
+lsp_settings["ts_ls"] = {}
 
 -- html
 lsp_settings["html"] = {}

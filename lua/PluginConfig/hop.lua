@@ -8,8 +8,8 @@ hop.setup({ keys = "etovxqpdygfblzhckisuran" })
 -- place this in one of your configuration file(s)
 api.nvim_set_keymap("n", "[hop]", "<Nop>", { noremap = true, silent = true })
 api.nvim_set_keymap("v", "[hop]", "<Nop>", { noremap = true, silent = true })
-api.nvim_set_keymap("n", "<Space><Space>", "[hop]", {})
-api.nvim_set_keymap("v", "<Space><Space>", "[hop]", {})
+api.nvim_set_keymap("n", "<Space>o", "[hop]", {})
+api.nvim_set_keymap("v", "<Space>o", "[hop]", {})
 
 -- Normal Mode
 local hint = require("hop.hint")
@@ -32,7 +32,7 @@ for k, v in pairs({
   ["[hop]lj"] = function()
     hop.hint_lines({ direction = hint.HintDirection.AFTER_CURSOR })
   end,
-  ["[hop]/"] = hop.hint_patterns,
+  -- ["[hop]/"] = hop.hint_patterns,
   ["[hop]r"] = hop.hint_char1,
   ["[hop]h"] = hop.hint_char2,
   ["f"] = function()

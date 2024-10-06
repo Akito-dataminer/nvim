@@ -60,7 +60,7 @@ local plugin_list = {
     dependencies = { "vim-denops/denops.vim", "lambdalisue/kensaku.vim" },
     event = "VeryLazy",
     config = function()
-      vim.keymap.set("n", "<Space><Space>m", "<cmd>FuzzyMotion<CR>")
+      vim.keymap.set("n", "<Space>/", "<cmd>FuzzyMotion<CR>")
       vim.g.fuzzy_motion_matchers = { "kensaku", "fzf" }
     end,
   },

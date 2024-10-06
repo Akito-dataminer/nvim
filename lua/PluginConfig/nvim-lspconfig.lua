@@ -192,7 +192,7 @@ lsp_settings["pyright"] = {}
 lsp_settings["bashls"] = {}
 
 -- javascript/typescript
-lsp_settings["tsserver"] = {}
+lsp_settings["ts_ls"] = {}
 
 -- html
 lsp_settings["html"] = {}

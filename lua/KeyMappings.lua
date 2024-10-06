@@ -40,6 +40,8 @@ for k, v in pairs({
   ["<Space>gb"] = ":G branch",
   ["<Space>gt"] = ":G tag",
   ["<Space>gl"] = ":G log",
+  ["<Space>gh"] = ":G log --graph --oneline", -- git 'h'istory
+  ["<Space>gr"] = ":G rebase --rebase-merge",
   ["<Space>a"] = ":G add",
   ["<Space>gs"] = ":G",
   ["<Space>gm"] = ":G merge --no-ff",

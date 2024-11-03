@@ -226,10 +226,6 @@ local plugin_list = {
   -- for markdown
   ------------------
   {
-    "preservim/vim-markdown",
-    event = "VeryLazy",
-  },
-  {
     "tyru/open-browser.vim",
   },
   {

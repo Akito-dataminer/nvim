@@ -50,7 +50,7 @@ util.add_keymaps(skkeleton_keymap)
 local source_options = {
   ["skkeleton"] = {
     mark = "SKK",
-    matchers = { "skkeleton" },
+    matchers = {},
     sorters = {},
     minAutoCompleteLength = 2,
     isVolatile = true,

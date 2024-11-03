@@ -12,7 +12,7 @@ local function run_selection(prompt_bufnr, map)
   actions.select_default:replace(function()
     actions.close(prompt_bufnr)
     local selection = action_state.get_selected_entry()
-    vim.cmd([[!git log ]] .. selection[1])
+    vim.cmd([[!git log "]] .. selection[1] .. [["]])
   end)
   return true
 end

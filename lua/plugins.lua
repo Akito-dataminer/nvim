@@ -95,6 +95,17 @@ local plugin_list = {
     end,
   },
   ----------------
+  -- Buffer
+  ----------------
+  {
+    "stevearc/stickybuf.nvim",
+    opts = {},
+    event = "VimEnter",
+    config = function()
+      require("stickybuf").setup()
+    end,
+  },
+  ----------------
   -- git
   ----------------
   { "tpope/vim-fugitive", event = "VimEnter" },

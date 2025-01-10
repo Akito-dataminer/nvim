@@ -50,7 +50,7 @@ for k, v in pairs({
 end
 
 ---- Terminal Mode ----
-map('t', '<Esc>', '<C-\\><C-n>')
+map("t", "<Esc>", "<C-\\><C-n>")
 
 ---- Neovim built-in LSP settings ----
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

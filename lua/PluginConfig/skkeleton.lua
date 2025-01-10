@@ -21,7 +21,6 @@ fn["skkeleton#config"]({
 
 fn["skkeleton#register_kanatable"]("rom", {
   xn = { "ん" },
-  jj = { "escape" },
   ["~"] = { "〜", "" },
   ["z\\<Space>"] = { "\\u3000", "" },
 }, {})

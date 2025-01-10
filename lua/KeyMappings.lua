@@ -32,7 +32,7 @@ for k, v in pairs({
   ["[b"] = ":bp<CR>",
   ["]b"] = ":bn<CR>",
   ["*"] = ":%s/\\v",
-  ["<Space>b"] = ":%!xxd<CR>",
+  -- ["<Space>b"] = ":%!xxd<CR>",
   ["<Space><CR>"] = ":.!bash<CR>",
   ["<C-p>"] = '"*p',
   -- vim-fugitive
@@ -50,7 +50,7 @@ for k, v in pairs({
 end
 
 ---- Terminal Mode ----
--- map('t', '<C-[>', '<C-\\><C-n>')
+map('t', '<Esc>', '<C-\\><C-n>')
 
 ---- Neovim built-in LSP settings ----
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions

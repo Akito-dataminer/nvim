@@ -95,6 +95,17 @@ local plugin_list = {
     end,
   },
   ----------------
+  -- Buffer
+  ----------------
+  {
+    "stevearc/stickybuf.nvim",
+    opts = {},
+    event = "VimEnter",
+    config = function()
+      require("stickybuf").setup()
+    end,
+  },
+  ----------------
   -- git
   ----------------
   { "tpope/vim-fugitive", event = "VimEnter" },
@@ -177,6 +188,19 @@ local plugin_list = {
   },
   -- { "Matts966/skk-vconv.vim", after = { "ddc.vim", "skkeleton" }, },
   ------------------
+  -- icons
+  ------------------
+  {
+    "nvim-tree/nvim-web-devicons",
+    event = "VimEnter",
+    config = function()
+      require("nvim-web-devicons").setup({
+        color_icons = true,
+        default = true,
+      })
+    end,
+  },
+  ------------------
   -- lsp
   ------------------
   {
@@ -210,6 +234,18 @@ local plugin_list = {
     event = "BufReadPost",
     config = function()
       require("PluginConfig.formatter")
+    end,
+  },
+  {
+    "stevearc/aerial.nvim",
+    -- Optional dependencies
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
+    event = "VimEnter",
+    config = function()
+      require("PluginConfig/aerial")
     end,
   },
   ------------------

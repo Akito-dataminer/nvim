@@ -92,7 +92,23 @@ local ddc_keymaps = {
   },
   {
     mode = { "i", "c" },
+    key_pattern = "<Down>",
+    action = function()
+      fn["pum#map#insert_relative"](1)
+    end,
+    option = { noremap = true, silent = true },
+  },
+  {
+    mode = { "i", "c" },
     key_pattern = "<C-p>",
+    action = function()
+      fn["pum#map#insert_relative"](-1)
+    end,
+    option = { noremap = true, silent = true },
+  },
+  {
+    mode = { "i", "c" },
+    key_pattern = "<Up>",
     action = function()
       fn["pum#map#insert_relative"](-1)
     end,

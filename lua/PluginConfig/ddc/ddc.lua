@@ -9,9 +9,9 @@ local ddc_conf = require("PluginConfig/ddc/helper")
 local ddc_sources = { "vsnip", "lsp", "file", "around" }
 local ddc_ui = "pum"
 local cmdline_sources = {
-  [":"] = { "cmdline-history", "cmdline", "around" },
-  ["@"] = { "cmdline-history", "input", "file", "around" },
-  [">"] = { "cmdline-history", "input", "file", "around" },
+  [":"] = { "cmdline_history", "cmdline", "around" },
+  ["@"] = { "cmdline_history", "input", "file", "around" },
+  [">"] = { "cmdline_history", "input", "file", "around" },
   ["/"] = { "around", "line" },
   ["?"] = { "around", "line" },
   ["-"] = { "around", "line" },
@@ -42,7 +42,7 @@ local source_options = {
     forceCompletionPattern = "\\S/\\S*",
     dup = "keep",
   },
-  ["cmdline-history"] = {
+  ["cmdline_history"] = {
     mark = "history",
     sorters = { "sorter_rank" },
   },

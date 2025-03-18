@@ -69,6 +69,23 @@ require("telescope").setup({
     },
     path_display = { "truncate" },
   },
+  extensions = {
+    file_browser = {
+      theme = "ivy",
+      -- disables netrw and use telescope-file-browser in its place
+      hijack_netrw = true,
+      mappings = {
+        ["i"] = {
+          ["<CR>"] = custom_actions.open_to_buffer,
+          ["<C-c>"] = actions.delete_buffer, -- close
+        },
+        ["n"] = {
+          ["<CR>"] = custom_actions.open_to_buffer,
+          ["<C-c>"] = actions.delete_buffer, -- close
+        },
+      },
+    },
+  },
 })
 
 require("project_nvim").setup({})
@@ -100,6 +117,8 @@ local keymap_telescope_func = {
   ["[telescope]gd"] = "require'telescope.builtin'.git_bcommits()", -- "d"iff
   ["[telescope]gs"] = "require'telescope.builtin'.git_status()",
   ["[telescope]p"] = "require'telescope'.extensions.projects.projects{}",
+  ["[telescope]e"] = "require'telescope'.extensions.file_browser.file_browser()",
+  ["[telescope]i"] = "require'telescope'.extensions.file_browser.file_browser({path=vim.fn.expand(\"%:p:h\"), select_buffer=true})",
   -- ["[telescope]g"] = "require'telescope.builtin'.git_files()",
   -- ["<Leader>c"] = "require'telescope.builtin'.git_commits()",
 }
@@ -107,3 +126,5 @@ local keymap_telescope_func = {
 for k, v in pairs(keymap_telescope_func) do
   vim.api.nvim_set_keymap("n", k, string.format("<cmd> lua %s<CR>", v), opts)
 end
+
+require("telescope").load_extension("file_browser")

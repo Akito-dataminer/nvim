@@ -33,6 +33,11 @@ local plugin_list = {
   },
   { "ahmedkhalf/project.nvim" },
   {
+    "nvim-telescope/telescope-file-browser.nvim",
+    event = "VimEnter",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+  },
+  {
     "smoka7/hop.nvim",
     event = { "VimEnter" },
     version = "*",

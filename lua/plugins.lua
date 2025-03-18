@@ -273,6 +273,9 @@ local plugin_list = {
     "previm/previm",
     dependencies = { "tyru/open-browser.vim" },
     lazy = false,
+    config = function()
+      require("PluginConfig/previm")
+    end,
   },
 }
 

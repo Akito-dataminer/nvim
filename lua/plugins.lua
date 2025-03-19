@@ -20,6 +20,13 @@ local plugin_list = {
       require("PluginConfig/nvim-treesitter")
     end,
   },
+  {
+    "monaqa/dial.nvim",
+    event = "VimEnter",
+    config = function()
+      require("PluginConfig/dial")
+    end,
+  },
   ----------------
   -- find & jump
   ----------------

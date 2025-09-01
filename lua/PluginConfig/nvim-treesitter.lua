@@ -4,7 +4,9 @@ local fn = vim.fn
 local ts = vim.treesitter
 local wo = vim.wo
 
-require("nvim-treesitter").setup({})
+require("nvim-treesitter").setup({
+  install_dir = fn.stdpath("data") .. "/treesitter-parser",
+})
 
 api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "tsx", "typescript", "typescriptreact", "python", "markdown", "cpp", "cmake", "lua", "bash" },

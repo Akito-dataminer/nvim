@@ -3,6 +3,7 @@ local cmd = vim.cmd
 local lsp = vim.lsp
 
 local lang_formatter_pair = {
+  lua = require("formatter.filetypes.lua").stylua,
   python = require("formatter.filetypes.python").black,
 }
 

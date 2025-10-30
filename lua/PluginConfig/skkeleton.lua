@@ -5,7 +5,7 @@ local fn = vim.fn
 local util = require("utils")
 local ddc_conf = require("PluginConfig/ddc/helper")
 
-local data_path = fn.stdpath("data")
+local data_path = fn.stdpath("data") .. "/dict"
 local dictionary_source_path = util.join_paths(data_path, "SKK-JISYO.L")
 local my_dictionary_path = util.join_paths(data_path, "SKK-JISYO.MY")
 

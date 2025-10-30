@@ -13,6 +13,7 @@ local plugin_list = {
   { "preservim/nerdcommenter", event = "InsertEnter" },
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     event = "BufReadPost",
     build = ":TSUpdateSync",
     dependencies = { "windwp/nvim-ts-autotag" },

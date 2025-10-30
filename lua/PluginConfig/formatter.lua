@@ -2,7 +2,8 @@ local bo = vim.bo
 local cmd = vim.cmd
 local lsp = vim.lsp
 
-local lang_formatter_pair = {
+local lang_formatter_pairs = {
+  lua = require("formatter.filetypes.lua").stylua,
   python = require("formatter.filetypes.python").black,
 }
 
@@ -26,7 +27,7 @@ local lang_supported_prettier = {
 }
 
 for _, lang in ipairs(lang_supported_prettier) do
-  lang_formatter_pair[lang] = require(required_config(lang)).prettier
+  lang_formatter_pairs[lang] = require(required_config(lang)).prettier
 end
 
 -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
@@ -36,7 +37,7 @@ require("formatter").setup({
   -- Set the log level
   log_level = vim.log.levels.WARN,
   -- All formatter configurations are opt-in
-  filetype = lang_formatter_pair,
+  filetype = lang_formatter_pairs,
 })
 
 -- LSPクライアントがフォーマット機能をサポートしているかチェック
@@ -53,7 +54,7 @@ end
 local function try_format()
   local filetype = bo.filetype
 
-  if lang_formatter_pair[filetype] then
+  if lang_formatter_pairs[filetype] then
     -- lang_formatter_pair[filetype]が定義されていれば、そちらを優先的に使用
     cmd("FormatWrite")
   elseif has_lsp_formatter() then

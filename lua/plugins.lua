@@ -142,7 +142,7 @@ local plugin_list = {
   { "Shougo/ddc-source-cmdline_history" },
   { "Shougo/ddc-converter_remove_overlap" },
   { "Shougo/ddc-line" },
-  { "LumaKernel/ddc-file" },
+  { "LumaKernel/ddc-source-file" },
   {
     "uga-rosa/ddc-source-vsnip",
     dependencies = {

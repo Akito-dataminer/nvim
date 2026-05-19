@@ -48,6 +48,19 @@ local english_weekdays_short_upper = augend.constant.new({
   cyclic = true,
 })
 
+local markdown_header = augend.user.new({
+  find = require("dial.augend.common").find_pattern("^#+"),
+  add = function(text, addend, cursor)
+    local current_level = #text
+    local new_level = math.max(1, math.min(6, current_level + addend))
+    local new_text = string.rep("#", new_level)
+    return {
+      text = new_text,
+      cursor = cursor + (new_level - current_level)
+    }
+  end
+})
+
 require("dial.config").augends:register_group({
   default = {
     augend.integer.alias.decimal,
@@ -65,6 +78,9 @@ require("dial.config").augends:register_group({
     english_weekdays_upper,
     english_weekdays_short_lower,
     english_weekdays_short_upper,
+
+    -- header level on Markdown
+    markdown_header,
   },
 })
 

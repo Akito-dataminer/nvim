@@ -28,6 +28,13 @@ local plugin_list = {
       require("PluginConfig/dial")
     end,
   },
+  {
+    "yorickpeterse/nvim-window",
+    keys = {
+      { "<C-w>m", "<cmd>lua require('nvim-window').pick()<cr>", desc = "nvim-window: jump Motion for window" },
+    },
+    config = true,
+  },
   ----------------
   -- find & jump
   ----------------

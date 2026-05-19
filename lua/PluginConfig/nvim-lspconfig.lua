@@ -60,8 +60,22 @@ lsp.enable({ "lua_ls", "pyright", "ts_ls", "clangd", "cmake", "coq_lsp", "jdtls"
 
 ---- Key Mappings for diagnostic
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap = true, silent = true }
-keymap.set("n", "gq", diagnostic.setloclist, { desc = "Set diagnostic to loclist" }, opts)
+keymap.set("n", "gq", diagnostic.setloclist, { desc = "Set diagnostic to loclist" }, { noremap = true, silent = true })
+
+keymap.set("n", "gK", function()
+  local new_config = not diagnostic.config().virtual_lines
+  diagnostic.config({ virtual_lines = new_config })
+end, { desc = "Toggle diagnostic virtual_lines" })
+
+diagnostic.handlers.loclist = {
+  show = function(_, _, _, opts)
+    -- Generally don't want it to open on every update
+    opts.loclist.open = opts.loclist.open or false
+    local winid = api.nvim_get_current_win()
+    diagnostic.setloclist(opts.loclist)
+    api.nvim_set_current_win(winid)
+  end,
+}
 
 -- Autocmds registered in LspAttach are not torn down automatically when the client detaches.
 -- Explicitly delete the augroup and any residual highlights to avoid stale state on the buffer.

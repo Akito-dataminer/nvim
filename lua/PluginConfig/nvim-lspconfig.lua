@@ -1,219 +1,116 @@
 local api = vim.api
-local lsp = vim.lsp
+local bo = vim.bo
+local diagnostic = vim.diagnostic
 local fn = vim.fn
 local keymap = vim.keymap
+local log = vim.log
+local lsp = vim.lsp
+local opt = vim.opt
 
--- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local lspconfig = require("lspconfig")
-local util = require("utils")
-
--- get_lspconfig関数の参考元 : https://github.com/williamboman/nvim-lsp-installer/blob/main/scripts/autogen_metadata.lua
-local function official_config(lsp_kind)
-  local config_root = "lspconfig.configs."
-  local config = require(config_root .. lsp_kind)
-  return config
-end
+opt.updatetime = 100
 
 -- LSP log setting
-vim.lsp.set_log_level("off")
+lsp.set_log_level("off")
 
----- LSP Key Mappings
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap = true, silent = true }
-keymap.set("n", "ge", vim.diagnostic.open_float, opts)
-keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-keymap.set("n", "gq", vim.diagnostic.setloclist, opts)
-
--- Reference highlight
-local highlight_color = {
-  fg = "#c6c8d1",
-  bg = "#104040",
-}
-
-api.nvim_set_hl(0, "LspReferenceText", highlight_color)
-api.nvim_set_hl(0, "LspReferenceRead", highlight_color)
-api.nvim_set_hl(0, "LspReferenceWrite", highlight_color)
-
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local my_on_attach = function(client, bufnr)
-  -- Mappings.
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap = true, silent = true, buffer = bufnr }
-  keymap.set("n", "gD", lsp.buf.declaration, bufopts)
-  keymap.set("n", "gd", lsp.buf.definition, bufopts)
-  keymap.set("n", "K", lsp.buf.hover, bufopts)
-  keymap.set("n", "gi", lsp.buf.implementation, bufopts)
-  keymap.set("n", "gh", lsp.buf.signature_help, bufopts)
-  keymap.set("n", "<space>wa", lsp.buf.add_workspace_folder, bufopts)
-  keymap.set("n", "<space>wr", lsp.buf.remove_workspace_folder, bufopts)
-  keymap.set("n", "<space>wl", function()
-    print(vim.inspect(lsp.buf.list_workspace_folders()))
-  end, bufopts)
-  keymap.set("n", "<space>D", lsp.buf.type_definition, bufopts)
-  keymap.set("n", "gn", lsp.buf.rename, bufopts)
-  keymap.set("n", "<space>ca", lsp.buf.code_action, bufopts)
-  keymap.set("n", "gr", lsp.buf.references, bufopts)
-
-  local format_keymap = {
-    use_formatter = {
-      {
-        mode = { "n" },
-        key_pattern = "<space>f",
-        action = function()
-          fn.feedkeys(api.nvim_replace_termcodes(":Format<CR>", true, true, true), fn.mode())
-        end,
-        option = { noremap = true, silent = true, buffer = bufnr },
-      },
-    },
-    use_lsp = {
-      {
-        mode = { "n" },
-        key_pattern = "<space>f",
-        action = function()
-          lsp.buf.format({ async = true })
-        end,
-        option = { noremap = true, silent = true, buffer = bufnr },
-      },
-    },
-  }
-  if client.name == "tsserver" then
-    util.add_keymaps(format_keymap["use_formatter"])
-  elseif client.server_capabilities.documentFormattingProvider then
-    util.add_keymaps(format_keymap["use_lsp"])
+--- Returns the root directory detected by an active LSP client for the current buffer.
+--- Returns nil when no client is running on the buffer or none has a root directory set.
+local function get_lsp_root()
+  for _, client in ipairs(lsp.get_clients({ bufnr = 0 })) do
+    if client.root_dir then
+      return client.root_dir
+    end
   end
+  return nil
+end
 
-  -- Find the clients capabilities
-  local doc_light = client.server_capabilities.documentHighlightProvider
-
-  -- Only highlight if compatible with the language
-  if doc_light then
-    api.nvim_create_augroup("LspHighlight", { clear = true })
-    api.nvim_clear_autocmds({ buffer = bufnr, group = "LspHighlight" })
-
-    api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-      callback = lsp.buf.document_highlight,
-      group = "LspHighlight",
-      buffer = bufnr,
-    })
-
-    api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-      callback = lsp.buf.clear_references,
-      group = "LspHighlight",
-      buffer = bufnr,
-    })
+--- Changes the current directory to the LSP root directory obtained via get_lsp_root().
+local function cd_to_lsp_root()
+  local root = get_lsp_root()
+  if root then
+    fn.chdir(root)
+    vim.notify("cd -> " .. root, log.levels.INFO)
+  else
+    vim.notify("No LSP root directory found for the current buffer", log.levels.WARN)
   end
 end
 
--- 使いたいLSPサーバの名前をキーにして、cmdなどを列挙する
-local lsp_settings = {}
-local mason_package_root
+api.nvim_create_autocmd("LspAttach", {
+  callback = function(ev)
+    -- Disable default keymaps
+    bo[ev.buf].omnifunc = nil
+    bo[ev.buf].tagfunc = nil
+    bo[ev.buf].formatexpr = nil
 
-if fn.has("unix") == 1 then
-  mason_package_root = util.join_paths(fn.stdpath("data"), "mason", "bin")
-elseif fn.has("win32") then
-  mason_package_root = util.join_paths(fn.stdpath("data"), "mason", "packages")
-end
+    -- Set Keymaps
+    local client = assert(lsp.get_client_by_id(ev.data.client_id))
+    local keyopts = { remap = true, silent = true }
+    if client:supports_method("textDocument/implementation") then
+      keymap.set("n", "gD", lsp.buf.implementation, keyopts)
+    end
+    if client:supports_method("textDocument/definition*") then
+      keymap.set("n", "gd", lsp.buf.definition, keyopts)
+    end
+    if client:supports_method("textDocument/typeDefinition*") then
+      keymap.set("n", "gt", lsp.buf.type_definition, keyopts)
+    end
+    if client:supports_method("textDocument/references") then
+      keymap.set("n", "gr", lsp.buf.references, keyopts)
+    end
+    if client:supports_method("textDocument/rename") then
+      keymap.set("n", "gn", lsp.buf.rename, keyopts)
+    end
+    if client:supports_method("textDocument/codeAction") then
+      keymap.set("n", "ga", lsp.buf.code_action, keyopts)
+    end
 
--- /C++
-local clangd_cmd
-if fn.has("unix") == 1 then
-  clangd_cmd = {
-    util.join_paths(mason_package_root, "clangd"),
-    "--all-scopes-completion",
-    "--header-insertion=never",
-    "--offset-encoding=utf-8",
-    "--log=verbose",
-  }
-elseif fn.has("win32") == 1 then
-  clangd_cmd = {
-    "clangd.exe",
-    -- "--compile-commands-dir=${workspaceFolder}",
-    -- "--background-index",
-    -- "--clang-tidy",
-    "--all-scopes-completion",
-    -- "--cross-file-rename",
-    -- "--completion-style=detailed",
-    "--header-insertion=never",
-    -- "--header-insertion-decorators",
-    -- "-j=8",
-    "--offset-encoding=utf-8",
-    "--log=verbose",
-  }
-end
+    -- cursor word highlight
+    if client:supports_method("textDocument/documentHighlight") then
+      local hl_group = api.nvim_create_augroup("lsp_cword_highlight_" .. ev.buf, { clear = true })
+      api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+        group = hl_group,
+        buffer = ev.buf,
+        callback = lsp.buf.document_highlight,
+      })
+      api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "BufLeave" }, {
+        group = hl_group,
+        buffer = ev.buf,
+        callback = lsp.buf.clear_references,
+      })
+    end
+  end,
+})
 
-lsp_settings["clangd"] = {
-  cmd = clangd_cmd,
-  filetype = { "cpp", "cppm", "hpp" },
-  -- settings = {},
-  -- root_pattern = { ".git", "build" },
+lsp.enable({ "lua_ls", "pyright", "ts_ls", "clangd", "cmake", "coq_lsp", "jdtls", "bashls", "cssls" })
+
+---- Key Mappings
+keymap.set("n", "gp", cd_to_lsp_root, { desc = "Change the current directory to LSP root directory" })
+keymap.set("n", "ge", function()
+  diagnostic.setloclist({ severity = { min = diagnostic.severity.ERROR } })
+end, { desc = "Set diagnostic to loclist (ERROR+)", noremap = true, silent = true })
+keymap.set("n", "gw", function()
+  diagnostic.setloclist({ severity = { min = diagnostic.severity.WARN } })
+end, { desc = "Set diagnostic to loclist (WARN+)", noremap = true, silent = true })
+keymap.set("n", "gi", diagnostic.setloclist, { desc = "Set diagnostic to loclist" }, { noremap = true, silent = true })
+keymap.set("n", "gK", function()
+  local new_config = not diagnostic.config().virtual_lines
+  diagnostic.config({ virtual_lines = new_config })
+end, { desc = "Toggle diagnostic virtual_lines" })
+
+diagnostic.handlers.loclist = {
+  show = function(_, _, _, opts)
+    -- Generally don't want it to open on every update
+    opts.loclist.open = opts.loclist.open or false
+    local winid = api.nvim_get_current_win()
+    diagnostic.setloclist(opts.loclist)
+    api.nvim_set_current_win(winid)
+  end,
 }
 
--- Lua
-local lua_path = ""
-if fn.has("win32") == 1 then
-  lua_path = util.join_paths(mason_package_root, "bin", "lua-language-server.exe")
-end
--- local lua_cmd = { lua_path, '-E', '' }
-
-lsp_settings["lua_ls"] = {
-  -- cmd = lua_cmd,
-  filetypes = { "lua" },
-  settings = {
-    Lua = {
-      runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-        version = "LuaJIT",
-      },
-      diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = { "vim" },
-      },
-      workspace = {
-        -- Make the server aware of Neovim runtime files
-        library = api.nvim_get_runtime_file("", true),
-      },
-      -- Do not send telemetry data containing a randomized but unique identifier
-      telemetry = {
-        enable = false,
-      },
-    },
-  },
-}
-
--- cmake
-lsp_settings["cmake"] = {}
-
--- python
-lsp_settings["pyright"] = {}
-
--- bash
-lsp_settings["bashls"] = {}
-
--- javascript/typescript
-lsp_settings["ts_ls"] = {}
-
--- html
-lsp_settings["html"] = {}
-
--- css
-lsp_settings["cssls"] = {}
-
--- local my_capabilities = lsp.protocol.make_client_capabilities()
--- my_capabilities.textDocument.completion.completionItem.snippetSupport = true
-local my_capabilities = lsp.protocol.make_client_capabilities()
-
--- LSPサーバーの設定
-for lsp_kind, my_config in pairs(lsp_settings) do
-  -- my_configがnilでなければ(iff. ユーザ設定がされていれば)、そちらを適用し、
-  -- my_configがnilなら(iff. ユーザが独自設定をしていなければ)、デフォルト設定を適用する
-  lspconfig[lsp_kind].setup({
-    config = official_config(lsp_kind).default_config,
-    cmd = my_config.cmd or official_config(lsp_kind).default_config.cmd,
-    root_dir = my_config.root_dir or official_config(lsp_kind).docs.root_dir,
-    settings = my_config.settings or official_config(lsp_kind).default_config.settings,
-    on_attach = my_on_attach,
-    capabilities = my_capabilities,
-  })
-end
+-- Autocmds registered in LspAttach are not torn down automatically when the client detaches.
+-- Explicitly delete the augroup and any residual highlights to avoid stale state on the buffer.
+api.nvim_create_autocmd("LspDetach", {
+  callback = function(ev)
+    pcall(lsp.buf.clear_references)
+    pcall(api.nvim_del_augroup_by_name, "lsp_cword_highlight_" .. ev.buf)
+  end,
+})

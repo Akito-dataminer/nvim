@@ -32,6 +32,8 @@ for k, v in pairs({
   ["[b"] = ":bp<CR>",
   ["]b"] = ":bn<CR>",
   ["*"] = ":%s/\\v",
+  ["]t"] = ":tabnext<CR>",
+  ["[t"] = ":tabprevious<CR>",
   -- ["<Space>b"] = ":%!xxd<CR>",
   ["<Space><CR>"] = ":.!bash<CR>",
   ["<C-p>"] = '"*p',

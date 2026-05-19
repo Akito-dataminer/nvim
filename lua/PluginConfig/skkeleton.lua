@@ -21,6 +21,8 @@ fn["skkeleton#config"]({
 
 fn["skkeleton#register_kanatable"]("rom", {
   xn = { "ん" },
+  who = { "うぉ" },
+  two = { "とぅ" },
   ["~"] = { "〜", "" },
   ["z\\<Space>"] = { "\\u3000", "" },
 }, {})

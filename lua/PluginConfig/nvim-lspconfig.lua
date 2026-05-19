@@ -84,7 +84,13 @@ lsp.enable({ "lua_ls", "pyright", "ts_ls", "clangd", "cmake", "coq_lsp", "jdtls"
 
 ---- Key Mappings
 keymap.set("n", "gp", cd_to_lsp_root, { desc = "Change the current directory to LSP root directory" })
-keymap.set("n", "gq", diagnostic.setloclist, { desc = "Set diagnostic to loclist" }, { noremap = true, silent = true })
+keymap.set("n", "ge", function()
+  diagnostic.setloclist({ severity = { min = diagnostic.severity.ERROR } })
+end, { desc = "Set diagnostic to loclist (ERROR+)", noremap = true, silent = true })
+keymap.set("n", "gw", function()
+  diagnostic.setloclist({ severity = { min = diagnostic.severity.WARN } })
+end, { desc = "Set diagnostic to loclist (WARN+)", noremap = true, silent = true })
+keymap.set("n", "gi", diagnostic.setloclist, { desc = "Set diagnostic to loclist" }, { noremap = true, silent = true })
 keymap.set("n", "gK", function()
   local new_config = not diagnostic.config().virtual_lines
   diagnostic.config({ virtual_lines = new_config })

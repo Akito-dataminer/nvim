@@ -59,7 +59,7 @@ local source_options = {
   ["lsp"] = {
     mark = "LSP",
     forceCompletionPattern = "\\.\\w*|::\\w*|->\\w*",
-    sorters = { "sorter_lsp-kind" },
+    sorters = { "sorter_rank" },
     dup = "keep",
   },
 }

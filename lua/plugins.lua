@@ -137,12 +137,12 @@ local plugin_list = {
   { "Shougo/ddc-ui-pum" },
   { "Shougo/ddc-around" },
   { "Shougo/ddc-matcher_head" },
-  { "Shougo/ddc-sorter_rank" },
+  { "Shougo/ddc-filter-sorter_rank" },
   { "Shougo/ddc-cmdline" },
   { "Shougo/ddc-source-cmdline_history" },
   { "Shougo/ddc-converter_remove_overlap" },
   { "Shougo/ddc-line" },
-  { "LumaKernel/ddc-file" },
+  { "LumaKernel/ddc-source-file" },
   {
     "uga-rosa/ddc-source-vsnip",
     dependencies = {

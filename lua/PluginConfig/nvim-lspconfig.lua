@@ -1,7 +1,9 @@
 local api = vim.api
 local bo = vim.bo
 local diagnostic = vim.diagnostic
+local fn = vim.fn
 local keymap = vim.keymap
+local log = vim.log
 local lsp = vim.lsp
 local opt = vim.opt
 
@@ -9,6 +11,28 @@ opt.updatetime = 100
 
 -- LSP log setting
 lsp.set_log_level("off")
+
+--- Returns the root directory detected by an active LSP client for the current buffer.
+--- Returns nil when no client is running on the buffer or none has a root directory set.
+local function get_lsp_root()
+  for _, client in ipairs(lsp.get_clients({ bufnr = 0 })) do
+    if client.root_dir then
+      return client.root_dir
+    end
+  end
+  return nil
+end
+
+--- Changes the current directory to the LSP root directory obtained via get_lsp_root().
+local function cd_to_lsp_root()
+  local root = get_lsp_root()
+  if root then
+    fn.chdir(root)
+    vim.notify("cd -> " .. root, log.levels.INFO)
+  else
+    vim.notify("No LSP root directory found for the current buffer", log.levels.WARN)
+  end
+end
 
 api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)
@@ -58,10 +82,9 @@ api.nvim_create_autocmd("LspAttach", {
 
 lsp.enable({ "lua_ls", "pyright", "ts_ls", "clangd", "cmake", "coq_lsp", "jdtls", "bashls", "cssls" })
 
----- Key Mappings for diagnostic
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
+---- Key Mappings
+keymap.set("n", "gp", cd_to_lsp_root, { desc = "Change the current directory to LSP root directory" })
 keymap.set("n", "gq", diagnostic.setloclist, { desc = "Set diagnostic to loclist" }, { noremap = true, silent = true })
-
 keymap.set("n", "gK", function()
   local new_config = not diagnostic.config().virtual_lines
   diagnostic.config({ virtual_lines = new_config })

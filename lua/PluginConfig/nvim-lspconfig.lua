@@ -3,6 +3,9 @@ local bo = vim.bo
 local diagnostic = vim.diagnostic
 local keymap = vim.keymap
 local lsp = vim.lsp
+local opt = vim.opt
+
+opt.updatetime = 100
 
 -- LSP log setting
 lsp.set_log_level("off")
@@ -35,6 +38,21 @@ api.nvim_create_autocmd("LspAttach", {
     if client:supports_method("textDocument/codeAction") then
       keymap.set("n", "ga", lsp.buf.code_action, keyopts)
     end
+
+    -- cursor word highlight
+    if client:supports_method("textDocument/documentHighlight") then
+      local hl_group = api.nvim_create_augroup("lsp_cword_highlight_" .. ev.buf, { clear = true })
+      api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+        group = hl_group,
+        buffer = ev.buf,
+        callback = lsp.buf.document_highlight,
+      })
+      api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI", "BufLeave" }, {
+        group = hl_group,
+        buffer = ev.buf,
+        callback = lsp.buf.clear_references,
+      })
+    end
   end,
 })
 
@@ -44,3 +62,12 @@ lsp.enable({ "lua_ls", "pyright", "ts_ls", "clangd", "cmake", "coq_lsp", "jdtls"
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }
 keymap.set("n", "gq", diagnostic.setloclist, { desc = "Set diagnostic to loclist" }, opts)
+
+-- Autocmds registered in LspAttach are not torn down automatically when the client detaches.
+-- Explicitly delete the augroup and any residual highlights to avoid stale state on the buffer.
+api.nvim_create_autocmd("LspDetach", {
+  callback = function(ev)
+    pcall(lsp.buf.clear_references)
+    pcall(api.nvim_del_augroup_by_name, "lsp_cword_highlight_" .. ev.buf)
+  end,
+})

@@ -54,6 +54,8 @@ require("dial.config").augends:register_group({
     augend.integer.alias.hex,
     augend.integer.alias.binary,
     augend.date.alias["%Y/%m/%d"],
+    augend.date.alias["%Y-%m-%d"],
+    augend.date.alias["%m/%d"],
     augend.constant.alias.bool,
 
     -- day of the week

@@ -61,6 +61,20 @@ local plugin_list = {
       require("PluginConfig/hop")
     end,
   },
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      { "vim-denops/denops.vim", lazy = false },
+      { "lambdalisue/kensaku.vim", lazy = false },
+    },
+    config = function()
+      require("PluginConfig/flash").setup()
+    end,
+    keys = function()
+      return require("PluginConfig/flash").keys
+    end,
+  },
   -- For Japanese
   {
     "lambdalisue/kensaku.vim",

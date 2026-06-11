@@ -14,10 +14,7 @@ local plugin_list = {
   {
     "nvim-treesitter/nvim-treesitter",
     branch = "main",
-    event = "BufReadPost",
-    build = ":TSUpdateSync",
-    dependencies = { "windwp/nvim-ts-autotag" },
-    config = function()
+    init = function()
       require("PluginConfig/nvim-treesitter")
     end,
   },

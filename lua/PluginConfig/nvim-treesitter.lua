@@ -1,19 +1,18 @@
-local api = vim.api
-local bo = vim.bo
-local fn = vim.fn
-local ts = vim.treesitter
-local wo = vim.wo
-
-require("nvim-treesitter").setup({
-  install_dir = fn.stdpath("data") .. "/treesitter-parser",
-})
-
-api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "tsx", "typescript", "typescriptreact", "python", "markdown", "cpp", "cmake", "lua", "bash" },
-  callback = function()
-    ts.start()
-    wo.foldmethod = "expr"
-    wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-    bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-  end,
-})
+local ensure_installed = {
+  "tsx",
+  "typescript",
+  "python",
+  "markdown",
+  "cpp",
+  "cmake",
+  "lua",
+  "bash",
+  "dockerfile",
+}
+local already_installed = require("nvim-treesitter.config").get_installed()
+local to_install = vim.tbl_filter(function(p)
+  return not vim.tbl_contains(already_installed, p)
+end, ensure_installed)
+if #to_install > 0 then
+  require("nvim-treesitter").install(to_install)
+end

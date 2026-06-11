@@ -1,5 +1,7 @@
 local api = vim.api
 local fn = vim.fn
+local keymap = vim.keymap
+local log = vim.log
 local utils = require("utils")
 local ddc_conf = require("PluginConfig/ddc/helper")
 
@@ -10,12 +12,11 @@ local ddc_sources = { "vsnip", "lsp", "file", "around" }
 local ddc_ui = "pum"
 local cmdline_sources = {
   [":"] = { "cmdline_history", "cmdline", "around" },
-  ["@"] = { "cmdline_history", "input", "file", "around" },
-  [">"] = { "cmdline_history", "input", "file", "around" },
+  ["@"] = { "cmdline_history", "file", "around" },
+  [">"] = { "cmdline_history", "file", "around" },
   ["/"] = { "around", "line" },
   ["?"] = { "around", "line" },
   ["-"] = { "around", "line" },
-  ["="] = { "input" },
 }
 local auto_complete_events = {
   "InsertEnter",
@@ -133,48 +134,25 @@ local ddc_keymaps = {
 }
 utils.add_keymaps(ddc_keymaps)
 
-local commandLinePost = function()
-  vim.keymap.del("c", "<C-n>")
-  vim.keymap.del("c", "<C-p>")
-  vim.keymap.del("c", "<C-y>")
-  vim.keymap.del("c", "<C-e>")
-end
-
-local commandLinePre = function()
-  vim.keymap.set("c", "<C-n>", function()
-    fn["pum#map#insert_relative"](1)
-  end, { noremap = true, silent = true })
-  vim.keymap.set("c", "<C-p>", function()
-    fn["pum#map#insert_relative"](-1)
-  end, { noremap = true, silent = true })
-  vim.keymap.set("c", "<C-y>", function()
-    fn["pum#map#confirm"]()
-  end, { noremap = true, silent = true })
-  vim.keymap.set("c", "<C-e>", function()
-    fn["pum#map#cancel"]()
-  end, { noremap = true, silent = true })
-
-  api.nvim_create_autocmd("User", {
-    pattern = "DDCCmdlineLeave",
-    callback = function()
-      commandLinePost()
-    end,
-    once = true,
-  })
-
+local function start_cmdline(key)
   -- Enable command line completion for next command line session
   ddc_conf.enable_cmdline()
+  fn.feedkeys(api.nvim_replace_termcodes(key, true, true, true), "n")
 end
 
-vim.keymap.set("n", ":", function()
-  commandLinePre()
-  fn.feedkeys(api.nvim_replace_termcodes(":", true, true, true), "n")
-end, { noremap = true, silent = true })
+local function set_cmdline(keys)
+  if type(keys) ~= "table" then
+    vim.notify("[ddc-config]key has to be table", log.levels.ERROR)
+  end
 
-vim.keymap.set("n", "/", function()
-  commandLinePre()
-  fn.feedkeys(api.nvim_replace_termcodes("/", true, true, true), "n")
-end, { noremap = true, silent = true })
+  for _, k in ipairs(keys) do
+    keymap.set("n", k, function()
+      start_cmdline(k)
+    end, { noremap = true, silent = true })
+  end
+end
+
+set_cmdline({ ":", "/", "?" })
 
 ----------------
 -- apply configs

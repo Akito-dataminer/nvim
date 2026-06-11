@@ -12,12 +12,11 @@ local ddc_sources = { "vsnip", "lsp", "file", "around" }
 local ddc_ui = "pum"
 local cmdline_sources = {
   [":"] = { "cmdline_history", "cmdline", "around" },
-  ["@"] = { "cmdline_history", "input", "file", "around" },
-  [">"] = { "cmdline_history", "input", "file", "around" },
+  ["@"] = { "cmdline_history", "file", "around" },
+  [">"] = { "cmdline_history", "file", "around" },
   ["/"] = { "around", "line" },
   ["?"] = { "around", "line" },
   ["-"] = { "around", "line" },
-  ["="] = { "input" },
 }
 local auto_complete_events = {
   "InsertEnter",

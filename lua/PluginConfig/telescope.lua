@@ -117,7 +117,7 @@ local keymap_telescope_func = {
   ["[telescope]gd"] = "require'telescope.builtin'.git_bcommits()", -- "d"iff
   ["[telescope]gs"] = "require'telescope.builtin'.git_status()",
   ["[telescope]p"] = "require'telescope'.extensions.projects.projects{}",
-  ["[telescope]e"] = "require'telescope'.extensions.file_browser.file_browser()",
+  ["[telescope]w"] = "require'telescope'.extensions.file_browser.file_browser()",
   ["[telescope]i"] = "require'telescope'.extensions.file_browser.file_browser({path=vim.fn.expand(\"%:p:h\"), select_buffer=true})",
   -- ["[telescope]g"] = "require'telescope.builtin'.git_files()",
   -- ["<Leader>c"] = "require'telescope.builtin'.git_commits()",

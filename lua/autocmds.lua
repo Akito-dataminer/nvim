@@ -16,6 +16,14 @@ api.nvim_create_autocmd("QuickFixCmdPost", {
 api.nvim_create_autocmd("BufWritePre", {
   group = api.nvim_create_augroup("auto_mkdir", {}),
   callback = function(info_table)
+    -- oil:// やターミナルなど、通常のファイル以外のバッファは対象外
+    if vim.bo[info_table.buf].buftype ~= "" then
+      return
+    end
+    -- URLスキームが付いている場合を除外
+    if info_table.file:match("^%w%w+://") then
+      return
+    end
     local target_dir = fn.fnamemodify(info_table.file, ":p:h")
     if fn.isdirectory(target_dir) == 0 then
       print(target_dir .. "/ is created")

@@ -31,7 +31,7 @@ for k, v in pairs({
   ["<Right>"] = "",
   ["[b"] = ":bp<CR>",
   ["]b"] = ":bn<CR>",
-  ["*"] = ":%s/\\v",
+  ["s"] = ":%s/\\v",
   ["]t"] = ":tabnext<CR>",
   ["[t"] = ":tabprevious<CR>",
   -- ["<Space>b"] = ":%!xxd<CR>",
